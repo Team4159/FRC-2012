@@ -1,6 +1,7 @@
 package org.team4159.robot;
 
 import org.team4159.boths.Server;
+import org.team4159.robot.web.RobotServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
@@ -37,7 +38,7 @@ public class Entry extends RobotBase {
 		/* TODO: reverse motor wiring so we don't have to do this. */
 		drive.setInvertedMotor (RobotDrive.MotorType.kRearLeft, true);
 		
-		new Server ().start ();
+		new RobotServer ().start ();
 	}
 	
 	public void startCompetition () {

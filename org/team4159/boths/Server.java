@@ -51,13 +51,18 @@ public class Server implements Runnable
 					}
 				}
 
-				connectionHandler.handleConnection (sc);
+				try {
+					connectionHandler.handleConnection (sc);
+				} finally {
+					try {
+						sc.close ();
+					} catch (IOException e) {}
+				}
 			}
 		}
 	}
 	
-	final Vector routes = new Vector ();
-	final ConnectionHandler connectionHandler = new ConnectionHandler (this);
+	private final ConnectionHandler connectionHandler = new ConnectionHandler (this);
 	
 	private final int numberOfWorkerThreads; 
 	private final Worker[] workers;
@@ -65,8 +70,13 @@ public class Server implements Runnable
 	private StreamConnection workerConnection;
 	
 	private Thread thread;
-	private boolean keepGoing = false;
+	private boolean keepGoing;
 	private int port;
+	
+	/**
+	 * URL routes to match paths to while dealing with requests.
+	 */
+	protected final Vector routes = new Vector ();
 	
 	/**
 	 * Initializes an {@link Server} instance on port 8080.
@@ -132,6 +142,33 @@ public class Server implements Runnable
 		return port;
 	}
 	
+	/**
+	 * Adds a route to the route list.
+	 * 
+	 * @param route
+	 * The route to add.
+	 */
+	public void addRoute (Route route)
+	{
+		routes.addElement (route);
+	}
+	
+	/**
+	 * Removes a route from the route list.
+	 * 
+	 * @param route
+	 * The route to remove.
+	 */
+	public void removeRoute (Route route)
+	{
+		routes.removeElement (route);
+	}
+	
+	/**
+	 * Checks if the server is currently running. 
+	 * 
+	 * @return true if the server is currently running, false otherwise.
+	 */
 	public synchronized boolean isRunning ()
 	{
 		return (thread != null) && thread.isAlive ();
@@ -144,6 +181,7 @@ public class Server implements Runnable
 	{
 		if (isRunning ())
 			throw new IllegalStateException ("server already started");
+		keepGoing = true;
 		(thread = new Thread (this)).start ();
 	}
 	
@@ -157,7 +195,7 @@ public class Server implements Runnable
 		
 		keepGoing = false;
 		try {
-			Connector.open ("socket://localhost:" + port).close ();
+			Connector.open ("socket://127.0.0.1:" + port).close ();
 		} catch (IOException e) {}
 		try {
 			thread.join ();
@@ -221,7 +259,6 @@ public class Server implements Runnable
 	{
 		while (keepGoing)
 		{
-			
 			StreamConnection sc = server.acceptAndOpen ();
 			
 			// stop server if stopping
@@ -237,6 +274,7 @@ public class Server implements Runnable
 				while (workerConnection != null)
 					workerLock.wait (2);
 				workerConnection = sc;
+				workerLock.notify ();
 			}
 		}
 	}

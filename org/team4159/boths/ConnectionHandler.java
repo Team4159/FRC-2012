@@ -1,88 +1,61 @@
 package org.team4159.boths;
 
 import javax.microedition.io.StreamConnection;
+import org.team4159.boths.template.Template;
 import java.io.*;
 import java.util.Hashtable;
 import java.util.Vector;
 
 class ConnectionHandler
 {
-	static final Hashtable HTTP_STATUS_MESSAGES = new Hashtable ();
-	private static void addSM (int code, String msg) { HTTP_STATUS_MESSAGES.put (new Integer (code), msg); }
-	static {
-		addSM (100, "Continue");
-		addSM (101, "Switching Protocols");
-		addSM (200, "OK");
-		addSM (201, "Created");
-		addSM (202, "Accepted");
-		addSM (203, "Non-Authoritative Information");
-		addSM (204, "No Content");
-		addSM (205, "Reset Content");
-		addSM (206, "Partial Content");
-		addSM (300, "Multiple Choices");
-		addSM (301, "Moved Permanently");
-		addSM (302, "Found");
-		addSM (303, "See Other");
-		addSM (304, "Not Modified");
-		addSM (305, "Use Proxy");
-		addSM (307, "Temporary Redirect");
-		addSM (400, "Bad Request");
-		addSM (401, "Unauthorized");
-		addSM (402, "Payment Required");
-		addSM (403, "Forbidden");
-		addSM (404, "Not Found");
-		addSM (405, "Method Not Allowed");
-		addSM (406, "Not Acceptable");
-		addSM (407, "Proxy Authentication Required");
-		addSM (408, "Request Timeout");
-		addSM (409, "Conflict");
-		addSM (410, "Gone");
-		addSM (411, "Length Required");
-		addSM (412, "Precondition Failed");
-		addSM (413, "Request Entity Too Large");
-		addSM (414, "Request-URI Too Long");
-		addSM (415, "Unsupported Media Type");
-		addSM (416, "Requested Range Not Satisfiable");
-		addSM (500, "Internal Server Error");
-		addSM (501, "Not Implemented");
-		addSM (502, "Bad Gateway");
-		addSM (503, "Service Unavailable");
-		addSM (504, "Gateway Timeout");
-		addSM (505, "HTTP Version Not Supported");
-	}
-	
-	Server server;
+	Vector routes;
 
 	ConnectionHandler (Server server)
 	{
-		this.server = server;
+		this.routes = server.routes;
 	}
-
+	
 	void handleConnection (StreamConnection sc)
 	{
-		InputStream is;
-		OutputStream os;
+		InputStream is = null;
+		OutputStream os = null;
 		
 		try {
 			is = sc.openInputStream ();
 			os = sc.openOutputStream ();
+			handleConnection (is, os);
 		} catch (IOException e) {
 			e.printStackTrace ();
 			return;
+		} finally {
+			try {
+				is.close ();
+				os.close ();
+			} catch (IOException e) {}
 		}
-		
-		Request req = new Request (is);
+	}
+	
+	void handleConnection (InputStream is, OutputStream os)
+	{
+		Request req;
 		View view;
 		Response res;
 		
-		Vector routes = server.routes;
+		try {
+			req = new Request (is);
+		} catch (RequestException e) {
+			e.printStackTrace ();
+			sendError (500, os);
+			return;
+		}
+		
 		int nroutes = routes.size ();
 		Route route = null;
 		
 		for (int i = 0; i < nroutes; i++)
 		{
 			Route r = (Route) routes.elementAt (i);
-			if (r.matches (req.getPath ()))
+			if (r.matches (req.path))
 			{
 				route = r;
 				break;
@@ -96,7 +69,7 @@ class ConnectionHandler
 		}
 		
 		try {
-			view = (View) route.getViewClass ().newInstance ();
+			view = (View) route.getViewClass (req.path).newInstance ();
 		} catch (Exception e) {
 			e.printStackTrace ();
 			sendError (500, os);
@@ -106,6 +79,7 @@ class ConnectionHandler
 		try {
 			res = view.getResponse ();
 		} catch (Throwable e) {
+			System.err.println ("error while processing view");
 			e.printStackTrace ();
 			sendError (500, os);
 			return;
@@ -116,16 +90,28 @@ class ConnectionHandler
 
 	void send (Response res, OutputStream os)
 	{
-		// TODO Auto-generated method stub
-		
+		try {
+			res.writeResponseToOutputStream (os);
+		} catch (Throwable e) {
+			System.err.println ("failed to send response to client");
+			e.printStackTrace ();
+			return;
+		}
 	}
 
 	void sendError (int code, OutputStream os)
 	{
-		// TODO Auto-generated method stub
-		String html = getClass ().getResourceAsStream ("error.html");
+		String msg = (String) Response.HTTP_STATUS_MESSAGES.get (new Integer (code));
+		if (msg == null)
+			msg = "Unknown Error";
 		
-		Response res = new Response ("");
+		Hashtable ht = new Hashtable ();
+		ht.put ("status_code", new Integer (code));
+		ht.put ("status_message", msg);
+		
+		Response res = Template.load (this, "error.html").renderToResponse (ht);
+		res.setStatusCode (code);
+		
+		send (res, os);
 	}
-	
 }

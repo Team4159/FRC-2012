@@ -1,4 +1,4 @@
-package org.team4159.boths.template;
+package org.team4159.boths.util;
 
 import java.util.NoSuchElementException;
 
@@ -11,7 +11,7 @@ public class Queue
 	private Object[] tail = head;
 	private int size = 0;
 	
-	void add (Object e)
+	public void add (Object e)
 	{
 		Object[] next = new Object[]{ null, null };
 		tail[OBJECT] = e;
@@ -20,12 +20,12 @@ public class Queue
 		size++;
 	}
 	
-	Object element ()
+	public Object element ()
 	{
 		return head[OBJECT];
 	}
 	
-	Object poll ()
+	public Object poll ()
 	{
 		if (size == 0)
 			return null;
@@ -36,14 +36,14 @@ public class Queue
 		return ret;
 	}
 	
-	Object remove ()
+	public Object remove ()
 	{
 		if (size == 0)
 			throw new NoSuchElementException ();
 		return poll ();
 	}
 	
-	int size ()
+	public int size ()
 	{
 		return size;
 	}

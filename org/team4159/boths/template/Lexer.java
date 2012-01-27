@@ -1,5 +1,8 @@
 package org.team4159.boths.template;
 
+import org.team4159.boths.util.Queue;
+import org.team4159.boths.util.StringUtils;
+
 public class Lexer
 {
 	public static class TokenTypes
@@ -37,7 +40,7 @@ public class Lexer
 		this.tmplLength = tmpl.length ();
 	}
 	
-	private void populateQueue () throws ParsingException
+	private void populateQueue () throws ParseException
 	{
 		if (pos == tmplLength)
 			return;
@@ -129,7 +132,7 @@ public class Lexer
 		}
 	}
 	
-	public Token peekToken () throws ParsingException
+	public Token peekToken () throws ParseException
 	{
 		if (queue.size () > 0)
 			return (Token) queue.element ();
@@ -142,14 +145,14 @@ public class Lexer
 		return null;
 	}
 	
-	public Token nextToken () throws ParsingException
+	public Token nextToken () throws ParseException
 	{
 		Token ret = peekToken ();
 		queue.poll ();
 		return ret;
 	}
 	
-	public Token expectToken (int type) throws ParsingException
+	public Token expectToken (int type) throws ParseException
 	{
 		Token token = nextToken ();
 		if (token == null)
@@ -159,7 +162,7 @@ public class Lexer
 		throw buildParsingException ("wrong token type");
 	}
 	
-	public Token expectToken (int[] types) throws ParsingException
+	public Token expectToken (int[] types) throws ParseException
 	{
 		Token token = nextToken ();
 		if (token == null)
@@ -170,7 +173,7 @@ public class Lexer
 		throw buildParsingException ("wrong token type");
 	}
 	
-	public boolean hasMoreTokens () throws ParsingException
+	public boolean hasMoreTokens () throws ParseException
 	{
 		return peekToken () != null;
 	}
@@ -206,10 +209,10 @@ public class Lexer
 		return (ret >= 0) ? ret : tmplLength;
 	}
 	
-	private ParsingException buildParsingException (String msg)
+	private ParseException buildParsingException (String msg)
 	{
 		int[] lc = new int[2];
 		StringUtils.locate (msg, pos, lc);
-		return new ParsingException (msg, lc[0], lc[1]);
+		return new ParseException (msg, lc[0], lc[1]);
 	}
 }

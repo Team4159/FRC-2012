@@ -1,4 +1,4 @@
-package org.team4159.robot;
+package org.team4159.boths.util;
 
 public class StringUtils
 {
@@ -6,7 +6,72 @@ public class StringUtils
 	 * Represents a failed index search.
 	 */
 	public static final int INDEX_NOT_FOUND = -1;
-
+	
+	public static String htmlEscape (String input)
+	{
+		StringBuffer output = new StringBuffer ();
+		
+		int len = input.length ();
+		for (int i = 0; i < len; i++)
+		{
+			char c = input.charAt (i);
+			switch (c)
+			{
+				case '"':
+					output.append ("&quot;");
+					break;
+				case '&':
+					output.append ("&amp;");
+					break;
+				case '\'':
+					output.append ("&apos;");
+					break;
+				case '<':
+					output.append ("&lt;");
+					break;
+				case '>':
+					output.append ("&gt;");
+					break;
+				default:
+					output.append (c);
+					break;
+			}
+		}
+		
+		return output.toString ();
+	}
+	
+	public static void locate (String str, int pos, int[] out)
+	{
+		if (out.length != 2)
+			throw new IllegalArgumentException ("out must have a length of 2");
+		if (pos >= str.length ())
+			pos = str.length () - 1;
+		
+		int line = 1;
+		int col = 0;
+		
+		for (int i = 0; i < pos; i++)
+		{
+			char c = str.charAt (i + 1);
+			if (c == '\n')
+			{
+				line++;
+				col = 0;
+			}
+			else
+			{
+				col++;
+			}
+		}
+		
+		if (col == 0)
+			col = 1;
+		
+		out[0] = line;
+		out[1] = col;
+	}
+	
 	/**
 	 * <p>
 	 * Checks if a String is empty ("") or null.
@@ -101,5 +166,56 @@ public class StringUtils
 		}
 		
 		return ret;
+	}
+	
+	private static boolean isHex (char x)
+	{
+		if (x >= '0' && x <= '9')
+			return true;
+		if (x >= 'a' && x <= 'f')
+			return true;
+		if (x >= 'A' && x <= 'F')
+			return true;
+		return false;
+	}
+	
+	public static String urlUnquote (String input)
+	{
+		StringBuffer output = new StringBuffer ();
+		int inputLength = input.length ();
+		
+		for (int i = 0; i < inputLength;)
+		{
+			char c = input.charAt (i++);
+			boolean special = false;
+			
+			switch (c)
+			{
+				case '+':
+					
+					output.append (' ');
+					special = true;
+					break;
+					
+				case '%':
+					
+					if (i + 1 >= inputLength)
+						break;
+					char cHigh = input.charAt (i), cLow = input.charAt (i + 1);
+					if (!(isHex (cHigh) && isHex (cLow)))
+						break;
+					
+					output.append ((char) Integer.parseInt (cHigh + "" + cLow, 16));
+					i += 2;
+					special = true;
+					
+					break;
+			}
+			
+			if (!special)
+				output.append (c);
+		}
+		
+		return output.toString ();
 	}
 }

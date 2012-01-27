@@ -2,10 +2,12 @@ package org.team4159.boths;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.Writer;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import org.team4159.boths.util.FlushingOutputStreamWriter;
 
 /**
  * The {@link Response} class is returned by {@link View}s containing the headers and content to be
@@ -15,8 +17,56 @@ import java.util.Hashtable;
  */
 public class Response extends ByteArrayOutputStream
 {
+	private static final String DEFAULT_CONTENT_TYPE = "text/html; charset=utf-8";
+	
+	static final Hashtable HTTP_STATUS_MESSAGES = new Hashtable ();
+	private static void addSM (int code, String msg) { HTTP_STATUS_MESSAGES.put (new Integer (code), msg); }
+	static {
+		addSM (100, "Continue");
+		addSM (101, "Switching Protocols");
+		addSM (200, "OK");
+		addSM (201, "Created");
+		addSM (202, "Accepted");
+		addSM (203, "Non-Authoritative Information");
+		addSM (204, "No Content");
+		addSM (205, "Reset Content");
+		addSM (206, "Partial Content");
+		addSM (300, "Multiple Choices");
+		addSM (301, "Moved Permanently");
+		addSM (302, "Found");
+		addSM (303, "See Other");
+		addSM (304, "Not Modified");
+		addSM (305, "Use Proxy");
+		addSM (307, "Temporary Redirect");
+		addSM (400, "Bad Request");
+		addSM (401, "Unauthorized");
+		addSM (402, "Payment Required");
+		addSM (403, "Forbidden");
+		addSM (404, "Not Found");
+		addSM (405, "Method Not Allowed");
+		addSM (406, "Not Acceptable");
+		addSM (407, "Proxy Authentication Required");
+		addSM (408, "Request Timeout");
+		addSM (409, "Conflict");
+		addSM (410, "Gone");
+		addSM (411, "Length Required");
+		addSM (412, "Precondition Failed");
+		addSM (413, "Request Entity Too Large");
+		addSM (414, "Request-URI Too Long");
+		addSM (415, "Unsupported Media Type");
+		addSM (416, "Requested Range Not Satisfiable");
+		addSM (500, "Internal Server Error");
+		addSM (501, "Not Implemented");
+		addSM (502, "Bad Gateway");
+		addSM (503, "Service Unavailable");
+		addSM (504, "Gateway Timeout");
+		addSM (505, "HTTP Version Not Supported");
+	}
+	
 	private final Hashtable headers = new Hashtable ();
 	private final Hashtable headersRealKeys = new Hashtable ();
+	
+	private int statusCode = 200;
 	
 	/**
 	 * A Writer that allows character-level writing to this Response.
@@ -24,16 +74,11 @@ public class Response extends ByteArrayOutputStream
 	public final Writer writer;
 	
 	/**
-	 * A PrintStream that writes to this Response.
-	 */
-	public final PrintStream printStream;
-	
-	/**
 	 * Creates an empty response and sets the content type to text/html.
 	 */
 	public Response ()
 	{
-		this (null, "text/html");
+		this (null);
 	}
 
 	/**
@@ -44,7 +89,7 @@ public class Response extends ByteArrayOutputStream
 	 */
 	public Response (String content)
 	{
-		this (content, "text/html");
+		this (content, DEFAULT_CONTENT_TYPE);
 	}
 
 	/**
@@ -58,15 +103,17 @@ public class Response extends ByteArrayOutputStream
 	 */
 	public Response (String content, String content_type)
 	{
-		this.writer = new OutputStreamWriter (this);
-		this.printStream = new PrintStream (this);
+		this.writer = new FlushingOutputStreamWriter (this);
 		
 		if (content != null)
 			try {
 				writer.write (content);
+				writer.flush ();
 			} catch (IOException e) {
 				e.printStackTrace ();
 			}
+		
+		System.out.println (this.size ());
 		
 		if (content_type != null)
 			setHeader ("Content-Type", content_type);
@@ -117,10 +164,88 @@ public class Response extends ByteArrayOutputStream
 	}
 	
 	/**
+	 * Checks if an HTTP header is present in this request.
+	 * 
+	 * @param key
+	 * The key of the HTTP header to check.
+	 */
+	public boolean hasHeader (String key)
+	{
+		return headers.containsKey (key.toLowerCase ());
+	}
+	
+	/**
+	 * Sets the HTTP status code of this request.
+	 * 
+	 * The code must be a number between 100-999 inclusive.
+	 * 
+	 * @param code
+	 * The HTTP status code of the response.
+	 */
+	public void setStatusCode (int code)
+	{
+		if (code < 100 || code > 999)
+			throw new IllegalArgumentException ("status code must be between 100-999 inclusive");
+		this.statusCode = code;
+	}
+	
+	/**
+	 * Gets the HTTP status code of this request.
+	 * 
+	 * @return The HTTP status code of the response.
+	 */
+	public int getStatusCode ()
+	{
+		return statusCode;
+	}
+	
+	/**
 	 * Returns a string representation of this response instance.
 	 */
 	public String toString ()
 	{
 		return getClass ().getName () + "@" + Integer.toHexString (hashCode ());
+	}
+	
+	public void prepare ()
+	{
+		setHeader ("Connection", "close");
+		if (!hasHeader ("Content-Type"))
+			setHeader ("Content-Type", DEFAULT_CONTENT_TYPE);
+	}
+	
+	public void writeResponseToOutputStream (OutputStream os) throws IOException
+	{
+		writeResponseToOutputStream (os, true);
+	}
+
+	public void writeResponseToOutputStream (OutputStream os, boolean prepare) throws IOException
+	{
+		if (prepare)
+			prepare ();
+		
+		String msg = (String) HTTP_STATUS_MESSAGES.get (new Integer (statusCode));
+		if (msg == null)
+			msg = "Unknown Error";
+		
+		Writer writer = new OutputStreamWriter (os);
+		writer.write ("HTTP/1.1" + " " + statusCode + " " + msg + "\r\n");
+		
+		Enumeration keys = headers.keys ();
+		while (keys.hasMoreElements ())
+		{
+			String key = (String) keys.nextElement ();
+			writer.write (headersRealKeys.get (key) + ": " + headers.get (key) + "\r\n");
+		}
+		
+		writer.write ("\r\n");
+		writer.flush ();
+		
+		writeBodyToOutputStream (os);
+	}
+	
+	public void writeBodyToOutputStream (OutputStream os) throws IOException
+	{
+		os.write (toByteArray ());
 	}
 }

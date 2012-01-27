@@ -1,6 +1,7 @@
 package org.team4159.boths.template;
 
 import java.util.Hashtable;
+import org.team4159.boths.util.StringUtils;
 
 public class VariableNode extends Node
 {
