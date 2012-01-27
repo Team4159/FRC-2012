@@ -4,23 +4,29 @@ public class Route
 {
 	private final String pathPrefix;
 	private final Class viewClass;
+	private final boolean exactPathMatch;
 
-	public Route ()
+	public Route (String pathPrefix, Class viewClass)
 	{
-		this (null, null);
+		this (pathPrefix, viewClass, true);
 	}
 	
-	public Route (String pathPrefix, Class viewClass)
+	public Route (String pathPrefix, Class viewClass, boolean exactPathMatch)
 	{
 		this.pathPrefix = pathPrefix;
 		this.viewClass = viewClass;
+		this.exactPathMatch = exactPathMatch;
 	}
 	
 	public boolean matches (String path)
 	{
 		if (pathPrefix == null)
 			return false;
-		return path.startsWith (pathPrefix);
+		
+		if (exactPathMatch)
+			return path.equals (pathPrefix);
+		else
+			return path.startsWith (pathPrefix);
 	}
 
 	public Class getViewClass (String path)
@@ -32,7 +38,7 @@ public class Route
 	
 	public int hashCode ()
 	{
-		return pathPrefix.hashCode () ^ viewClass.hashCode ();
+		return pathPrefix.hashCode () ^ viewClass.hashCode () + (exactPathMatch ? 1 : 0);
 	}
 	
 	public boolean equals (Object othero)
@@ -44,7 +50,8 @@ public class Route
 		
 		return (
 			this.pathPrefix.equals (other.pathPrefix) &&
-			this.viewClass.equals (other.viewClass)
+			this.viewClass.equals (other.viewClass) &&
+			(this.exactPathMatch == other.exactPathMatch)
 		);
 	}
 }

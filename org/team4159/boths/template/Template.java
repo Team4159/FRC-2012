@@ -21,12 +21,14 @@ public class Template
 	
 	public String render (Hashtable context)
 	{
+		if (context == null)
+			context = EMPTY_CONTEXT;
 		return rootNode.render (context);
 	}
 	
 	public String render ()
 	{
-		return render (EMPTY_CONTEXT);
+		return render (null);
 	}
 	
 	public Response renderToResponse (Hashtable context)
@@ -36,7 +38,7 @@ public class Template
 	
 	public Response renderToResponse ()
 	{
-		return renderToResponse (EMPTY_CONTEXT);
+		return renderToResponse (null);
 	}
 	
 	private Node parse (String tmpl)

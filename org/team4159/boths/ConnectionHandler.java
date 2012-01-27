@@ -68,8 +68,26 @@ class ConnectionHandler
 			return;
 		}
 		
+		Class viewClass = route.getViewClass (req.path);
+		
 		try {
-			view = (View) route.getViewClass (req.path).newInstance ();
+			view = (View) viewClass.newInstance ();
+		} catch (IllegalAccessException e) {
+			System.err.println (
+				"failed to initialize " + viewClass + ", " +
+				"make sure that the class and constructor are both public"
+			);
+			e.printStackTrace ();
+			sendError (500, os);
+			return;
+		} catch (InstantiationException e) {
+			System.err.println (
+				"failed to initialize " + viewClass + ", " +
+				"make sure the constructor takes no arguments"
+			);
+			e.printStackTrace ();
+			sendError (500, os);
+			return;
 		} catch (Exception e) {
 			e.printStackTrace ();
 			sendError (500, os);
@@ -77,7 +95,7 @@ class ConnectionHandler
 		}
 		
 		try {
-			res = view.getResponse ();
+			res = view.getResponse (req);
 		} catch (Throwable e) {
 			System.err.println ("error while processing view");
 			e.printStackTrace ();

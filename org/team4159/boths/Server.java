@@ -62,7 +62,7 @@ public class Server implements Runnable
 		}
 	}
 	
-	private final ConnectionHandler connectionHandler = new ConnectionHandler (this);
+	private final ConnectionHandler connectionHandler;
 	
 	private final int numberOfWorkerThreads; 
 	private final Worker[] workers;
@@ -112,6 +112,7 @@ public class Server implements Runnable
 	{
 		this.numberOfWorkerThreads = numberOfWorkerThreads;
 		this.workers = new Worker[numberOfWorkerThreads];
+		this.connectionHandler = new ConnectionHandler (this); // this needs routes, initialize it here
 		setPort (port);
 	}
 	
@@ -148,9 +149,21 @@ public class Server implements Runnable
 	 * @param route
 	 * The route to add.
 	 */
-	public void addRoute (Route route)
+	public Route addRoute (Route route)
 	{
-		routes.addElement (route);
+		if (!routes.contains (route))
+			routes.addElement (route);
+		return route;
+	}
+	
+	public Route addRoute (String pathPrefix, Class viewClass)
+	{
+		return addRoute (new Route (pathPrefix, viewClass));
+	}
+	
+	public Route addRoute (String pathPrefix, Class viewClass, boolean exactPathMatch)
+	{
+		return addRoute (new Route (pathPrefix, viewClass, exactPathMatch));
 	}
 	
 	/**

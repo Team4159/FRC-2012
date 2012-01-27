@@ -113,8 +113,6 @@ public class Response extends ByteArrayOutputStream
 				e.printStackTrace ();
 			}
 		
-		System.out.println (this.size ());
-		
 		if (content_type != null)
 			setHeader ("Content-Type", content_type);
 	}
