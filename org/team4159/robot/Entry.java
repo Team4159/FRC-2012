@@ -16,8 +16,8 @@ public class Entry extends RobotBase {
 	private Jaguar rightMotor = new Jaguar (2);
 	private RobotDrive drive = new RobotDrive (leftMotor, rightMotor);
 	
-	private Joystick driveStick = new Joystick (1);
-	private Joystick cameraStick = new Joystick (2);
+	private AdjustedJoystick driveStick = new AdjustedJoystick (1);
+	private AdjustedJoystick cameraStick = new AdjustedJoystick (2);
 	
 	private Servo cameraHorzServo = new Servo (3);
 	private Servo cameraVertServo = new Servo (4);
@@ -27,9 +27,9 @@ public class Entry extends RobotBase {
 	
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
-        
-        private boolean speedControl = true;
-        private double stickXOffset, stickYOffset, stickZOffset;
+	
+	private boolean speedControl = true;
+	private double stickXOffset, stickYOffset, stickZOffset;
 	
 	public Entry ()
 	{
@@ -41,7 +41,12 @@ public class Entry extends RobotBase {
 		/* TODO: reverse motor wiring so we don't have to do this. */
 		drive.setInvertedMotor (RobotDrive.MotorType.kRearLeft, true);
 		
-		new RobotServer ().start ();
+		// add mappings for sticks
+		driveStick.setMapping (Joystick.AxisType.kX, 1.0, 0.04, 0.6, 1.0);
+		driveStick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);
+		cameraStick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
+		
+		//new RobotServer ().start ();
 	}
 	
 	public void startCompetition () {
