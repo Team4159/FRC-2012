@@ -96,6 +96,9 @@ public class Request
 				path = fullPath.substring (0, qsep);
 				queryString = fullPath.substring (qsep + 1);
 			}
+			
+			if (path.indexOf ("/../") >= 0 || path.indexOf ("/./") >= 0)
+				throw new RequestException (". or .. in path");
 		}
 		
 		// parse the query string

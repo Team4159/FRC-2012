@@ -2,19 +2,19 @@ package org.team4159.boths;
 
 public class Route
 {
-	private final String pathPrefix;
-	private final Class viewClass;
-	private final boolean exactPathMatch;
+	public final String pathPrefix;
+	public final View view;
+	public final boolean exactPathMatch;
 
-	public Route (String pathPrefix, Class viewClass)
+	public Route (String pathPrefix, View view)
 	{
-		this (pathPrefix, viewClass, true);
+		this (pathPrefix, view, true);
 	}
 	
-	public Route (String pathPrefix, Class viewClass, boolean exactPathMatch)
+	public Route (String pathPrefix, View view, boolean exactPathMatch)
 	{
 		this.pathPrefix = pathPrefix;
-		this.viewClass = viewClass;
+		this.view = view;
 		this.exactPathMatch = exactPathMatch;
 	}
 	
@@ -29,16 +29,16 @@ public class Route
 			return path.startsWith (pathPrefix);
 	}
 
-	public Class getViewClass (String path)
+	public View getView (String path)
 	{
-		if (viewClass == null)
+		if (view == null)
 			return null;
-		return viewClass;
+		return view;
 	}
 	
 	public int hashCode ()
 	{
-		return pathPrefix.hashCode () ^ viewClass.hashCode () + (exactPathMatch ? 1 : 0);
+		return pathPrefix.hashCode () ^ view.hashCode () + (exactPathMatch ? 1 : 0);
 	}
 	
 	public boolean equals (Object othero)
@@ -50,7 +50,7 @@ public class Route
 		
 		return (
 			this.pathPrefix.equals (other.pathPrefix) &&
-			this.viewClass.equals (other.viewClass) &&
+			this.view.equals (other.view) &&
 			(this.exactPathMatch == other.exactPathMatch)
 		);
 	}

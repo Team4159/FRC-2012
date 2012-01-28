@@ -1,13 +1,14 @@
 package org.team4159.robot;
 
 import org.team4159.boths.Server;
-import org.team4159.robot.web.RobotServer;
+import org.team4159.robot.www.RobotServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 
 public class Entry extends RobotBase {
@@ -46,7 +47,7 @@ public class Entry extends RobotBase {
 		driveStick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);
 		cameraStick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
 		
-		//new RobotServer ().start ();
+		new RobotServer ().start ();
 	}
 	
 	public void startCompetition () {

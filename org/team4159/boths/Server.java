@@ -156,14 +156,14 @@ public class Server implements Runnable
 		return route;
 	}
 	
-	public Route addRoute (String pathPrefix, Class viewClass)
+	public Route addRoute (String pathPrefix, View view)
 	{
-		return addRoute (new Route (pathPrefix, viewClass));
+		return addRoute (new Route (pathPrefix, view));
 	}
 	
-	public Route addRoute (String pathPrefix, Class viewClass, boolean exactPathMatch)
+	public Route addRoute (String pathPrefix, View view, boolean exactPathMatch)
 	{
-		return addRoute (new Route (pathPrefix, viewClass, exactPathMatch));
+		return addRoute (new Route (pathPrefix, view, exactPathMatch));
 	}
 	
 	/**

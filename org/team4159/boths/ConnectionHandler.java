@@ -1,9 +1,7 @@
 package org.team4159.boths;
 
 import javax.microedition.io.StreamConnection;
-import org.team4159.boths.template.Template;
 import java.io.*;
-import java.util.Hashtable;
 import java.util.Vector;
 
 class ConnectionHandler
@@ -68,34 +66,10 @@ class ConnectionHandler
 			return;
 		}
 		
-		Class viewClass = route.getViewClass (req.path);
+		view = route.getView (req.path);
 		
 		try {
-			view = (View) viewClass.newInstance ();
-		} catch (IllegalAccessException e) {
-			System.err.println (
-				"failed to initialize " + viewClass + ", " +
-				"make sure that the class and constructor are both public"
-			);
-			e.printStackTrace ();
-			sendError (500, os);
-			return;
-		} catch (InstantiationException e) {
-			System.err.println (
-				"failed to initialize " + viewClass + ", " +
-				"make sure the constructor takes no arguments"
-			);
-			e.printStackTrace ();
-			sendError (500, os);
-			return;
-		} catch (Exception e) {
-			e.printStackTrace ();
-			sendError (500, os);
-			return;
-		}
-		
-		try {
-			res = view.getResponse (req);
+			res = view.getResponse (req, route);
 		} catch (Throwable e) {
 			System.err.println ("error while processing view");
 			e.printStackTrace ();
@@ -119,17 +93,6 @@ class ConnectionHandler
 
 	void sendError (int code, OutputStream os)
 	{
-		String msg = (String) Response.HTTP_STATUS_MESSAGES.get (new Integer (code));
-		if (msg == null)
-			msg = "Unknown Error";
-		
-		Hashtable ht = new Hashtable ();
-		ht.put ("status_code", new Integer (code));
-		ht.put ("status_message", msg);
-		
-		Response res = Template.load (this, "error.html").renderToResponse (ht);
-		res.setStatusCode (code);
-		
-		send (res, os);
+		send (Response.createErrorResponse (code), os);
 	}
 }

@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import org.team4159.boths.template.Template;
 import org.team4159.boths.util.FlushingOutputStreamWriter;
 
 /**
@@ -197,6 +198,11 @@ public class Response extends ByteArrayOutputStream
 		return statusCode;
 	}
 	
+	public String getStatusMessage ()
+	{
+		return getStatusMessageForStatusCode (statusCode);
+	}
+	
 	/**
 	 * Returns a string representation of this response instance.
 	 */
@@ -222,12 +228,8 @@ public class Response extends ByteArrayOutputStream
 		if (prepare)
 			prepare ();
 		
-		String msg = (String) HTTP_STATUS_MESSAGES.get (new Integer (statusCode));
-		if (msg == null)
-			msg = "Unknown Error";
-		
 		Writer writer = new OutputStreamWriter (os);
-		writer.write ("HTTP/1.1" + " " + statusCode + " " + msg + "\r\n");
+		writer.write ("HTTP/1.1" + " " + getStatusCode () + " " + getStatusMessage () + "\r\n");
 		
 		Enumeration keys = headers.keys ();
 		while (keys.hasMoreElements ())
@@ -245,5 +247,26 @@ public class Response extends ByteArrayOutputStream
 	public void writeBodyToOutputStream (OutputStream os) throws IOException
 	{
 		os.write (toByteArray ());
+	}
+	
+	public static String getStatusMessageForStatusCode (int code)
+	{
+		String msg = (String) HTTP_STATUS_MESSAGES.get (new Integer (code));
+		if (msg == null)
+			return "Unknown Error";
+		else
+			return msg;
+	}
+
+	public static Response createErrorResponse (int code)
+	{
+		Hashtable ht = new Hashtable ();
+		ht.put ("status_code", new Integer (code));
+		ht.put ("status_message", getStatusMessageForStatusCode (code));
+		
+		Response res = Template.load (Response.class, "error.html").renderToResponse (ht);
+		res.setStatusCode (code);
+		
+		return res;
 	}
 }
