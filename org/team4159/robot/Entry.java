@@ -19,14 +19,17 @@ public class Entry extends RobotBase {
 	private Joystick driveStick = new Joystick (1);
 	private Joystick cameraStick = new Joystick (2);
 	
-	private Servo cameraHorzServo = new Servo (5);
-	private Servo cameraVertServo = new Servo (6);
+	private Servo cameraHorzServo = new Servo (3);
+	private Servo cameraVertServo = new Servo (4);
 	
 	private DriverStation ds;
 	private AxisCamera camera = AxisCamera.getInstance ("10.41.59.11");
 	
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
+        
+        private boolean speedControl = true;
+        private double stickXOffset, stickYOffset, stickZOffset;
 	
 	public Entry ()
 	{
@@ -90,7 +93,7 @@ public class Entry extends RobotBase {
 		
 		/* use joystick input */
 		//drive.arcadeDrive (driveStick);
-		drive.arcadeDrive (driveStick);
+                drive.arcadeDrive (driveStick.getX (), driveStick.getY ());
 		
 		cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
 		cameraVertServo.set ((cameraStick.getY () + 1) / 2);
