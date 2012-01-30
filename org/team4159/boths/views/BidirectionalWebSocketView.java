@@ -79,9 +79,14 @@ public class BidirectionalWebSocketView extends BaseWebSocketView
 			return msg;
 		}
 		
-		public void sendMessage (int opcode, byte[] data)
+		public void sendMessage (byte[] data)
 		{
-			sendMessage (new Message (opcode, data));
+			sendMessage (new Message (OPCODE_BINARY, data));
+		}
+		
+		public void sendMessage (String str)
+		{
+			sendMessage (new Message (OPCODE_TEXT, str.getBytes ()));
 		}
 		
 		public void sendMessage (Message msg)
