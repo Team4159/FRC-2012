@@ -11,7 +11,7 @@ public class Queue
 	private Object[] tail = head;
 	private int size = 0;
 	
-	public void add (Object e)
+	public synchronized void add (Object e)
 	{
 		Object[] next = new Object[]{ null, null };
 		tail[OBJECT] = e;
@@ -20,12 +20,12 @@ public class Queue
 		size++;
 	}
 	
-	public Object element ()
+	public synchronized Object element ()
 	{
 		return head[OBJECT];
 	}
 	
-	public Object poll ()
+	public synchronized Object poll ()
 	{
 		if (size == 0)
 			return null;
@@ -36,14 +36,14 @@ public class Queue
 		return ret;
 	}
 	
-	public Object remove ()
+	public synchronized Object remove ()
 	{
 		if (size == 0)
 			throw new NoSuchElementException ();
 		return poll ();
 	}
 	
-	public int size ()
+	public synchronized int size ()
 	{
 		return size;
 	}

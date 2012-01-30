@@ -78,6 +78,12 @@ class ConnectionHandler
 		}
 		
 		send (res, os);
+		
+		try {
+			view.postResponse (req, res, is, os);
+		} catch (IOException e) {
+			e.printStackTrace ();
+		}
 	}
 
 	void send (Response res, OutputStream os)

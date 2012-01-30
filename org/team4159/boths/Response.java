@@ -90,7 +90,7 @@ public class Response extends ByteArrayOutputStream
 	 */
 	public Response (String content)
 	{
-		this (content, DEFAULT_CONTENT_TYPE);
+		this (content, null);
 	}
 
 	/**
@@ -114,8 +114,9 @@ public class Response extends ByteArrayOutputStream
 				e.printStackTrace ();
 			}
 		
-		if (content_type != null)
-			setHeader ("Content-Type", content_type);
+		if (content_type == null)
+			content_type = DEFAULT_CONTENT_TYPE;
+		setHeader ("Content-Type", content_type);
 	}
 	
 	/**
@@ -213,9 +214,8 @@ public class Response extends ByteArrayOutputStream
 	
 	public void prepare ()
 	{
-		setHeader ("Connection", "close");
-		if (!hasHeader ("Content-Type"))
-			setHeader ("Content-Type", DEFAULT_CONTENT_TYPE);
+		if (!hasHeader ("Connection"))
+			setHeader ("Connection", "close");
 	}
 	
 	public void writeResponseToOutputStream (OutputStream os) throws IOException
@@ -242,6 +242,7 @@ public class Response extends ByteArrayOutputStream
 		writer.flush ();
 		
 		writeBodyToOutputStream (os);
+		os.flush ();
 	}
 	
 	public void writeBodyToOutputStream (OutputStream os) throws IOException

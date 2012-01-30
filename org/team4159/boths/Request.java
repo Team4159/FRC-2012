@@ -43,6 +43,9 @@ public class Request
 				throw new RequestException ("failed to read request line");
 			}
 			
+			if (firstLine == null)
+				throw new RequestException ("EOF at beginning of request");
+			
 			String[] firstLineElements = StringUtils.splitByWholeSeparator (firstLine, " ");
 			if (firstLineElements.length != 3)
 				throw new RequestException ("wrong number of elements in first line of HTTP request");
@@ -79,7 +82,7 @@ public class Request
 				String key = headerLine.substring (0, separatorLocation);
 				String value = headerLine.substring (separatorLocation + 2);
 				
-				headers.put (key, value);
+				headers.put (key.toLowerCase (), value);
 			}
 		}
 		
@@ -135,5 +138,10 @@ public class Request
 				vec.addElement (value);
 			}
 		}
+	}
+	
+	public String getHeader (String key)
+	{
+		return (String) headers.get (key.toLowerCase ());
 	}
 }
