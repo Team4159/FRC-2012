@@ -26,6 +26,8 @@ public class Entry extends RobotBase {
 	private DriverStation ds;
 	private AxisCamera camera = AxisCamera.getInstance ("10.41.59.11");
 	
+        private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(1);
+        
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
 	
@@ -100,7 +102,9 @@ public class Entry extends RobotBase {
 		/* use joystick input */
 		//drive.arcadeDrive (driveStick);
                 drive.arcadeDrive (driveStick.getX (), driveStick.getY ());
-		
+		System.out.println("voltage is: " + UltrasonicSensorFront.getVoltage());
+                System.out.println("distance is: " + UltrasonicSensorFront.getDistanceInInches());
+                System.out.println(UltrasonicSensorFront);
 		cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
 		cameraVertServo.set ((cameraStick.getY () + 1) / 2);
 		
