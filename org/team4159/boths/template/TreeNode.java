@@ -3,7 +3,7 @@ package org.team4159.boths.template;
 import java.util.Hashtable;
 import java.util.Vector;
 
-public class TreeNode extends Node
+class TreeNode extends Node
 {
 	private Vector nodes = new Vector ();
 

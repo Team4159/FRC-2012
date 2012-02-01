@@ -2,7 +2,7 @@ package org.team4159.boths.template;
 
 import java.util.Hashtable;
 
-public class TextNode extends Node
+class TextNode extends Node
 {
 	public final String text;
 	

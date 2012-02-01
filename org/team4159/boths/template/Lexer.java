@@ -3,7 +3,7 @@ package org.team4159.boths.template;
 import org.team4159.boths.util.Queue;
 import org.team4159.boths.util.StringUtils;
 
-public class Lexer
+class Lexer
 {
 	public static class TokenTypes
 	{
@@ -29,18 +29,23 @@ public class Lexer
 	
 	private final String tmpl;
 	private final int tmplLength;
+	private final String filename;
 	
 	private int pos = 0;
 	private int lastTokenType = TokenTypes.TEXT;
 	private Queue queue = new Queue ();
 	
-	public Lexer (String tmpl)
+	public Lexer (String tmpl, String filename)
 	{
 		this.tmpl = tmpl;
 		this.tmplLength = tmpl.length ();
+		
+		if (filename == null)
+			filename = "<string>";
+		this.filename = filename;
 	}
 	
-	private void populateQueue () throws ParseException
+	private void populateQueue ()
 	{
 		if (pos == tmplLength)
 			return;
@@ -132,7 +137,7 @@ public class Lexer
 		}
 	}
 	
-	public Token peekToken () throws ParseException
+	public Token peekToken ()
 	{
 		if (queue.size () > 0)
 			return (Token) queue.element ();
@@ -145,14 +150,14 @@ public class Lexer
 		return null;
 	}
 	
-	public Token nextToken () throws ParseException
+	public Token nextToken ()
 	{
 		Token ret = peekToken ();
 		queue.poll ();
 		return ret;
 	}
 	
-	public Token expectToken (int type) throws ParseException
+	public Token expectToken (int type)
 	{
 		Token token = nextToken ();
 		if (token == null)
@@ -162,7 +167,7 @@ public class Lexer
 		throw buildParsingException ("wrong token type");
 	}
 	
-	public Token expectToken (int[] types) throws ParseException
+	public Token expectToken (int[] types)
 	{
 		Token token = nextToken ();
 		if (token == null)
@@ -173,7 +178,7 @@ public class Lexer
 		throw buildParsingException ("wrong token type");
 	}
 	
-	public boolean hasMoreTokens () throws ParseException
+	public boolean hasMoreTokens ()
 	{
 		return peekToken () != null;
 	}
@@ -213,6 +218,6 @@ public class Lexer
 	{
 		int[] lc = new int[2];
 		StringUtils.locate (msg, pos, lc);
-		return new ParseException (msg, lc[0], lc[1]);
+		return new ParseException (msg, filename, lc[0], lc[1]);
 	}
 }

@@ -8,6 +8,16 @@ import org.team4159.boths.Response;
 import org.team4159.boths.Route;
 import org.team4159.boths.View;
 
+/**
+ * This view serves files from a resource directory.
+ * 
+ * <p>
+ * If you have a folder in your {@code resources} folder named "www"
+ * and have a file in it named "abc.html",
+ * you can define a {@link Route} with "/files/" as the path prefix;
+ * that file can now be accessed at http://address/files/abc.html.
+ * </p>
+ */
 public class DirectoryView extends View
 {
 	private static final String[] MIME_TYPES_ARRAY = {
@@ -35,6 +45,11 @@ public class DirectoryView extends View
 	
 	private String directory;
 	
+	/**
+	 * Creates a new {@link DirectoryView}.
+	 * 
+	 * @param dirPath The path to serve the files from.
+	 */
 	public DirectoryView (String dirPath)
 	{
 		directory = dirPath;

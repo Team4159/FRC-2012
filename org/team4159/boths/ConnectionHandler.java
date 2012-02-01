@@ -66,7 +66,7 @@ class ConnectionHandler
 			return;
 		}
 		
-		view = route.getView (req.path);
+		view = route.getView (req);
 		
 		try {
 			res = view.getResponse (req, route);
