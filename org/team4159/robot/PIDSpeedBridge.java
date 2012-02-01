@@ -27,7 +27,7 @@ public class PIDSpeedBridge implements SpeedController {
 	}
 
 	public void disable() {
-		set (0.0);
+		controller.disable ();
 	}
 
 	public void pidWrite(double output) {
