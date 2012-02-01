@@ -82,11 +82,27 @@ public abstract class BaseWebSocketView extends View
 		}
 	}
 	
+	/**
+	 * A WebSocket message.
+	 */
 	public static class Message
 	{
+		/**
+		 * The opcode of the message.
+		 */
 		public final int opcode;
+		
+		/**
+		 * The data payload of the message.
+		 */
 		public final byte[] data;
 
+		/**
+		 * Constructs a new message.
+		 * 
+		 * @param opcode	The opcode of the message.
+		 * @param data		The data payload of the message.
+		 */
 		public Message (int opcode, byte[] data)
 		{
 			this.opcode = opcode;
@@ -94,13 +110,29 @@ public abstract class BaseWebSocketView extends View
 		}
 	}
 	
-	protected int maximumPayloadSize = 0xffff;
-	protected int maximumMessageSize = 0xffff;
+	/**
+	 * Maximum payload size per fragment.
+	 */
+	protected int maximumPayloadSize = 0x10000;
 	
+	/**
+	 * Maximum message size.
+	 */
+	protected int maximumMessageSize = 0x10000;
+	
+	/**
+	 * Sets the maximum payload size per fragment.
+	 * @param sz	Maximum size in bytes.
+	 * @see #maximumPayloadSize
+	 */
 	public void setMaximumPayloadSize (int sz) { maximumPayloadSize = sz; }
-	public int getMaximumPayloadSize () { return maximumPayloadSize; }
+	
+	/**
+	 * Sets the maximum message size.
+	 * @param sz	Maximum size in bytes.
+	 * @see #maximumMessageSize
+	 */
 	public void setMaximumMessageSize (int sz) { maximumMessageSize = sz; }
-	public int getMaximumMessageSize () { return maximumMessageSize; }
 	
 	public Response getResponse (Request req, Route route)
 	{

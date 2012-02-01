@@ -14,6 +14,12 @@ import org.team4159.boths.util.FlushingOutputStreamWriter;
  * The {@link Response} class is returned by {@link View}s containing the headers and content to be
  * sent back to the client.
  * 
+ * <p>
+ * Since this class is a subclass of {@link ByteArrayOutputStream}, one may to use this {@link Response}
+ * as if it were an {@link OutputStream}. However, streaming is not supported; all writes to an instance
+ * to this class will be cached in memory before being sent to the client.
+ * </p>
+ * 
  * @author Team 4159
  */
 public class Response extends ByteArrayOutputStream
@@ -199,6 +205,11 @@ public class Response extends ByteArrayOutputStream
 		return statusCode;
 	}
 	
+	/**
+	 * Gets the HTTP status message of this request.
+	 * 
+	 * @return The HTTP status message of the response.
+	 */
 	public String getStatusMessage ()
 	{
 		return getStatusMessageForStatusCode (statusCode);
@@ -212,17 +223,36 @@ public class Response extends ByteArrayOutputStream
 		return getClass ().getName () + "@" + Integer.toHexString (hashCode ());
 	}
 	
+	/**
+	 * Prepares the response for output by adding various necessary headers.
+	 */
 	public void prepare ()
 	{
 		if (!hasHeader ("Connection"))
 			setHeader ("Connection", "close");
 	}
 	
+	/**
+	 * Writes the entire HTTP response (including the headers) of this response to
+	 * an {@link OutputStream}, calling {@link #prepare()} if it has not been called
+	 * already.
+	 * 
+	 * @param os		The {@link OutputStream} to which the response shall be written.
+	 * @throws IOException
+	 */
 	public void writeResponseToOutputStream (OutputStream os) throws IOException
 	{
 		writeResponseToOutputStream (os, true);
 	}
-
+	
+	/**
+	 * Writes the entire HTTP response (including the headers) of this response to
+	 * an {@link OutputStream}.
+	 * 
+	 * @param os		The {@link OutputStream} to which the response shall be written.
+	 * @param prepare	Whether {@link #prepare()} should be called before writing.
+	 * @throws IOException
+	 */
 	public void writeResponseToOutputStream (OutputStream os, boolean prepare) throws IOException
 	{
 		if (prepare)
@@ -245,11 +275,23 @@ public class Response extends ByteArrayOutputStream
 		os.flush ();
 	}
 	
+	/**
+	 * Writes the main body of this response to an {@link OutputStream}.
+	 * 
+	 * @param os		The {@link OutputStream} to which the body shall be written.
+	 * @throws IOException
+	 */
 	public void writeBodyToOutputStream (OutputStream os) throws IOException
 	{
 		os.write (toByteArray ());
 	}
 	
+	/**
+	 * Gets the generic HTTP status message for a given HTTP status code. 
+	 * 
+	 * @param code		A HTTP status code.
+	 * @return			The generic HTTP status message for the code.
+	 */
 	public static String getStatusMessageForStatusCode (int code)
 	{
 		String msg = (String) HTTP_STATUS_MESSAGES.get (new Integer (code));
@@ -259,6 +301,12 @@ public class Response extends ByteArrayOutputStream
 			return msg;
 	}
 
+	/**
+	 * Creates and returns a generic {@link Response} for errors.
+	 * 
+	 * @param code		The HTTP status code of the error.
+	 * @return			A {@link Response}.
+	 */
 	public static Response createErrorResponse (int code)
 	{
 		Hashtable ht = new Hashtable ();

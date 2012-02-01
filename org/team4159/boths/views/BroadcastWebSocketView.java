@@ -11,6 +11,10 @@ import org.team4159.boths.Request;
 import org.team4159.boths.Response;
 import org.team4159.boths.util.Queue;
 
+/**
+ * This class allows for messages to be broadcasted to all
+ * WebSocket connections currently connected to this view. 
+ */
 public class BroadcastWebSocketView extends BaseWebSocketView
 {
 	private final Hashtable threads = new Hashtable ();
@@ -49,7 +53,12 @@ public class BroadcastWebSocketView extends BaseWebSocketView
 		}
 	}
 	
-	public void sendMessage (Message msg)
+	/**
+	 * Broadcasts a message.
+	 * 
+	 * @param msg	The {@link BaseWebSocketView.Message} to broadcast.
+	 */
+	public void sendMessage (BaseWebSocketView.Message msg)
 	{
 		synchronized (threads)
 		{
@@ -59,11 +68,21 @@ public class BroadcastWebSocketView extends BaseWebSocketView
 		}
 	}
 	
+	/**
+	 * Broadcasts a binary message.
+	 * 
+	 * @param data		The binary data to broadcast.
+	 */
 	public void sendMessage (byte[] data)
 	{
 		sendMessage (new Message (OPCODE_BINARY, data));
 	}
 	
+	/**
+	 * Broadcasts a textual message.
+	 * 
+	 * @param str		The text to broadcast.
+	 */
 	public void sendMessage (String str)
 	{
 		sendMessage (new Message (OPCODE_TEXT, str.getBytes ()));
