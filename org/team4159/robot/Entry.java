@@ -26,12 +26,12 @@ public class Entry extends RobotBase {
 	private DriverStation ds;
 	private AxisCamera camera = AxisCamera.getInstance ("10.41.59.11");
 	
-        private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(1);
+	private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(1);
         
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
 	
-        private Encoder leftEncoder = new Encoder(1,2);
+	private Encoder leftEncoder = new Encoder(1,2);
 	
 	public Entry ()
 	{
@@ -47,8 +47,9 @@ public class Entry extends RobotBase {
 		driveStick.setMapping (Joystick.AxisType.kX, 1.0, 0.04, 0.6, 1.0);
 		driveStick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);
 		cameraStick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
+		leftEncoder.setDistancePerPulse((6*.0254/180)*5/19.1460966666666666666666666);
 		leftEncoder.start();
-                leftEncoder.setDistancePerPulse((6*.0254/180)*5/19.1460966666666666666666666);
+
 		//new RobotServer ().start ();
 	}
 	
