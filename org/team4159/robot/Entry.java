@@ -104,14 +104,14 @@ public class Entry extends RobotBase {
 		operatorTimer.startDelayedCode ();
 		
 		/* use joystick input */
-                
-                drive.arcadeDrive (driveStick.getX (), driveStick.getY ());
-                if(driveStick.getRawButton(3))
-                System.out.println(UltrasonicSensorFront);
-                
-                if(driveStick.getRawButton(10))
-                    leftEncoder.reset();
-                System.out.println("encoder raw readings : " + leftEncoder.getDistance());
+		drive.arcadeDrive (driveStick.getX (), driveStick.getY ());
+				
+		if(driveStick.getRawButton(3))
+			System.out.println(UltrasonicSensorFront);
+		if(driveStick.getRawButton(10))
+			leftEncoder.reset();
+
+		System.out.println("encoder raw readings : " + leftEncoder.getDistance());
                 
 		cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
 		cameraVertServo.set ((cameraStick.getY () + 1) / 2);
