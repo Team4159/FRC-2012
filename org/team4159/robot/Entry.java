@@ -1,20 +1,34 @@
 package org.team4159.robot;
 
-import org.team4159.boths.Server;
-import org.team4159.robot.www.RobotServer;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
-import edu.wpi.first.wpilibj.Encoder;
 
 public class Entry extends RobotBase {
 	
+	// THESE NEED TUNING
+	private final static double MOTOR_PID_KP = 1.0;
+	private final static double MOTOR_PID_KI = 1.0;
+	private final static double MOTOR_PID_KD = 1.0;
+	private final static double MOTOR_SPEED_COEFFICIENT = 4.0;
+	
 	private Jaguar leftMotor = new Jaguar (1);
 	private Jaguar rightMotor = new Jaguar (2);
+	
+	private Encoder leftEncoder = new Encoder(1,2);
+	private Encoder rightEncoder = new Encoder(3,4);
+	
+	// UNCOMMENT WHEN PID IS IMPLEMENTED
+	/*
+	private PIDController leftPIDController = new PIDController (
+			MOTOR_PID_KP, MOTOR_PID_KI, MOTOR_PID_KD, leftEncoder, leftMotor);
+	private PIDController rightPIDController = new PIDController (
+			MOTOR_PID_KP, MOTOR_PID_KI, MOTOR_PID_KD, rightEncoder, rightMotor);
+	private RobotDrive drive = new RobotDrive (
+			new PIDSpeedBridge (leftPIDController, MOTOR_SPEED_COEFFICIENT),
+			new PIDSpeedBridge (rightPIDController, MOTOR_SPEED_COEFFICIENT)
+	);
+	*/
+
 	private RobotDrive drive = new RobotDrive (leftMotor, rightMotor);
 	
 	private AdjustedJoystick driveStick = new AdjustedJoystick (1);
@@ -31,8 +45,6 @@ public class Entry extends RobotBase {
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
 	
-	private Encoder leftEncoder = new Encoder(1,2);
-	
 	public Entry ()
 	{
 		this.getWatchdog ().setEnabled (false);
@@ -47,10 +59,18 @@ public class Entry extends RobotBase {
 		driveStick.setMapping (Joystick.AxisType.kX, 1.0, 0.04, 0.6, 1.0);
 		driveStick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);
 		cameraStick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
+		
+		leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kRate);
 		leftEncoder.setDistancePerPulse((6*.0254/180)*5/19.1460966666666666666666666);
 		leftEncoder.start();
+		
+		// UNCOMMENT WHEN PID IS IMPLEMENTED
+		/*
+		leftPIDController.enable ();
+		rightPIDController.enable ();
+		*/
 
-		//new RobotServer ().start ();
+		new RobotServer ().start ();
 	}
 	
 	public void startCompetition () {
@@ -92,10 +112,11 @@ public class Entry extends RobotBase {
 			System.out.println (mi.image.getSize ());
 		} catch (Exception e) { e.printStackTrace(); }
 		*/
-                if(leftEncoder.getDistance()<1)
-                    drive.arcadeDrive(0, -1.0);
-                else
-                    drive.arcadeDrive(0, 0);
+		
+		if(leftEncoder.getDistance()<1)
+			drive.arcadeDrive(0, -1.0);
+		else
+			drive.arcadeDrive(0, 0);
 		
 		autonomousTimer.endDelayedCode ();
 	}
