@@ -14,16 +14,16 @@ public class AnalogUltrasonic extends AnalogChannel
     }
     public double getVoltage()
     {
-        return this.getVoltage();
+        return super.getVoltage();
     }
     public double getDistanceInInches()
     {
-        return (this.getVoltage()*1000) / 9.7666;
+        return (super.getVoltage()*1000) / 9.666666666666666666666666666666;
     }
     
     public String toString()
     {
-        return "the distance is " + this.getDistanceInInches() + " inches.";
+        return "the distance is " + (int)this.getDistanceInInches() + " inches.";
     }
     
 }

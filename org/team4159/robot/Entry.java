@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
+import edu.wpi.first.wpilibj.Encoder;
 
 public class Entry extends RobotBase {
 	
@@ -31,8 +31,7 @@ public class Entry extends RobotBase {
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
 	
-	private boolean speedControl = true;
-	private double stickXOffset, stickYOffset, stickZOffset;
+        private Encoder leftEncoder = new Encoder(1,2);
 	
 	public Entry ()
 	{
@@ -48,8 +47,9 @@ public class Entry extends RobotBase {
 		driveStick.setMapping (Joystick.AxisType.kX, 1.0, 0.04, 0.6, 1.0);
 		driveStick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);
 		cameraStick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
-		
-		new RobotServer ().start ();
+		leftEncoder.start();
+                leftEncoder.setDistancePerPulse((6*.0254/180)*5/19.1460966666666666666666666);
+		//new RobotServer ().start ();
 	}
 	
 	public void startCompetition () {
@@ -74,7 +74,7 @@ public class Entry extends RobotBase {
 	
 	private void runDisabled ()
 	{
-		/* not much to do here :/ */
+		drive.stopMotor();
 	}
 	
 	private void runAutonomous ()
@@ -91,6 +91,10 @@ public class Entry extends RobotBase {
 			System.out.println (mi.image.getSize ());
 		} catch (Exception e) { e.printStackTrace(); }
 		*/
+                if(leftEncoder.getDistance()<1)
+                    drive.arcadeDrive(0, -1.0);
+                else
+                    drive.arcadeDrive(0, 0);
 		
 		autonomousTimer.endDelayedCode ();
 	}
@@ -100,11 +104,15 @@ public class Entry extends RobotBase {
 		operatorTimer.startDelayedCode ();
 		
 		/* use joystick input */
-		//drive.arcadeDrive (driveStick);
+                
                 drive.arcadeDrive (driveStick.getX (), driveStick.getY ());
-		System.out.println("voltage is: " + UltrasonicSensorFront.getVoltage());
-                System.out.println("distance is: " + UltrasonicSensorFront.getDistanceInInches());
+                if(driveStick.getRawButton(3))
                 System.out.println(UltrasonicSensorFront);
+                
+                if(driveStick.getRawButton(10))
+                    leftEncoder.reset();
+                System.out.println("encoder raw readings : " + leftEncoder.getDistance());
+                
 		cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
 		cameraVertServo.set ((cameraStick.getY () + 1) / 2);
 		
