@@ -19,8 +19,17 @@ public class BroadcastWebSocketView extends BaseWebSocketView
 {
 	private final Hashtable threads = new Hashtable ();
 	
+	private int pingPeriod = 5000;
+	private int pingTimeout = 15000;
+	
+	private long lastPing = 0;
+	private long lastPong = 0;
+	
 	public void postResponse (Request req, Response res, InputStream is, OutputStream os) throws IOException
 	{
+		if (res.getStatusCode () != 101)
+			return;
+		
 		FragmentProcessor fp = new FragmentProcessor (is);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream ();
 		
@@ -33,6 +42,8 @@ public class BroadcastWebSocketView extends BaseWebSocketView
 		try {
 			for (;;)
 			{
+				long now = System.currentTimeMillis();
+				
 				if (is.available () > 0)
 				{
 					switch (receiveMessageFromSocket (fp, baos).opcode)
@@ -40,13 +51,31 @@ public class BroadcastWebSocketView extends BaseWebSocketView
 						case OPCODE_CLOSE:
 							return;
 						case OPCODE_PING:
-							sendMessageToSocket (new Message (0xa, null), dos);
+							sendMessageToSocket (new Message (OPCODE_PONG, null), dos);
+						case OPCODE_PONG:
+							lastPong = now;
 					}
 				}
 				
 				Message msg = (Message) queue.poll ();
 				if (msg != null)
 					sendMessageToSocket (msg, dos);
+				
+				if (pingPeriod > 0)
+				{
+					if (lastPong == 0)
+						lastPong = now;
+					if (now - lastPong > pingTimeout)
+						return;
+					
+					if (now - lastPing > pingPeriod)
+					{
+						sendMessageToSocket (new Message (OPCODE_PING, null), dos);
+						lastPing = now;
+					}
+				}
+				
+				Thread.yield ();
 			}
 		} finally {
 			threads.remove (thread);
