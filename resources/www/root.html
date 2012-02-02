@@ -6,8 +6,8 @@
 			if (window.MozWebSocket)
 				window.WebSocket = window.MozWebSocket;
 			var socket = new WebSocket ("ws://" + location.host + "/broadcast/");
-			$(socket).on ("message", function () {
-				console.log (arguments);
+			$(socket).on ("message", function (e) {
+				$("#output").append (document.createTextNode (e.originalEvent.data + "\n"));
 			});
 		</script>
 	</head>
