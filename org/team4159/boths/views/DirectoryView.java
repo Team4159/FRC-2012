@@ -98,6 +98,7 @@ public class DirectoryView extends View
 			} catch (IOException e) {}
 		}
 		
+		res.setHeader ("Cache-Control", "public, max-age=43200");
 		return res;
 	}
 }

@@ -71,7 +71,19 @@ public class Entry extends RobotBase {
 		rightPIDController.enable ();
 		*/
 
-		new RobotServer ().start ();
+		final RobotServer server = new RobotServer ();
+		server.start ();
+		
+		(new Thread () {
+			public void run () {
+				int i = 0;
+				for (;;)
+				{
+					server.broadcast.sendMessage (Integer.toString (i));
+					Timer.delay (1.0);
+				}
+			}
+		}).start ();
 	}
 	
 	public void startCompetition () {

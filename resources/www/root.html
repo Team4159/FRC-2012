@@ -1,1 +1,17 @@
-<h2 style="color:red;">@@@@</h2>
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="/files/jquery.min.js"></script>
+		<script type="text/javascript">
+			if (window.MozWebSocket)
+				window.WebSocket = window.MozWebSocket;
+			var socket = new WebSocket ("ws://" + location.host + "/broadcast/");
+			$(socket).on ("message", function () {
+				console.log (arguments);
+			});
+		</script>
+	</head>
+	<body>
+		<pre id="output"></pre>
+	</body>
+</html>

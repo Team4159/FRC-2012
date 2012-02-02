@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.team4159.boths.util.LimitingInputStream;
 import org.team4159.boths.util.StringUtils;
 import com.sun.squawk.io.BufferedReader;
+import com.sun.squawk.util.LineReader;
 
 /**
  * The {@link Request} class represents an HTTP request and is passed to
@@ -89,10 +90,10 @@ public class Request
 	
 	Request (InputStream is) throws RequestException
 	{
-		BufferedReader rr = new BufferedReader (
+		LineReader rr = new LineReader (
 			new InputStreamReader (
 				new LimitingInputStream (is, maximumRequestSize)
-			), 1
+			)
 		);
 		
 		// parse request line and headers
