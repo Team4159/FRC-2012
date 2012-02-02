@@ -16,7 +16,7 @@ public class RobotServer extends Server
 	
 	public RobotServer ()
 	{
-		super (8080, 32);
+		super (8081, 32);
 		addRoute ("/", new TemplateView ("/www/root.html"));
 		addRoute ("/broadcast/", broadcast);
 		addRoute ("/files/", new DirectoryView ("/www/files/"), false);
