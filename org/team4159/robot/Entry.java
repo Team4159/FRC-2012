@@ -76,10 +76,9 @@ public class Entry extends RobotBase {
 		
 		(new Thread () {
 			public void run () {
-				int i = 0;
 				for (;;)
 				{
-					server.broadcast.sendMessage (Integer.toString (i));
+					server.broadcast.sendMessage (Long.toString (System.currentTimeMillis()));
 					Timer.delay (1.0);
 				}
 			}
