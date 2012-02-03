@@ -1,6 +1,8 @@
 package org.team4159.robot;
 
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.ADXL345_I2C.AllAxes;
+import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import org.team4159.robot.www.RobotServer;
 
@@ -46,6 +48,8 @@ public class Entry extends RobotBase {
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
 	
+	private ADXL345_I2C gyroSensor = new ADXL345_I2C (SensorBase.getDefaultAnalogModule (), ADXL345_I2C.DataFormat_Range.k16G);
+	
 	public Entry ()
 	{
 		this.getWatchdog ().setEnabled (false);
@@ -80,6 +84,29 @@ public class Entry extends RobotBase {
 				{
 					server.broadcast.sendMessage (Long.toString (System.currentTimeMillis()));
 					Timer.delay (1.0);
+				}
+			}
+		}).start ();
+		
+		(new Thread () {
+			private final Axes[] AXES = {Axes.kX, Axes.kY, Axes.kZ};
+			public void run ()
+			{
+				StringBuffer build = new StringBuffer (25);
+				StringBuffer output = new StringBuffer (65);
+				for (;;)
+				{
+					output.setLength (0);
+					for (int i = 0; i < AXES.length; i++)
+					{
+						build.setLength (0);
+						build.append (gyroSensor.getAcceleration (AXES[i]));
+						while (build.length () < 20)
+							build.append (' ');
+						output.append (build);
+					}
+					System.out.println (output);
+					Timer.delay (0.250);
 				}
 			}
 		}).start ();
@@ -125,10 +152,12 @@ public class Entry extends RobotBase {
 		} catch (Exception e) { e.printStackTrace(); }
 		*/
 		
+		/*
 		if(leftEncoder.getDistance()<1)
 			drive.arcadeDrive(0, -1.0);
 		else
 			drive.arcadeDrive(0, 0);
+		*/
 		
 		autonomousTimer.endDelayedCode ();
 	}
