@@ -12,11 +12,11 @@ public class Entry extends RobotBase {
 	private final static double MOTOR_PID_KD = 1.0;
 	private final static double MOTOR_SPEED_COEFFICIENT = 4.0;
 	
-	private Jaguar leftMotor = new Jaguar (1);
-	private Jaguar rightMotor = new Jaguar (2);
+	private Jaguar leftMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.LEFT_MOTOR_JAGUAR);
+	private Jaguar rightMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.RIGHT_MOTOR_JAGUAR);
 	
-	private Encoder leftEncoder = new Encoder(1,2);
-	private Encoder rightEncoder = new Encoder(3,4);
+	private Encoder leftEncoder = new Encoder(HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_A_SOURCE,HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_B_SOURCE);
+	private Encoder rightEncoder = new Encoder(HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_A_SOURCE,HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_B_SOURCE);
 	
 	// UNCOMMENT WHEN PID IS IMPLEMENTED
 	/*
@@ -32,16 +32,16 @@ public class Entry extends RobotBase {
 
 	private RobotDrive drive = new RobotDrive (leftMotor, rightMotor);
 	
-	private AdjustedJoystick driveStick = new AdjustedJoystick (1);
-	private AdjustedJoystick cameraStick = new AdjustedJoystick (2);
+	private AdjustedJoystick driveStick = new AdjustedJoystick (HWPorts.USBController.DRIVE_STICK);
+	private AdjustedJoystick cameraStick = new AdjustedJoystick (HWPorts.USBController.CAMERA_STICK);
 	
-	private Servo cameraHorzServo = new Servo (3);
-	private Servo cameraVertServo = new Servo (4);
+	private Servo cameraHorzServo = new Servo (HWPorts.Digital_Sidecar.PWM.CAMERA_HORIZONTAL_SERVO);
+	private Servo cameraVertServo = new Servo (HWPorts.Digital_Sidecar.PWM.CAMERA_VERTICAL_SERVO);
 	
 	private DriverStation ds;
 	private AxisCamera camera = AxisCamera.getInstance ("10.41.59.11");
 	
-	private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(1);
+	private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(HWPorts.AnalogInput.ULTRASONIC_FRONT);
         
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
