@@ -54,7 +54,7 @@ public class Entry extends RobotBase {
 	
 	public Entry ()
 	{
-		this.getWatchdog ().setEnabled (false);
+		getWatchdog ().setEnabled (true);
 		leftMotor.enableDeadbandElimination (true);
 		rightMotor.enableDeadbandElimination (true);
 		ds = m_ds;
@@ -119,6 +119,7 @@ public class Entry extends RobotBase {
 					runAutonomous ();
 				else
 					runOperator ();
+				getWatchdog ().feed ();
 			} catch (Throwable t) {
 				System.err.println ("SEVERE ERROR: " + t);
 				t.printStackTrace ();
