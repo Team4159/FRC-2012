@@ -48,10 +48,10 @@ public class Entry extends RobotBase {
 	private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(HWPorts.AnalogInput.ULTRASONIC_FRONT);
         
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
-	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
+	private AbsoluteTimer operatorTimer = new AbsoluteTimer (1);
 	
-	private ADXL345_I2C accelerometer = new ADXL345_I2C (SensorBase.getDefaultDigitalModule (), ADXL345_I2C.DataFormat_Range.k16G);
-        private Gyro gyroSensor = new Gyro(2);
+	//private ADXL345_I2C accelerometer = new ADXL345_I2C (SensorBase.getDefaultDigitalModule (), ADXL345_I2C.DataFormat_Range.k16G);
+        private Gyro gyroSensor;
 	
 	public Entry ()
 	{
@@ -167,7 +167,7 @@ public class Entry extends RobotBase {
 		if(driveStick.getRawButton(3))
                 {
 		    System.out.println(UltrasonicSensorFront);
-                    SmartDashboard.putString(UltrasonicSensorFront.toString(),"fun");
+                    //SmartDashboard.putString("fun",UltrasonicSensorFront.toString());
                 }
                 if(driveStick.getTrigger())
                     drive.setMaxOutput(1);
@@ -176,13 +176,12 @@ public class Entry extends RobotBase {
                 if(driveStick.getRawButton(5))
                 {
                     System.out.println("encoder raw readings : " + leftEncoder.getDistance());
-                    SmartDashboard.putString("encoder raw readings : " + leftEncoder.getDistance(),"fun");
+                    SmartDashboard.putString("fun", "encoder raw readings : " + leftEncoder.getDistance());
                 }
                 if(driveStick.getRawButton(6))
                     System.out.println(gyroSensor.getAngle());
                 if(driveStick.getRawButton(7))
                     gyroSensor.reset();
-                
 		cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
 		cameraVertServo.set ((cameraStick.getY () + 1) / 2);
 		
