@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
 import org.team4159.robot.www.RobotServer;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Entry extends RobotBase {
 	
@@ -18,8 +19,8 @@ public class Entry extends RobotBase {
 	private Jaguar leftMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.LEFT_MOTOR_JAGUAR);
 	private Jaguar rightMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.RIGHT_MOTOR_JAGUAR);
 	// TO DO:  need to switch left/ right encoder ports or names;
-	//private Encoder leftEncoder = new Encoder(HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_A_SOURCE,HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_B_SOURCE);
-	//private Encoder rightEncoder = new Encoder(HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_A_SOURCE,HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_B_SOURCE);
+	private Encoder leftEncoder = new Encoder(HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_A_SOURCE,HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_B_SOURCE);
+	private Encoder rightEncoder = new Encoder(HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_A_SOURCE,HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_B_SOURCE);
 	
 	// UNCOMMENT WHEN PID IS IMPLEMENTED
 	/*
@@ -35,23 +36,22 @@ public class Entry extends RobotBase {
 
 	private RobotDrive drive = new RobotDrive (leftMotor, rightMotor);
 	
-	/*private AdjustedJoystick driveStick = new AdjustedJoystick (HWPorts.USBController.DRIVE_STICK);
-	private AdjustedJoystick cameraStick = new AdjustedJoystick (HWPorts.USBController.CAMERA_STICK);*/
+	private AdjustedJoystick driveStick = new AdjustedJoystick (HWPorts.USBController.DRIVE_STICK);
+	private AdjustedJoystick cameraStick = new AdjustedJoystick (HWPorts.USBController.CAMERA_STICK);
 	
-        private Joystick driveStick = new Joystick(1);
-	//private Servo cameraHorzServo = new Servo (HWPorts.Digital_Sidecar.PWM.CAMERA_HORIZONTAL_SERVO);
-	//private Servo cameraVertServo = new Servo (HWPorts.Digital_Sidecar.PWM.CAMERA_VERTICAL_SERVO);
+	private Servo cameraHorzServo = new Servo (HWPorts.Digital_Sidecar.PWM.CAMERA_HORIZONTAL_SERVO);
+	private Servo cameraVertServo = new Servo (HWPorts.Digital_Sidecar.PWM.CAMERA_VERTICAL_SERVO);
 	
 	private DriverStation ds;
-	//private AxisCamera camera = AxisCamera.getInstance ("10.41.59.11");
+	private AxisCamera camera = AxisCamera.getInstance ("10.41.59.11");
 	
 	private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(HWPorts.AnalogInput.ULTRASONIC_FRONT);
         
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
 	
-	//private ADXL345_I2C accelerometer = new ADXL345_I2C (SensorBase.getDefaultDigitalModule (), ADXL345_I2C.DataFormat_Range.k16G);
-        //private Gyro gyroSensor = new Gyro(2);
+	private ADXL345_I2C accelerometer = new ADXL345_I2C (SensorBase.getDefaultDigitalModule (), ADXL345_I2C.DataFormat_Range.k16G);
+        private Gyro gyroSensor = new Gyro(2);
 	
 	public Entry ()
 	{
@@ -64,15 +64,15 @@ public class Entry extends RobotBase {
 		drive.setInvertedMotor (RobotDrive.MotorType.kRearLeft, true);
 		
 		// add mappings for sticks
-		/*driveStick.setMapping (Joystick.AxisType.kX, 1.0, 0.04, 0.6, 1.0);
-		driveStick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);*/
-		//cameraStick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
+		driveStick.setMapping (Joystick.AxisType.kX, 1.0, 0.04, 0.6, 1.0);
+		driveStick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);
+		cameraStick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
 		
-		/*leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kRate);
+		leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kRate);
 		leftEncoder.setDistancePerPulse((6*.0254/180)*5/19.1460966666666666666666666);
 		leftEncoder.start();
                 
-                gyroSensor.reset();*/
+                gyroSensor.reset();
 		
 		// UNCOMMENT WHEN PID IS IMPLEMENTED
 		/*
@@ -163,23 +163,28 @@ public class Entry extends RobotBase {
 		operatorTimer.startDelayedCode ();
 		
 		/* use joystick input */
-                drive.setMaxOutput(.75);
 		drive.arcadeDrive (driveStick.getX (), driveStick.getY ());
 		if(driveStick.getRawButton(3))
+                {
 		    System.out.println(UltrasonicSensorFront);
+                    SmartDashboard.putString(UltrasonicSensorFront.toString(),"fun");
+                }
                 if(driveStick.getTrigger())
                     drive.setMaxOutput(1);
-		/*if(driveStick.getRawButton(10))
+		if(driveStick.getRawButton(10))
 		    leftEncoder.reset();
                 if(driveStick.getRawButton(5))
+                {
                     System.out.println("encoder raw readings : " + leftEncoder.getDistance());
+                    SmartDashboard.putString("encoder raw readings : " + leftEncoder.getDistance(),"fun");
+                }
                 if(driveStick.getRawButton(6))
                     System.out.println(gyroSensor.getAngle());
                 if(driveStick.getRawButton(7))
-                    gyroSensor.reset();*/
-		//cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
-		//cameraVertServo.set ((cameraStick.getY () + 1) / 2);
-
+                    gyroSensor.reset();
+                
+		cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
+		cameraVertServo.set ((cameraStick.getY () + 1) / 2);
 		
 		operatorTimer.endDelayedCode ();
 	}
