@@ -4,7 +4,12 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.ADXL345_I2C.AllAxes;
 import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
+import edu.wpi.first.wpilibj.image.ColorImage;
+import edu.wpi.first.wpilibj.image.MonoImage;
+import edu.wpi.first.wpilibj.image.NIVision;
 import org.team4159.robot.www.RobotServer;
+import com.sun.cldc.jna.TaskExecutor;
+import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.Gyro;
 
 public class Entry extends RobotBase {
@@ -104,6 +109,42 @@ public class Entry extends RobotBase {
 				}
 			}
 		}).start ();
+		
+		{
+			Klass kls = Klass.asKlass (NIVision.class);
+			
+			int i = 0;
+			Object obj;
+			do {
+				obj = kls.getObject (i++);
+			} while (!(obj instanceof TaskExecutor));
+			
+			TaskExecutor te = (TaskExecutor) obj;
+			System.out.println (te);
+			
+			/*
+			int len = kls.getFieldCount (true);
+			Field field = null;
+			
+			for (int i = 0; i < len; i++)
+			{
+				Field f = kls.getField (i, true);
+				if (f.getName ().equals ("taskExecutor"))
+					field = f; 
+			}
+			
+			System.out.println ("ID: " + Klass.asKlass (TaskExecutor.class).getSystemID ());
+			*/
+			
+			/*
+			if (field != null)
+			{
+				System.out.println ("A: " + field.hasConstant ());
+				System.out.println ("B: " + field.getType ());
+				System.out.println ("GO: " + field.getOffset ());
+			}
+			*/
+		}
 	}
 	
 	public void startCompetition () {
@@ -135,6 +176,18 @@ public class Entry extends RobotBase {
 	private void runAutonomous ()
 	{
 		autonomousTimer.startDelayedCode ();
+		
+		ColorImage img;
+		MonoImage hue; 
+		
+		/*
+		try {
+			img = camera.getImage ();
+			hue = img.getHSLHuePlane ();
+			
+			BinaryImage bi = BinaryImage.class.newInstance ();
+		} catch (Exception e) { e.printStackTrace (); }
+		*/
 		
 		/*
 		ColorImage img;
