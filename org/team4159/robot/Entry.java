@@ -4,7 +4,12 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.ADXL345_I2C.AllAxes;
 import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
 import edu.wpi.first.wpilibj.camera.AxisCamera;
+import edu.wpi.first.wpilibj.image.ColorImage;
+import edu.wpi.first.wpilibj.image.MonoImage;
+import edu.wpi.first.wpilibj.image.NIVision;
 import org.team4159.robot.www.RobotServer;
+import com.sun.cldc.jna.TaskExecutor;
+import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -50,12 +55,11 @@ public class Entry extends RobotBase {
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (1);
 	
-	//private ADXL345_I2C accelerometer = new ADXL345_I2C (SensorBase.getDefaultDigitalModule (), ADXL345_I2C.DataFormat_Range.k16G);
-        private Gyro gyroSensor;
-	
+	private ADXL345_I2C accelerometer = new ADXL345_I2C (SensorBase.getDefaultDigitalModule (), ADXL345_I2C.DataFormat_Range.k16G);
+    private Gyro gyroSensor = new Gyro(2);
 	public Entry ()
 	{
-		this.getWatchdog ().setEnabled (false);
+		getWatchdog ().setEnabled (false);
 		leftMotor.enableDeadbandElimination (true);
 		rightMotor.enableDeadbandElimination (true);
 		ds = m_ds;
@@ -71,8 +75,8 @@ public class Entry extends RobotBase {
 		leftEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kRate);
 		leftEncoder.setDistancePerPulse((6*.0254/180)*5/19.1460966666666666666666666);
 		leftEncoder.start();
-                
-                gyroSensor.reset();
+
+		gyroSensor.reset();
 		
 		// UNCOMMENT WHEN PID IS IMPLEMENTED
 		/*
@@ -82,9 +86,8 @@ public class Entry extends RobotBase {
 
 		final RobotServer server = new RobotServer ();
 		server.start ();
-
 		
-		/*(new Thread () {
+		(new Thread () {
 			private final Axes[] AXES = {Axes.kX, Axes.kY, Axes.kZ};
 			public void run ()
 			{
@@ -105,7 +108,43 @@ public class Entry extends RobotBase {
 					Timer.delay (0.250);
 				}
 			}
-		}).start ();*/
+		}).start ();
+		
+		{
+			Klass kls = Klass.asKlass (NIVision.class);
+			
+			int i = 0;
+			Object obj;
+			do {
+				obj = kls.getObject (i++);
+			} while (!(obj instanceof TaskExecutor));
+			
+			TaskExecutor te = (TaskExecutor) obj;
+			System.out.println (te);
+			
+			/*
+			int len = kls.getFieldCount (true);
+			Field field = null;
+			
+			for (int i = 0; i < len; i++)
+			{
+				Field f = kls.getField (i, true);
+				if (f.getName ().equals ("taskExecutor"))
+					field = f; 
+			}
+			
+			System.out.println ("ID: " + Klass.asKlass (TaskExecutor.class).getSystemID ());
+			*/
+			
+			/*
+			if (field != null)
+			{
+				System.out.println ("A: " + field.hasConstant ());
+				System.out.println ("B: " + field.getType ());
+				System.out.println ("GO: " + field.getOffset ());
+			}
+			*/
+		}
 	}
 	
 	public void startCompetition () {
@@ -121,6 +160,7 @@ public class Entry extends RobotBase {
 					runAutonomous ();
 				else
 					runOperator ();
+				getWatchdog ().feed ();
 			} catch (Throwable t) {
 				System.err.println ("SEVERE ERROR: " + t);
 				t.printStackTrace ();
@@ -136,6 +176,18 @@ public class Entry extends RobotBase {
 	private void runAutonomous ()
 	{
 		autonomousTimer.startDelayedCode ();
+		
+		ColorImage img;
+		MonoImage hue; 
+		
+		/*
+		try {
+			img = camera.getImage ();
+			hue = img.getHSLHuePlane ();
+			
+			BinaryImage bi = BinaryImage.class.newInstance ();
+		} catch (Exception e) { e.printStackTrace (); }
+		*/
 		
 		/*
 		ColorImage img;
@@ -164,24 +216,18 @@ public class Entry extends RobotBase {
 		
 		/* use joystick input */
 		drive.arcadeDrive (driveStick.getX (), driveStick.getY ());
+				
 		if(driveStick.getRawButton(3))
-                {
-		    System.out.println(UltrasonicSensorFront);
-                    //SmartDashboard.putString("fun",UltrasonicSensorFront.toString());
-                }
-                if(driveStick.getTrigger())
-                    drive.setMaxOutput(1);
+			System.out.println(UltrasonicSensorFront);
 		if(driveStick.getRawButton(10))
-		    leftEncoder.reset();
-                if(driveStick.getRawButton(5))
-                {
-                    System.out.println("encoder raw readings : " + leftEncoder.getDistance());
-                    SmartDashboard.putString("fun", "encoder raw readings : " + leftEncoder.getDistance());
-                }
-                if(driveStick.getRawButton(6))
-                    System.out.println(gyroSensor.getAngle());
-                if(driveStick.getRawButton(7))
-                    gyroSensor.reset();
+			leftEncoder.reset();
+		if(driveStick.getRawButton(5))
+			System.out.println("encoder raw readings : " + leftEncoder.getDistance());
+		if(driveStick.getRawButton(6))
+			System.out.println(gyroSensor.getAngle());
+		if(driveStick.getRawButton(7))
+			gyroSensor.reset();
+                
 		cameraHorzServo.set ((cameraStick.getX () + 1) / 2);
 		cameraVertServo.set ((cameraStick.getY () + 1) / 2);
 		
