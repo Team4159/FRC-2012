@@ -1,4 +1,4 @@
-package org.team4159.robot;
+package org.team4159.robot.image;
 
 import com.sun.cldc.jna.BlockingFunction;
 import com.sun.cldc.jna.NativeLibrary;

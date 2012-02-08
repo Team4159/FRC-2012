@@ -1,5 +1,6 @@
 package org.team4159.robot;
 
+import org.team4159.robot.image.NIVisionExtras;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.ADXL345_I2C.AllAxes;
 import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
@@ -11,6 +12,7 @@ import org.team4159.robot.www.RobotServer;
 import com.sun.cldc.jna.TaskExecutor;
 import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.image.*;
 
 public class Entry extends RobotBase {
 	
@@ -110,41 +112,42 @@ public class Entry extends RobotBase {
 			}
 		}).start ();
 		
-		{
-			Klass kls = Klass.asKlass (NIVision.class);
-			
-			int i = 0;
-			Object obj;
-			do {
-				obj = kls.getObject (i++);
-			} while (!(obj instanceof TaskExecutor));
-			
-			TaskExecutor te = (TaskExecutor) obj;
-			System.out.println (te);
-			
-			/*
-			int len = kls.getFieldCount (true);
-			Field field = null;
-			
-			for (int i = 0; i < len; i++)
+		(new Thread () {
+			public void run ()
 			{
-				Field f = kls.getField (i, true);
-				if (f.getName ().equals ("taskExecutor"))
-					field = f; 
+				for (;;)
+				{
+					ColorImage img = null; // the raw camera input
+					ColorImage imgeq = null; // the luminance-equalized raw camera input
+					MonoImage lum = null; // just the luminance channel of the raw image
+					BinaryImage search = null; // part of the image in the brightest 10% of the light range
+					
+					try {
+						img = camera.getImage ();
+						imgeq = img.luminanceEqualize ();
+						lum = img.getLuminancePlane ();
+						search = (BinaryImage) BinaryImage.class.newInstance ();
+						NIVisionExtras.threshold(search.image, lum.image, 0.9f, 1.0f, true, 1.0f);
+					} catch (Throwable e) {
+						e.printStackTrace ();
+						throw new RuntimeException (e.toString ());
+					} finally {
+						try {
+							if (img != null)
+								img.free ();
+							if (imgeq != null)
+								imgeq.free ();
+							if (lum != null)
+								lum.free ();
+							if (search != null)
+								search.free ();
+						} catch (NIVisionException e) {}
+					}
+
+					Timer.delay (0.250);
+				}
 			}
-			
-			System.out.println ("ID: " + Klass.asKlass (TaskExecutor.class).getSystemID ());
-			*/
-			
-			/*
-			if (field != null)
-			{
-				System.out.println ("A: " + field.hasConstant ());
-				System.out.println ("B: " + field.getType ());
-				System.out.println ("GO: " + field.getOffset ());
-			}
-			*/
-		}
+		}).start ();
 	}
 	
 	public void startCompetition () {
