@@ -11,7 +11,8 @@ import org.team4159.robot.www.RobotServer;
 import com.sun.cldc.jna.TaskExecutor;
 import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.camera.AxisCamera.ResolutionT;
+import edu.wpi.first.wpilibj.image.*;
 
 public class Entry extends RobotBase {
 	
@@ -83,6 +84,9 @@ public class Entry extends RobotBase {
 		leftPIDController.enable ();
 		rightPIDController.enable ();
 		*/
+		
+		camera.writeCompression (30);
+		camera.writeResolution (ResolutionT.k320x240);
 
 		final RobotServer server = new RobotServer ();
 		server.start ();
@@ -110,41 +114,56 @@ public class Entry extends RobotBase {
 			}
 		}).start ();
 		
-		{
-			Klass kls = Klass.asKlass (NIVision.class);
-			
-			int i = 0;
-			Object obj;
-			do {
-				obj = kls.getObject (i++);
-			} while (!(obj instanceof TaskExecutor));
-			
-			TaskExecutor te = (TaskExecutor) obj;
-			System.out.println (te);
-			
-			/*
-			int len = kls.getFieldCount (true);
-			Field field = null;
-			
-			for (int i = 0; i < len; i++)
+		(new Thread () {	
+			public void run ()
 			{
-				Field f = kls.getField (i, true);
-				if (f.getName ().equals ("taskExecutor"))
-					field = f; 
+				CriteriaCollection criteria = new CriteriaCollection ();
+				
+				for (;;)
+				{
+					if (!camera.freshImage ())
+						continue;
+					
+					ColorImage img = null; // the raw camera input
+					ColorImage imgeq = null; // the luminance-equalized raw camera input
+					BinaryImage search = null; // part of the image in the good range
+					BinaryImage cleaned = null; // no small objects
+					BinaryImage hulled = null; // convex-hulled
+					
+					try {
+						img = camera.getImage ();
+						imgeq = img.luminanceEqualize ();
+						search = imgeq.thresholdHSL (0, 255, 0, 40, 144, 255);
+						cleaned = search.removeSmallObjects (true, 2);
+						hulled = cleaned.convexHull (true);
+						/* HACKXING TIME */
+						
+						// write out final particle output to file
+						search.write ("search.png");
+						cleaned.write ("cleaned.png");
+						hulled.write ("hulled.png");
+					} catch (Throwable e) {
+						e.printStackTrace ();
+						throw new RuntimeException (e.toString ());
+					} finally {
+						try {
+							if (img != null)
+								img.free ();
+							if (imgeq != null)
+								imgeq.free ();
+							if (search != null)
+								search.free ();
+							if (cleaned != null)
+								cleaned.free ();
+							if (hulled != null)
+								hulled.free ();
+						} catch (NIVisionException e) {}
+					}
+
+					Timer.delay (0.250);
+				}
 			}
-			
-			System.out.println ("ID: " + Klass.asKlass (TaskExecutor.class).getSystemID ());
-			*/
-			
-			/*
-			if (field != null)
-			{
-				System.out.println ("A: " + field.hasConstant ());
-				System.out.println ("B: " + field.getType ());
-				System.out.println ("GO: " + field.getOffset ());
-			}
-			*/
-		}
+		}).start ();
 	}
 	
 	public void startCompetition () {
@@ -171,6 +190,7 @@ public class Entry extends RobotBase {
 	private void runDisabled ()
 	{
 		drive.stopMotor();
+		Thread.yield ();
 	}
 	
 	private void runAutonomous ()
