@@ -1,4 +1,4 @@
-package org.team4159.robot;
+package org.team4159.robot.parts;
 
 import java.util.Hashtable;
 import com.sun.squawk.util.MathUtils;
