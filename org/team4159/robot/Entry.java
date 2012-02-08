@@ -1,6 +1,5 @@
 package org.team4159.robot;
 
-import org.team4159.robot.image.NIVisionExtras;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.ADXL345_I2C.AllAxes;
 import edu.wpi.first.wpilibj.ADXL345_I2C.Axes;
@@ -12,6 +11,7 @@ import org.team4159.robot.www.RobotServer;
 import com.sun.cldc.jna.TaskExecutor;
 import com.sun.squawk.Klass;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.camera.AxisCamera.ResolutionT;
 import edu.wpi.first.wpilibj.image.*;
 
 public class Entry extends RobotBase {
@@ -85,6 +85,9 @@ public class Entry extends RobotBase {
 		leftPIDController.enable ();
 		rightPIDController.enable ();
 		*/
+		
+		camera.writeCompression (30);
+		camera.writeResolution (ResolutionT.k320x240);
 
 		final RobotServer server = new RobotServer ();
 		server.start ();
@@ -112,22 +115,34 @@ public class Entry extends RobotBase {
 			}
 		}).start ();
 		
-		(new Thread () {
+		(new Thread () {	
 			public void run ()
 			{
+				CriteriaCollection criteria = new CriteriaCollection ();
+				
 				for (;;)
 				{
+					if (!camera.freshImage ())
+						continue;
+					
 					ColorImage img = null; // the raw camera input
 					ColorImage imgeq = null; // the luminance-equalized raw camera input
-					MonoImage lum = null; // just the luminance channel of the raw image
-					BinaryImage search = null; // part of the image in the brightest 10% of the light range
+					BinaryImage search = null; // part of the image in the good range
+					BinaryImage cleaned = null; // no small objects
+					BinaryImage hulled = null; // convex-hulled
 					
 					try {
 						img = camera.getImage ();
 						imgeq = img.luminanceEqualize ();
-						lum = img.getLuminancePlane ();
-						search = (BinaryImage) BinaryImage.class.newInstance ();
-						NIVisionExtras.threshold(search.image, lum.image, 0.9f, 1.0f, true, 1.0f);
+						search = imgeq.thresholdHSL (0, 255, 0, 40, 144, 255);
+						cleaned = search.removeSmallObjects (true, 2);
+						hulled = cleaned.convexHull (true);
+						/* HACKXING TIME */
+						
+						// write out final particle output to file
+						search.write ("search.png");
+						cleaned.write ("cleaned.png");
+						hulled.write ("hulled.png");
 					} catch (Throwable e) {
 						e.printStackTrace ();
 						throw new RuntimeException (e.toString ());
@@ -137,10 +152,12 @@ public class Entry extends RobotBase {
 								img.free ();
 							if (imgeq != null)
 								imgeq.free ();
-							if (lum != null)
-								lum.free ();
 							if (search != null)
 								search.free ();
+							if (cleaned != null)
+								cleaned.free ();
+							if (hulled != null)
+								hulled.free ();
 						} catch (NIVisionException e) {}
 					}
 
@@ -174,6 +191,7 @@ public class Entry extends RobotBase {
 	private void runDisabled ()
 	{
 		drive.stopMotor();
+		Thread.yield ();
 	}
 	
 	private void runAutonomous ()
