@@ -13,7 +13,7 @@ public class DriveStickModule extends Module
 		stick.setMapping (Joystick.AxisType.kX, 1.0, 0.04, 0.6, 1.0);
 		stick.setMapping (Joystick.AxisType.kY, 1.0, 0.04, 0.5, 1.0);
 	}
-	
+	public boolean isVelocityPressed() { return stick.getRawButton(6);} // may need to change button number
 	public double getMoveValue () { return stick.getY (); }
 	public double getRotateValue () { return stick.getX (); }
 	
