@@ -108,6 +108,18 @@ public abstract class BaseWebSocketView extends View
 			this.opcode = opcode;
 			this.data = data;
 		}
+		
+		public Message (byte[] data)
+		{
+			this.opcode = OPCODE_BINARY;
+			this.data = data;
+		}
+		
+		public Message (String str)
+		{
+			this.opcode = OPCODE_TEXT;
+			this.data = str.getBytes ();
+		}
 	}
 	
 	/**
