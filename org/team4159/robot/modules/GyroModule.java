@@ -10,6 +10,7 @@ public class GyroModule extends Module
 	private GyroModule ()
 	{
 		sensor.reset ();
+		sensor.setSensitivity(.0125);//frc default value, once set, angle will be more stable.
 	}
 	
 	private static GyroModule instance;
