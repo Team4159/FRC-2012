@@ -22,6 +22,12 @@ public class CameraStickModule extends Module
 		return stick.getY ();
 	}
 	
+	public boolean isBridgeManipButtonPressed()
+	{
+		return stick.getRawButton(3);
+	}
+
+	
 	private static CameraStickModule instance;
 	public static synchronized CameraStickModule getInstance ()
 	{

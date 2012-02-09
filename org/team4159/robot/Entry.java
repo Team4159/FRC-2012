@@ -41,6 +41,7 @@ public class Entry extends RobotBase
 		// initialize motors
 		ModuleController.addModule (MotorModule.getInstance ());
 		ModuleController.addModule (CameraServoModule.getInstance ());
+		ModuleController.addModule (BridgeManipModule.getInstance());
 	}
 	
 	public void startCompetition ()

@@ -14,6 +14,7 @@ public class EncoderModule extends Module
 		for (int i = 0; i < encoders.length; i++)
 		{
 			Encoder e = encoders[i];
+			e.reset();
 			e.setPIDSourceParameter(Encoder.PIDSourceParameter.kRate);
 			e.setDistancePerPulse((6*.0254/180)*0.2611498357628683); // 0.26... is the gear ratio from motor to wheel
 			e.start ();
@@ -29,7 +30,6 @@ public class EncoderModule extends Module
 	{
 		return rightEncoder;
 	}
-	
 	private static EncoderModule instance;
 	public static synchronized EncoderModule getInstance ()
 	{

@@ -1,10 +1,11 @@
 package org.team4159.robot.modules;
 
 import edu.wpi.first.wpilibj.Gyro;
+import org.team4159.robot.HWPorts;
 
 public class GyroModule extends Module
 {
-	private final Gyro sensor = new Gyro (2);
+	private final Gyro sensor = new Gyro (HWPorts.AnalogInput.GYRO);
 	
 	private GyroModule ()
 	{

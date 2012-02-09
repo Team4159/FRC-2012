@@ -21,7 +21,7 @@ public interface HWPorts {
     interface AnalogInput
     {
         int ULTRASONIC_FRONT     =  1;//ultrasonic sensor for front
-        int UNUSED_2             =  2;
+        int GYRO                 =  2;
         int UNUSED_3             =  3;
         int UNUSED_4             =  4;
         int UNUSED_5             =  5;
@@ -40,7 +40,7 @@ public interface HWPorts {
             int RIGHT_MOTOR_JAGUAR         =  2; //jaguar control for right side drive motors
             int CAMERA_HORIZONTAL_SERVO    =  3; // horizontal servo control for camera, rotates left/right
             int CAMERA_VERTICAL_SERVO      =  4; // vertical servo control for camera, rotates up/down
-            int UNUSED_5                   =  5;
+            int BRIDGE_MANIP_VICTOR        =  5;// single victor for two motors on bridge manipulator
             int UNUSED_6                   =  6;
             int UNUSED_7                   =  7;
             int UNUSED_8                   =  8;
