@@ -38,6 +38,9 @@ public class Entry extends RobotBase
 		// initialize drive
 		ModuleController.addModule (DriveModule.getInstance ());
 		
+		// initialize motor passthroughs
+		ModuleController.addModule (PIDModule.getInstance ());
+		
 		// initialize motors
 		ModuleController.addModule (MotorModule.getInstance ());
 		ModuleController.addModule (CameraServoModule.getInstance ());
