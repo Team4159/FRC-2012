@@ -6,7 +6,7 @@ package org.team4159.robot;
  * @author Waylin
  */
 
-interface HWPorts {
+public interface HWPorts {
     
     // connected to computer
     interface USBController
