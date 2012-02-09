@@ -2,7 +2,7 @@ package org.team4159.robot.modules;
 
 import org.team4159.robot.HWPorts;
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SpeedController;
 
 public class MotorModule extends Module
 {
@@ -15,9 +15,14 @@ public class MotorModule extends Module
 		rightMotor.enableDeadbandElimination (true);
 	}
 	
-	public RobotDrive createDrive ()
+	public SpeedController getLeftMotor ()
 	{
-		return new RobotDrive (leftMotor, rightMotor);
+		return leftMotor;
+	}
+	
+	public SpeedController getRightMotor ()
+	{
+		return rightMotor;
 	}
 	
 	private static MotorModule instance;
@@ -27,5 +32,4 @@ public class MotorModule extends Module
 			instance = new MotorModule ();
 		return instance;
 	}
-
 }

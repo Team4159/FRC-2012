@@ -3,12 +3,12 @@ package org.team4159.robot.parts;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class PIDSpeedBridge implements SpeedController {
+public class PIDSetpointController implements SpeedController {
 	
 	private final PIDController controller;
 	private final double speedCoefficient;
 	
-	public PIDSpeedBridge (PIDController controller, double speedCoefficient)
+	public PIDSetpointController (PIDController controller, double speedCoefficient)
 	{
 		this.controller = controller;
 		this.speedCoefficient = speedCoefficient;

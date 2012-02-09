@@ -20,6 +20,16 @@ public class EncoderModule extends Module
 		}
 	}
 	
+	public Encoder getLeftEncoder ()
+	{
+		return leftEncoder;
+	}
+	
+	public Encoder getRightEncoder ()
+	{
+		return rightEncoder;
+	}
+	
 	private static EncoderModule instance;
 	public static synchronized EncoderModule getInstance ()
 	{

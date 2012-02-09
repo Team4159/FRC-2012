@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class DriveModule extends Module
 {
-	private final RobotDrive drive = MotorModule.getInstance ().createDrive ();
+	private final RobotDrive drive = PIDModule.getInstance ().createDrive ();
 	
 	private DriveModule ()
 	{
