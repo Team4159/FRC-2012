@@ -24,7 +24,7 @@ public class CameraStickModule extends Module
 	
 	public boolean isBridgeManipButtonPressed()
 	{
-		return stick.getRawButton(3);
+		return stick.getRawButton(BRIDGE_MANIP_ACTIVATOR);
 	}
 
 	
@@ -35,4 +35,15 @@ public class CameraStickModule extends Module
 			instance = new CameraStickModule ();
 		return instance;
 	}
+	
+	private static final int BUTTON_UNUSED1          = 1;
+	private static final int BUTTON_UNUSED2          = 2;
+	private static final int BRIDGE_MANIP_ACTIVATOR  = 3;
+	private static final int BUTTON_UNUSED4          = 4;
+	private static final int BUTTON_UNUSED5          = 5;
+	private static final int BUTTON_UNUSED6          = 6;
+	private static final int BUTTON_UNUSED7          = 7;
+	private static final int BUTTON_UNUSED8          = 8;
+	private static final int BUTTON_UNUSED9          = 9;
+	private static final int BUTTON_UNUSED10         = 10;
 }
