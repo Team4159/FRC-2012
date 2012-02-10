@@ -1,13 +1,14 @@
 package org.team4159.robot.modules;
 
 import org.team4159.robot.HWPorts;
+import org.team4159.robot.parts.FixedEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class EncoderModule extends Module
 {
-	private final Encoder leftEncoder = new Encoder (HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_A_SOURCE, HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_B_SOURCE);
-	private final Encoder rightEncoder = new Encoder (HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_A_SOURCE, HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_B_SOURCE);
+	private final Encoder leftEncoder = new FixedEncoder (HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_A_SOURCE, HWPorts.Digital_Sidecar.DigitalIO.LEFT_DRIVE_ENCODER_B_SOURCE);
+	private final Encoder rightEncoder = new FixedEncoder (HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_A_SOURCE, HWPorts.Digital_Sidecar.DigitalIO.RIGHT_DRIVE_ENCODER_B_SOURCE);
 	
 	private EncoderModule ()
 	{
