@@ -21,8 +21,8 @@ public class FixedEncoder extends Encoder
 	
 	public double getRate ()
 	{
-		double ret = super.getRate ();
-		super.getRate (); // will return 0.0 here
-		return ret;
+		double a = super.getRate ();
+		double b = super.getRate ();
+		return (Math.abs (a) > Math.abs (b)) ? a : b;
 	}
 }
