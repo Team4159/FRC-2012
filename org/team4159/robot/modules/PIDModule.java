@@ -6,10 +6,10 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class PIDModule extends Module
 {
-	private static final double PID_KP = 1.0;
-	private static final double PID_KI = 1.0;
-	private static final double PID_KD = 1.0;
-	private static final double SPEED_COEFFICIENT = 2.0;
+	private static final double PID_KP = 0.2;
+	private static final double PID_KI = 0.2;
+	private static final double PID_KD = 0.1;
+	private static final double SPEED_COEFFICIENT = 1.0;
 	
 	private final PIDController leftPIDController;
 	private final PIDController rightPIDController;
