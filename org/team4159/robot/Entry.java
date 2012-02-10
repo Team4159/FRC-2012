@@ -17,9 +17,6 @@ public class Entry extends RobotBase
 		
 		// set up modules
 		configureModules ();
-		
-		// start HTTP server
-		new RobotServer ().start ();
 	}
 	
 	private void configureModules ()
@@ -27,6 +24,7 @@ public class Entry extends RobotBase
 		// initialize user inputs first
 		ModuleController.addModule (DriveStickModule.getInstance ());
 		ModuleController.addModule (CameraStickModule.getInstance ());
+		ModuleController.addModule (RobotServerModule.getInstance ());
 		
 		// initialize sensors
 		ModuleController.addModule (AccelerometerModule.getInstance ());
