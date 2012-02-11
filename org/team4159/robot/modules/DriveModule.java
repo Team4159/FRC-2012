@@ -8,7 +8,6 @@ public class DriveModule extends Module
 	
 	private DriveModule ()
 	{
-		drive.setInvertedMotor (RobotDrive.MotorType.kRearLeft, true);
 	}
 	
 	public void runDisabled ()
