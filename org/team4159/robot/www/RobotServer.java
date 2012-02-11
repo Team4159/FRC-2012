@@ -1,6 +1,7 @@
 package org.team4159.robot.www;
 
 import java.util.Hashtable;
+import org.team4159.boths.Request;
 import org.team4159.boths.Server;
 import org.team4159.boths.views.BroadcastWebSocketView;
 import org.team4159.boths.views.CommandWebSocketView;
@@ -12,6 +13,11 @@ public class RobotServer extends Server
 	public static class RootView extends TemplateView
 	{
 		public RootView () { super ("/www/root.html"); }
+		
+		public Hashtable getContext (Request req)
+		{
+			return super.getContext (req);
+		}
 	}
 	
 	public final BroadcastWebSocketView broadcast = new BroadcastWebSocketView ();
@@ -61,7 +67,7 @@ public class RobotServer extends Server
 	public RobotServer ()
 	{
 		super (8081, 32);
-		addRoute ("/", new TemplateView ("/www/root.html"));
+		addRoute ("/", new RootView ());
 		addRoute ("/broadcast/", broadcast);
 		addRoute ("/command/", command);
 		addRoute ("/files/", new DirectoryView ("/www/files/"), false);
