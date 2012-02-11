@@ -29,7 +29,7 @@ public class PIDModule extends Module
 			em.getRightEncoder (), mm.getRightMotor ());
 		
 		leftPIDBridge = new PIDSetpointController (leftPIDController, SPEED_COEFFICIENT, true);
-		rightPIDBridge = new PIDSetpointController (rightPIDController, SPEED_COEFFICIENT * 0.825, false);
+		rightPIDBridge = new PIDSetpointController (rightPIDController, SPEED_COEFFICIENT * Math.sqrt (0.5), false);
 		
 		leftPIDController.enable ();
 		rightPIDController.enable ();
