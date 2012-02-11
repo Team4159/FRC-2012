@@ -66,16 +66,16 @@ public interface HWPorts {
         {
             int LEFT_DRIVE_ENCODER_A_SOURCE          =  1;
             int LEFT_DRIVE_ENCODER_B_SOURCE          =  2;
-            int RIGHT_DRIVE_ENCODER_A_SOURCE         =  3;
-            int RIGHT_DRIVE_ENCODER_B_SOURCE         =  4;
+            int UNUSED_3                             =  3;
+            int UNUSED_4                             =  4;
             int UNUSED_5                             =  5;
             int UNUSED_6                             =  6;
             int UNUSED_7                             =  7;
             int UNUSED_8                             =  8;
             int UNUSED_9                             =  9;
             int UNUSED_10                            =  10;
-            int UNUSED_11                            =  11;
-            int UNUSED_12                            =  12;
+            int RIGHT_DRIVE_ENCODER_A_SOURCE         =  11;
+            int RIGHT_DRIVE_ENCODER_B_SOURCE         =  12;
             int UNUSED_13                            =  13;
             int UNUSED_14                            =  14;
         }
