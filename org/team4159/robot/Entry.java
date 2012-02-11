@@ -9,11 +9,11 @@ public class Entry extends RobotBase
 {
 	private AbsoluteTimer disabledTimer = new AbsoluteTimer (5);
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (5);
-	private AbsoluteTimer operatorTimer = new AbsoluteTimer (2);
+	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
 	
 	public Entry ()
 	{
-		getWatchdog ().setEnabled (true);
+		getWatchdog ().setEnabled (false);
 		
 		// set up modules
 		configureModules ();
@@ -51,6 +51,7 @@ public class Entry extends RobotBase
 		System.out.println ("Entering main code.");
 		
 		try {
+			getWatchdog ().setEnabled (true);
 			while (true)
 			{
 				if (isDisabled())
