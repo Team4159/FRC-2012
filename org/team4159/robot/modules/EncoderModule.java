@@ -3,7 +3,6 @@ package org.team4159.robot.modules;
 import org.team4159.robot.HWPorts;
 import org.team4159.robot.parts.FixedEncoder;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class EncoderModule extends Module
 {
@@ -33,15 +32,7 @@ public class EncoderModule extends Module
 	{
 		return rightEncoder;
 	}
-	public void runOperator()
-	{
-		DriverStationModule ds = DriverStationModule.getInstance();
-		DriveStickModule dsm = DriveStickModule.getInstance();
-		if(dsm.isVelocityPressed())
-		{
-			ds.printToDriverStation(1,"Current Velocity: " + " to be filled with function code ");
-		}
-	}
+	
 	private static EncoderModule instance;
 	public static synchronized EncoderModule getInstance ()
 	{
