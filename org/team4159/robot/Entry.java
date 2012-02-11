@@ -13,7 +13,7 @@ public class Entry extends RobotBase
 	
 	public Entry ()
 	{
-		getWatchdog ().setEnabled (false);
+		getWatchdog ().setEnabled (true);
 		
 		// set up modules
 		configureModules ();
@@ -50,9 +50,9 @@ public class Entry extends RobotBase
 	{
 		System.out.println ("Entering main code.");
 		
-		while (true)
-		{
-			try {
+		try {
+			while (true)
+			{
 				if (isDisabled())
 					runMode (ModuleController.MODE_DISABLED, disabledTimer);
 				else if (isAutonomous())
@@ -60,10 +60,11 @@ public class Entry extends RobotBase
 				else
 					runMode (ModuleController.MODE_OPERATOR, operatorTimer);
 				getWatchdog ().feed ();
-			} catch (Throwable t) {
-				System.err.println ("SEVERE ERROR: " + t);
-				t.printStackTrace ();
 			}
+		} catch (Throwable t) {
+			System.err.println ("SEVERE ERROR: " + t);
+			t.printStackTrace ();
+			getWatchdog ().kill ();
 		}
 	}
 	
