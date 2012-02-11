@@ -10,8 +10,13 @@ public class PIDSetpointController implements SpeedController {
 	
 	public PIDSetpointController (PIDController controller, double speedCoefficient)
 	{
+		this (controller, speedCoefficient, false);
+	}
+	
+	public PIDSetpointController (PIDController controller, double speedCoefficient, boolean reversed)
+	{
 		this.controller = controller;
-		this.speedCoefficient = speedCoefficient;
+		this.speedCoefficient = reversed ? -speedCoefficient : speedCoefficient;
 	}
 
 	public double get() {
