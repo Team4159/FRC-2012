@@ -8,6 +8,7 @@ public class DriveModule extends Module
 	
 	private DriveModule ()
 	{
+		drive.setExpiration (0.20);
 	}
 	
 	public void runDisabled ()
