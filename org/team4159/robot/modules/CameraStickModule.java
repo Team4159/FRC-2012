@@ -2,6 +2,7 @@ package org.team4159.robot.modules;
 
 import org.team4159.robot.HWPorts;
 import org.team4159.robot.parts.AdjustedJoystick;
+import edu.wpi.first.wpilibj.Joystick;
 
 public class CameraStickModule extends Module
 {
@@ -10,6 +11,11 @@ public class CameraStickModule extends Module
 	private CameraStickModule ()
 	{
 		stick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
+	}
+	
+	public Joystick getJoystick ()
+	{
+		return stick;
 	}
 	
 	public double getHorizontal ()
