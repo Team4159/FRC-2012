@@ -20,14 +20,14 @@ public interface HWPorts {
     //on NI-92**  need model number.
     interface AnalogInput
     {
-        int ULTRASONIC_FRONT     =  1;//ultrasonic sensor for front
-        int GYRO                 =  2;
-        int UNUSED_3             =  3;
-        int UNUSED_4             =  4;
-        int UNUSED_5             =  5;
+        int GYRO                 =  1;//ultrasonic sensor for front
+        int ULTRASONIC_FRONT     =  2;
+        int ULTRASONIC_BACK      =  3;
+        int ULTRASONIC_LEFT      =  4;
+        int ULTRASONIC_RIGHT     =  5;
         int UNUSED_6             =  6;
         int UNUSED_7             =  7;
-        int BATTERY_VOLTAGE      =  8;//needs to add the voltage measuring pwm + should be jumpered.
+        int BATTERY_VOLTAGE      =  8;
     }
     
     //digitall sidecar ports including PWM, Relay, DigitalIO, I2CSpare
