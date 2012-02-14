@@ -6,12 +6,23 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class PIDModule extends Module
 {
+	/*														*
+					     _.--""--._
+					    /  _    _  \
+					 _  ( (_\  /_) )  _
+					{ \._\   /\   /_./ }
+					/_"=-.}______{.-="_\
+					 _  _.=("""")=._  _
+					(_'"_.-"`~~`"-._"'_)
+					 {_"            "_}
+	 *														*/
 	// MAKE SURE THESE ARE NEGATIVE OR YOU DIE!!!
-	private static final double PID_KP = -0.30;
-	private static final double PID_KI = -0.15;
-	private static final double PID_KD = -0.05;
+	// IF YOU THINK I'M JOKING... DO IT AT YOUR OWN RISK.
+	private static final double PID_KP = -0.40;
+	private static final double PID_KI = -0.20;
+	private static final double PID_KD = -0.10;
 	
-	private static final double SPEED_COEFFICIENT = 6.0;
+	private static final double SPEED_COEFFICIENT = 7.2;
 	
 	private final PIDController leftPIDController;
 	private final PIDController rightPIDController;
