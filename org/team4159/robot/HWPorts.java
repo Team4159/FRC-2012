@@ -79,14 +79,6 @@ public interface HWPorts {
             int UNUSED_13                            =  13;
             int UNUSED_14                            =  14;
         }
-        
-        // 4 I2C Spare Output Ports
-        interface I2CSpare {
-            int UNUSED_1 = 1;
-            int UNUSED_2 = 2;
-            int UNUSED_3 = 3;
-            int UNUSED_4 = 4;
-        }
     }
     
 }
