@@ -42,8 +42,8 @@ public interface HWPorts {
             int CAMERA_VERTICAL_SERVO      =  4; // vertical servo control for camera, rotates up/down
             int BRIDGE_MANIP_VICTOR        =  5;// single victor for two motors on bridge manipulator
             int UNUSED_6                   =  6;
-            int UNUSED_7                   =  7;
-            int UNUSED_8                   =  8;
+            int BALL_LAUNCHER_UPPER_MOTOR  =  7;
+            int BALL_LAUNCHER_LOWER_MOTOR  =  8;
             int UNUSED_9                   =  9;
             int UNUSED_10                  =  10;
         }
