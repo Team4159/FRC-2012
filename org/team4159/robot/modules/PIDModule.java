@@ -6,6 +6,16 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class PIDModule extends Module
 {
+	/*														*
+					     _.--""--._
+					    /  _    _  \
+					 _  ( (_\  /_) )  _
+					{ \._\   /\   /_./ }
+					/_"=-.}______{.-="_\
+					 _  _.=("""")=._  _
+					(_'"_.-"`~~`"-._"'_)
+					 {_"            "_}
+	 *														*/
 	// MAKE SURE THESE ARE NEGATIVE OR YOU DIE!!!
 	private static final double PID_KP = -0.30;
 	private static final double PID_KI = -0.15;
