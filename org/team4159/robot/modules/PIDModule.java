@@ -18,11 +18,11 @@ public class PIDModule extends Module
 	 *														*/
 	// MAKE SURE THESE ARE NEGATIVE OR YOU DIE!!!
 	// IF YOU THINK I'M JOKING... DO IT AT YOUR OWN RISK.
-	private static final double PID_KP = -0.40;
-	private static final double PID_KI = -0.20;
-	private static final double PID_KD = -0.10;
+	private static final double PID_KP = -0.30;
+	private static final double PID_KI = -0.15;
+	private static final double PID_KD = -0.05;
 	
-	private static final double SPEED_COEFFICIENT = 7.2;
+	private static final double SPEED_COEFFICIENT = 4.0;
 	
 	private final PIDController leftPIDController;
 	private final PIDController rightPIDController;
@@ -39,8 +39,8 @@ public class PIDModule extends Module
 		rightPIDController = new PIDController (PID_KP, PID_KI, PID_KD,
 			em.getRightEncoder (), mm.getRightMotor ());
 		
-		leftPIDBridge = new PIDSetpointController (leftPIDController, SPEED_COEFFICIENT, true);
-		rightPIDBridge = new PIDSetpointController (rightPIDController, SPEED_COEFFICIENT * Math.sqrt (0.5), false);
+		leftPIDBridge = new PIDSetpointController (leftPIDController, SPEED_COEFFICIENT, false);
+		rightPIDBridge = new PIDSetpointController (rightPIDController, SPEED_COEFFICIENT, false);
 		
 		leftPIDController.enable ();
 		rightPIDController.enable ();
