@@ -10,6 +10,7 @@ public abstract class ModuleController
 	public static final int MODE_OPERATOR = 2;
 	
 	private static final SquawkVector modules = new SquawkVector ();
+	private static int lastMode = -1;
 	
 	public static synchronized void addModule (Module module)
 	{
@@ -23,6 +24,14 @@ public abstract class ModuleController
 	{
 		int sz = modules.size ();
 		boolean rawe = false;
+		
+		boolean modeChanged = false;
+		if (lastMode != mode)
+		{
+			lastMode = mode;
+			modeChanged = true;
+		}
+		
 		for (int i = 0; i < sz; i++)
 		{
 			Module m = (Module) modules.elementAt (i);
@@ -30,12 +39,18 @@ public abstract class ModuleController
 				switch (mode)
 				{
 					case MODE_DISABLED:
+						if (modeChanged)
+							m.enterDisabled ();
 						m.runDisabled ();
 						break;
 					case MODE_AUTONOMOUS:
+						if (modeChanged)
+							m.enterAutonomous ();
 						m.runAutonomous ();
 						break;
 					case MODE_OPERATOR:
+						if (modeChanged)
+							m.enterOperator ();
 						m.runOperator ();
 						break;
 					default:
