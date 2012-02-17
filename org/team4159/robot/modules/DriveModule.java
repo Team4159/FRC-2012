@@ -18,7 +18,11 @@ public class DriveModule extends Module
 	
 	public void runAutonomous ()
 	{
-		/* TO BE IMPLEMENTED */
+		UltrasonicModule um = UltrasonicModule.getInstance();
+		if(um.getBackDistance()> 50)
+		{
+			drive.arcadeDrive(-.2, 0);
+		}
 	}
 	
 	public void runOperator ()

@@ -10,9 +10,15 @@ public class BridgeManipModule extends Module
 	{
 		CameraStickModule dsm = CameraStickModule.getInstance();
 		if(dsm.isBridgeManipButtonPressed())
+		{
 			bridgeManipulator.set(dsm.getVertical());
+			DriverStationModule.getInstance().printToDriverStation(3, "BRIDGE MANIPULATOR IS ACTIVATED");
+		}
 		else
+		{
 			bridgeManipulator.set (0.0);
+			DriverStationModule.getInstance().printToDriverStation(3, "BRIDGE MANIPULATOR IS NOT ACTIVATED");
+		}
 	}
 	
 	private static BridgeManipModule instance;

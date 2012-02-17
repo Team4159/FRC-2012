@@ -13,6 +13,15 @@ public class GyroModule extends Module
 		sensor.setSensitivity(.0125);//frc default value, once set, angle will be more stable.
 	}
 	
+	public void runOperator()
+	{
+		CameraStickModule csm = CameraStickModule.getInstance();
+		if(csm.isGetGyroButtonPressed())
+		{
+			DriverStationModule.getInstance().printToDriverStation(2," " + sensor.getAngle());
+		}
+		
+	}
 	private static GyroModule instance;
 	public static synchronized GyroModule getInstance ()
 	{
