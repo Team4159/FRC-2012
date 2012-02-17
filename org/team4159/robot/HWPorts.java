@@ -44,21 +44,21 @@ public interface HWPorts {
             int UNUSED_6                   =  6;
             int BALL_LAUNCHER_UPPER_MOTOR  =  7;
             int BALL_LAUNCHER_LOWER_MOTOR  =  8;
-            int UNUSED_9                   =  9;
-            int UNUSED_10                  =  10;
+            int LOWER_BALL_PICKUP          =  9;
+            int UPPER_BALL_PICKUP          =  10;
         }
         
         //8 Relay Ports
         interface Relay
         {
-            int UNUSED_1       =  1;//should add in LED for diagnostic / signal
-            int UNUSED_2       =  2;
-            int UNUSED_3       =  3;
-            int UNUSED_4       =  4;
-            int UNUSED_5       =  5;
-            int UNUSED_6       =  6;
-            int UNUSED_7       =  7;
-            int UNUSED_8       =  8;
+            int BALL_PICKUP_GROUND    =  1;
+            int BALL_PICKUP_SHOOT     =  2;
+            int UNUSED_3              =  3;
+            int UNUSED_4              =  4;
+            int UNUSED_5              =  5;
+            int UNUSED_6              =  6;
+            int UNUSED_7              =  7;
+            int UNUSED_8              =  8;
         }
         
         //14 Digital I/O Ports
