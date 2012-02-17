@@ -18,7 +18,7 @@ public class BallLauncherModule extends Module
 		CameraStickModule csm = CameraStickModule.getInstance();
 		if(csm.isBallLauncherTriggerPressed())
 		{
-			lowerMotor.set(1);
+			lowerMotor.set(.2);
 			upperMotor.set(csm.getVertical());
 		}
 	}
