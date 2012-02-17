@@ -11,6 +11,7 @@ public class MotorModule extends Module
 	
 	private MotorModule ()
 	{
+		essential = true;
 		leftMotor.enableDeadbandElimination (true);
 		rightMotor.enableDeadbandElimination (true);
 	}

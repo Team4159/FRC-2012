@@ -31,6 +31,8 @@ public class PIDModule extends Module
 	
 	private PIDModule ()
 	{
+		essential = true;
+		
 		EncoderModule em = EncoderModule.getInstance ();
 		MotorModule mm = MotorModule.getInstance ();
 		

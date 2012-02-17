@@ -8,6 +8,7 @@ public class DriveModule extends Module
 	
 	private DriveModule ()
 	{
+		essential = true;
 		drive.setExpiration (0.20);
 	}
 	
