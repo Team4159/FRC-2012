@@ -5,22 +5,29 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class PIDSetpointController implements SpeedController {
 	
-	private final PIDController controller;
+	private final PIDController pidController;
+	private final SpeedController speedController;
+	private final boolean reversed;
 	private final double speedCoefficient;
 	
-	public PIDSetpointController (PIDController controller, double speedCoefficient)
+	public PIDSetpointController (PIDController controller, SpeedController speedController, double speedCoefficient)
 	{
-		this (controller, speedCoefficient, false);
+		this (controller, speedController, speedCoefficient, false);
 	}
 	
-	public PIDSetpointController (PIDController controller, double speedCoefficient, boolean reversed)
+	public PIDSetpointController (PIDController pidController, SpeedController speedController, double speedCoefficient, boolean reversed)
 	{
-		this.controller = controller;
+		this.pidController = pidController;
+		this.speedController = speedController;
+		this.reversed = reversed;
 		this.speedCoefficient = reversed ? -speedCoefficient : speedCoefficient;
 	}
 
 	public double get() {
-		return controller.getSetpoint () / speedCoefficient;
+		if (pidController.isEnable ())
+			return pidController.getSetpoint () / speedCoefficient;
+		else
+			return speedController.get ();
 	}
 
 	public void set(double speed, byte syncGroup) {
@@ -28,11 +35,14 @@ public class PIDSetpointController implements SpeedController {
 	}
 
 	public void set(double speed) {
-		controller.setSetpoint (speed * speedCoefficient);
+		if (pidController.isEnable ())
+			pidController.setSetpoint (speed * speedCoefficient);
+		else
+			speedController.set (speed);
 	}
 
 	public void disable() {
-		controller.disable ();
+		pidController.disable ();
 	}
 
 	public void pidWrite(double output) {

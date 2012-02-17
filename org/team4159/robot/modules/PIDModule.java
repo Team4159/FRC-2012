@@ -29,6 +29,8 @@ public class PIDModule extends Module
 	private final PIDSetpointController leftPIDBridge;
 	private final PIDSetpointController rightPIDBridge;
 	
+	private boolean pidEnabled = false;
+	
 	private PIDModule ()
 	{
 		essential = true;
@@ -41,11 +43,43 @@ public class PIDModule extends Module
 		rightPIDController = new PIDController (PID_KP, PID_KI, PID_KD,
 			em.getRightEncoder (), mm.getRightMotor ());
 		
-		leftPIDBridge = new PIDSetpointController (leftPIDController, SPEED_COEFFICIENT, true);
-		rightPIDBridge = new PIDSetpointController (rightPIDController, SPEED_COEFFICIENT, false);
+		leftPIDBridge = new PIDSetpointController (leftPIDController, mm.getLeftMotor (), SPEED_COEFFICIENT, true);
+		rightPIDBridge = new PIDSetpointController (rightPIDController, mm.getRightMotor (), SPEED_COEFFICIENT, false);
+		
+		enablePID ();
+	}
+	
+	public void enterAutonomous ()
+	{
+		enablePID ();
+	}
+	
+	public void runOperator ()
+	{
+		if (DriveStickModule.getInstance ().isDisablePIDPressed ())
+			disablePID ();
+		else
+			enablePID ();
+	}
+	
+	private void enablePID ()
+	{
+		if (pidEnabled)
+			return;
+		pidEnabled = true;
 		
 		leftPIDController.enable ();
 		rightPIDController.enable ();
+	}
+	
+	private void disablePID ()
+	{
+		if (!pidEnabled)
+			return;
+		pidEnabled = false;
+		
+		leftPIDController.disable ();
+		rightPIDController.disable ();
 	}
 	
 	public RobotDrive createDrive ()
