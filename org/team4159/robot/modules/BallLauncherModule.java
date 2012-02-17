@@ -8,11 +8,12 @@ public class BallLauncherModule extends Module
 	private final Victor upperMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_UPPER_MOTOR);
 	private final Victor lowerMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_LOWER_MOTOR);
 	
-	public void BallLauncherModule()
+	public BallLauncherModule()
 	{
 		upperMotor.enableDeadbandElimination(true);
 		lowerMotor.enableDeadbandElimination(true);
 	}
+	
 	public void runOperator()
 	{
 		CameraStickModule csm = CameraStickModule.getInstance();
