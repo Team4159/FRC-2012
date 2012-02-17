@@ -33,6 +33,14 @@ public class CameraStickModule extends Module
 		return stick.getRawButton(BRIDGE_MANIP_ACTIVATOR);
 	}
 
+	public boolean isBallPickUpButtonPressed()
+	{
+		return stick.getRawButton(BALL_PICKUP_GROUND);
+	}
+	public boolean isBallPickUpToShootButtonPressed()
+	{
+		return stick.getRawButton(BALL_PICKUP_SHOOT);
+	}
 	
 	private static CameraStickModule instance;
 	public static synchronized CameraStickModule getInstance ()
@@ -45,8 +53,8 @@ public class CameraStickModule extends Module
 	private static final int BUTTON_UNUSED1          = 1;
 	private static final int BUTTON_UNUSED2          = 2;
 	private static final int BRIDGE_MANIP_ACTIVATOR  = 3;
-	private static final int BUTTON_UNUSED4          = 4;
-	private static final int BUTTON_UNUSED5          = 5;
+	private static final int BALL_PICKUP_GROUND      = 4;
+	private static final int BALL_PICKUP_SHOOT       = 5;
 	private static final int BUTTON_UNUSED6          = 6;
 	private static final int BUTTON_UNUSED7          = 7;
 	private static final int BUTTON_UNUSED8          = 8;
