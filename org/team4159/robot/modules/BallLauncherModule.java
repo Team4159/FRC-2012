@@ -14,6 +14,23 @@ public class BallLauncherModule extends Module
 		lowerMotor.enableDeadbandElimination(true);
 	}
 	
+	public void runAutonomous()
+	{
+		/*
+		 * minimum velocity equation:  = sqrt of (-9.8 * horizontal distance^2)/(2*cos^2 theta(vertical distance - horizontal distance*tan theta))
+		 * 
+		 * minimum power needed = 3600 * min velocity / ((1.85)(7300)(Math.PI)) 
+		 * this is a proportion already, can be plugged right into the motor.set(minimum power);
+		 * 
+		 * you need to figure out how to move to a designated position and then use that position for horizontal distance.
+		 * the vertical distance is 68 inches, theta = 45;
+		 * 
+		 * Also needed to implement drive to the correct position then trigger a boolean to fire 
+		 * can use ultrasonic sensors to find distance
+		 * 
+		 */
+	}
+	
 	public void runOperator()
 	{
 		CameraStickModule csm = CameraStickModule.getInstance();
