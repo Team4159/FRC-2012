@@ -27,7 +27,7 @@ public class PIDSetpointController implements SpeedController {
 		if (pidController.isEnable ())
 			return pidController.getSetpoint () / speedCoefficient;
 		else
-			return speedController.get ();
+			return speedController.get () * (reversed ? -1 : 1);
 	}
 
 	public void set(double speed, byte syncGroup) {
@@ -38,7 +38,7 @@ public class PIDSetpointController implements SpeedController {
 		if (pidController.isEnable ())
 			pidController.setSetpoint (speed * speedCoefficient);
 		else
-			speedController.set (speed);
+			speedController.set (speed * (reversed ? -1 : 1));
 	}
 
 	public void disable() {
