@@ -12,8 +12,7 @@ public class BallPickUpModule extends Module
 	{
 		CameraStickModule dsm = CameraStickModule.getInstance();
 		DriverStationModule ds = DriverStationModule.getInstance();
-		
-		if(dsm.isBallPickUpButtonPressed())
+		/*if(dsm.isBallPickUpButtonPressed())
 		{
 			ballPickUpFromGround.set(Relay.Value.kOn);
 			ds.printToDriverStation(0, "BALL PICKUP IN PROGRESS ");
@@ -32,7 +31,7 @@ public class BallPickUpModule extends Module
 		{
 			ballPickUpToShoot.set(Relay.Value.kOff);
 			ds.printToDriverStation(1, "BALL PICKUP SYSTEM OCCUPIED");
-		}
+		}*/
 	}
 	
 	private static BallPickUpModule instance;

@@ -26,7 +26,7 @@ public class Entry extends RobotBase
 		ModuleController.addModule (CameraStickModule.getInstance ());
 		ModuleController.addModule(DriverStationModule.getInstance());
 		ModuleController.addModule (RobotServerModule.getInstance ());
-		
+//		
 		// initialize sensors
 		ModuleController.addModule (AccelerometerModule.getInstance ());
 		//ModuleController.addModule (CameraModule.getInstance ());

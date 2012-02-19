@@ -30,11 +30,13 @@ public class CameraStickModule extends Module
 
 	public boolean isBridgeManipButtonPressed()
 	{
+		System.out.println("birdge Manip pressed");
 		return stick.getRawButton(BRIDGE_MANIP_ACTIVATOR);
 	}
 
 	public boolean isBallPickUpButtonPressed()
 	{
+		System.out.println("ball Pickup pressed");
 		return stick.getRawButton(BALL_PICKUP_GROUND);
 	}
 	public boolean isBallPickUpToShootButtonPressed()
