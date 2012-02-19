@@ -41,6 +41,11 @@ public class BallLauncherModule extends Module
 		}
 	}
 	
+	public void setAngle (double angle)
+	{
+		/* TO BE IMPLEMENTED / CALIBRATED */
+	}
+	
 	private static BallLauncherModule instance;
 	public static synchronized BallLauncherModule getInstance ()
 	{
