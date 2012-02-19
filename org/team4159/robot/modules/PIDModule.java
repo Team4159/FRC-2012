@@ -43,7 +43,7 @@ public class PIDModule extends Module
 		rightPIDController = new PIDController (PID_KP, PID_KI, PID_KD,
 			em.getRightEncoder (), mm.getRightMotor ());
 		
-		leftPIDBridge = new PIDSetpointController (leftPIDController, mm.getLeftMotor (), SPEED_COEFFICIENT, false);
+		leftPIDBridge = new PIDSetpointController (leftPIDController, mm.getLeftMotor (), SPEED_COEFFICIENT, true);
 		rightPIDBridge = new PIDSetpointController (rightPIDController, mm.getRightMotor (), SPEED_COEFFICIENT, false);
 		
 		enablePID ();
