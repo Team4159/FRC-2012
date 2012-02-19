@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 public class Entry extends RobotBase
 {
+	public static final boolean DEBUG = false;
+	
 	private AbsoluteTimer disabledTimer = new AbsoluteTimer (5);
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (5);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (5);
