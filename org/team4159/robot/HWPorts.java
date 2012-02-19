@@ -51,10 +51,10 @@ public interface HWPorts {
         //8 Relay Ports
         interface Relay
         {
-            int BALL_PICKUP_GROUND    =  1;
-            int BALL_PICKUP_SHOOT     =  2;
-            int UNUSED_3              =  3;
-            int UNUSED_4              =  4;
+            int UNUSED_1              =  1;
+            int UNUSED_2              =  2;
+            int UPPER_PICKUP          =  3;
+            int LOWER_PICKUP          =  4;
             int UNUSED_5              =  5;
             int UNUSED_6              =  6;
             int UNUSED_7              =  7;

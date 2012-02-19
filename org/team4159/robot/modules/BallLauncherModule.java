@@ -1,6 +1,7 @@
 package org.team4159.robot.modules;
 
 import org.team4159.robot.HWPorts;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Victor;
 
 public class BallLauncherModule extends Module
@@ -34,11 +35,15 @@ public class BallLauncherModule extends Module
 	public void runOperator()
 	{
 		CameraStickModule csm = CameraStickModule.getInstance();
-		if(csm.isBallLauncherTriggerPressed())
-		{
-			lowerMotor.set(.2);
-			upperMotor.set(csm.getVertical());
-		}
+		
+		double speed = 0;
+		if (csm.isBallLauncherTriggerPressed ())
+			speed = Math.max (csm.getVertical (), 0.0);
+		
+		DriverStationModule.getInstance ().printToDriverStation (0, "BALL LAUNCHER SPEED: " + speed);
+		
+		lowerMotor.set (-speed);
+		upperMotor.set (speed);
 	}
 	
 	public void setAngle (double angle)

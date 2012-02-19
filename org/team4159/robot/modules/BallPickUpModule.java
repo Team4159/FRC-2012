@@ -1,17 +1,26 @@
 package org.team4159.robot.modules;
 
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Direction;
 import org.team4159.robot.HWPorts;
 
 public class BallPickUpModule extends Module
 {
-	private final Relay ballPickUpFromGround = new Relay(HWPorts.Digital_Sidecar.Relay.BALL_PICKUP_GROUND);
-	private final Relay ballPickUpToShoot = new Relay(HWPorts.Digital_Sidecar.Relay.BALL_PICKUP_SHOOT);
+	private final Relay upperPickup = new Relay(HWPorts.Digital_Sidecar.Relay.UPPER_PICKUP);
+	private final Relay lowerPickup = new Relay(HWPorts.Digital_Sidecar.Relay.LOWER_PICKUP);
+	
+	private BallPickUpModule ()
+	{
+		upperPickup.setDirection (Direction.kForward);
+		lowerPickup.setDirection (Direction.kForward);
+	}
 	
 	public void runOperator()
 	{
-		CameraStickModule dsm = CameraStickModule.getInstance();
-		DriverStationModule ds = DriverStationModule.getInstance();
+		CameraStickModule csm = CameraStickModule.getInstance();
+		lowerPickup.set (csm.isLowerPickupPressed () ? Relay.Value.kOn : Relay.Value.kOff);
+		upperPickup.set (csm.isUpperPickupPressed () ? Relay.Value.kOn : Relay.Value.kOff);
+		
 		/*if(dsm.isBallPickUpButtonPressed())
 		{
 			ballPickUpFromGround.set(Relay.Value.kOn);
