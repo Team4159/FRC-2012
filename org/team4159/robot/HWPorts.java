@@ -44,8 +44,8 @@ public interface HWPorts {
             int UNUSED_6                   =  6;
             int BALL_LAUNCHER_UPPER_MOTOR  =  7;
             int BALL_LAUNCHER_LOWER_MOTOR  =  8;
-            int LOWER_BALL_PICKUP          =  9;
-            int UPPER_BALL_PICKUP          =  10;
+            int UNUSED_9                   =  9;
+            int UNUSED_10                  =  10;
         }
         
         //8 Relay Ports
