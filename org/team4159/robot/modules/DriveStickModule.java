@@ -21,6 +21,7 @@ public class DriveStickModule extends Module
 	
 	public boolean isVelocityPressed() { return stick.getRawButton(GET_CURRENT_VELOCITY);} // may need to change button number
 	public boolean isDisablePIDPressed () { return stick.getRawButton (DISABLE_PID); }
+	public boolean isBridgeManipButtonPressed () { return stick.getRawButton (BRIDGE_MANIP); }
 	public double getMoveValue () { return stick.getY (); }
 	public double getRotateValue () { return stick.getX (); }
 	
@@ -34,7 +35,7 @@ public class DriveStickModule extends Module
 	private static final int BUTTON_UNUSED1          = 1;
 	private static final int DISABLE_PID             = 2;
 	private static final int BUTTON_UNUSED3          = 3;
-	private static final int BUTTON_UNUSED4          = 4;
+	private static final int BRIDGE_MANIP            = 4;
 	private static final int BUTTON_UNUSED5          = 5;
 	private static final int GET_CURRENT_VELOCITY    = 6;
 	private static final int BUTTON_UNUSED7          = 7;

@@ -29,7 +29,10 @@ public class DriveModule extends Module
 	public void runOperator ()
 	{
 		DriveStickModule dsm = DriveStickModule.getInstance ();
-		drive.arcadeDrive (dsm.getMoveValue (), dsm.getRotateValue ());
+		if (dsm.isBridgeManipButtonPressed ())
+			drive.stopMotor ();
+		else
+			drive.arcadeDrive (dsm.getMoveValue (), dsm.getRotateValue ());
 	}
 	
 	private static DriveModule instance;
