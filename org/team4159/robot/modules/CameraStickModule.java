@@ -32,27 +32,15 @@ public class CameraStickModule extends Module
 	{
 		return (1.0 - stick.getZ ()) / 2;
 	}
-
-	public boolean isUpperPickupPressed ()
-	{
-		return stick.getRawButton (UPPER_PICKUP);
-	}
 	
-	public boolean isLowerPickupPressed ()
-	{
-		return stick.getRawButton (LOWER_PICKUP);
-	}
-
-	public boolean isBallLauncherTriggerPressed()
+	public boolean isUpperPickupPressed ()
 	{
 		return stick.getTrigger();
 	}
 	
+	
 	public boolean isBridgeUpPressed () { return stick.getRawButton (BRIDGE_UP); }
 	public boolean isBridgeDownPressed () { return stick.getRawButton (BRIDGE_DOWN); }
-	
-	public boolean isLockLauncherPressed () { return stick.getRawButton (LOCK_LAUNCHER); }
-	public boolean isUnlockLauncherPressed () { return stick.getRawButton (UNLOCK_LAUNCHER); }
 	
 	private static CameraStickModule instance;
 	public static synchronized CameraStickModule getInstance ()
@@ -63,12 +51,12 @@ public class CameraStickModule extends Module
 	}
 
 	private static final int BUTTON_UNUSED1          = 1;
-	private static final int LOWER_PICKUP            = 2;
-	private static final int UPPER_PICKUP            = 3;
+	private static final int BRIDGE_DOWN             = 2;
+	private static final int BRIDGE_UP               = 3;
 	private static final int LOCK_LAUNCHER           = 4;
 	private static final int UNLOCK_LAUNCHER         = 5;
-	private static final int BRIDGE_UP               = 6;
-	private static final int BRIDGE_DOWN             = 7;
+	private static final int UNUSED_6                = 6;
+	private static final int UNUSED_7                = 7;
 	private static final int BUTTON_UNUSED8          = 8;
 	private static final int BUTTON_UNUSED9          = 9;
 	private static final int BUTTON_UNUSED10         = 10;

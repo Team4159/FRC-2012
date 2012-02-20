@@ -17,30 +17,11 @@ public class BallPickUpModule extends Module
 	
 	public void runOperator()
 	{
+		DriveStickModule dsm = DriveStickModule.getInstance();
 		CameraStickModule csm = CameraStickModule.getInstance();
-		lowerPickup.set (csm.isLowerPickupPressed () ? Relay.Value.kOn : Relay.Value.kOff);
+		lowerPickup.set (dsm.isLowerPickupPressed () ? Relay.Value.kOn : Relay.Value.kOff);
 		upperPickup.set (csm.isUpperPickupPressed () ? Relay.Value.kOn : Relay.Value.kOff);
-		
-		/*if(dsm.isBallPickUpButtonPressed())
-		{
-			ballPickUpFromGround.set(Relay.Value.kOn);
-			ds.printToDriverStation(0, "BALL PICKUP IN PROGRESS ");
-		}
-		else
-		{
-			ballPickUpFromGround.set(Relay.Value.kOff);
-			ds.printToDriverStation(0, "BALL PICKUP OFF");
-		}
-		if(dsm.isBallPickUpToShootButtonPressed())
-		{
-			ballPickUpToShoot.set(Relay.Value.kOn);
-			ds.printToDriverStation(1, "FEEDING BALL INTO THE LAUNCHER");
-		}
-		else
-		{
-			ballPickUpToShoot.set(Relay.Value.kOff);
-			ds.printToDriverStation(1, "BALL PICKUP SYSTEM OCCUPIED");
-		}*/
+
 	}
 	
 	private static BallPickUpModule instance;
