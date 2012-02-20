@@ -29,9 +29,9 @@ public class DriveModule extends Module
 	public void runOperator ()
 	{
 		DriveStickModule dsm = DriveStickModule.getInstance ();
-		if (dsm.isBridgeManipButtonPressed ())
-			drive.stopMotor ();
-		else
+		//if (dsm.isBridgeManipButtonPressed ())
+		//	drive.stopMotor ();
+		//else
 			drive.arcadeDrive (dsm.getMoveValue (), dsm.getRotateValue ());
 	}
 	

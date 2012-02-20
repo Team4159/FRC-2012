@@ -16,13 +16,13 @@ public class PIDModule extends Module
 					(_'"_.-"`~~`"-._"'_)
 					 {_"            "_}
 	 *														*/
-	// MAKE SURE THESE ARE NEGATIVE OR YOU DIE!!!
+	// MAKE SURE THESE ARE POSITIVE OR YOU DIE!!!
 	// IF YOU THINK I'M JOKING... DO IT AT YOUR OWN RISK.
-	private static final double PID_KP = 0.24;
-	private static final double PID_KI = 0.04;
-	private static final double PID_KD = 0.04;
+	private static final double PID_KP = 0.40;
+	private static final double PID_KI = 0.12;
+	private static final double PID_KD = 0.012;
 	
-	private static final double SPEED_COEFFICIENT = 4.8;
+	private static final double SPEED_COEFFICIENT = 6.0;
 	
 	private final PIDController leftPIDController;
 	private final PIDController rightPIDController;

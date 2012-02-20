@@ -1,15 +1,18 @@
 package org.team4159.robot.parts;
 
+import org.team4159.robot.modules.DriverStationModule;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class PrintSpeedController implements SpeedController
 {
 	private final SpeedController sub;
+	private final int row;
 	private final String name;
 	
-	public PrintSpeedController (SpeedController sub, String name)
+	public PrintSpeedController (SpeedController sub, int row, String name)
 	{
 		this.sub = sub;
+		this.row = row;
 		this.name = name;
 	}
 
@@ -30,7 +33,7 @@ public class PrintSpeedController implements SpeedController
 
 	public void set (double speed)
 	{
-		System.out.println (name + ": " + speed);
+		DriverStationModule.getInstance ().printToDriverStation (row, name + ": " + speed);
 		sub.set (speed);
 	}
 

@@ -15,11 +15,13 @@ public class GyroModule extends Module
 	
 	public void runOperator()
 	{
+		/*
 		CameraStickModule csm = CameraStickModule.getInstance();
 		if(csm.isGetGyroButtonPressed())
 		{
-			DriverStationModule.getInstance().printToDriverStation(2," " + sensor.getAngle());
+			DriverStationModule.getInstance().printToDriverStation("" + sensor.getAngle());
 		}
+		*/
 		
 	}
 	private static GyroModule instance;

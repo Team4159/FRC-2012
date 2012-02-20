@@ -8,9 +8,19 @@ public class BridgeManipModule extends Module
 	
 	public void runOperator ()
 	{
-		DriveStickModule dsm = DriveStickModule.getInstance();
-		if(dsm.isBridgeManipButtonPressed())
-			bridgeManipulator.set(dsm.getJoystick ().getY ());
+		CameraStickModule csm = CameraStickModule.getInstance();
+		if (csm.isBridgeUpPressed ())
+		{
+			bridgeManipulator.set (0.5);
+			System.out.println ("UP");
+		}
+		else if (csm.isBridgeDownPressed ())
+		{
+			bridgeManipulator.set (-0.5);
+			System.out.println ("DOWN");
+		}
+		else
+			bridgeManipulator.set (0.0);
 	}
 	
 	private static BridgeManipModule instance;

@@ -12,8 +12,8 @@ public interface HWPorts {
     interface USBController
     {
         int DRIVE_STICK          =  1; //standard joystick
-        int CAMERA_STICK         =  2; // standard joystick
-        int UNUSED_3             =  3;
+        int CAMERA_STICK         =  3; // standard joystick
+        int UNUSED_2             =  2;
         int UNUSED_4             =  4;
     }
     

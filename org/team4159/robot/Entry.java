@@ -16,6 +16,7 @@ public class Entry extends RobotBase
 	public Entry ()
 	{
 		getWatchdog ().setEnabled (false);
+		getWatchdog ().setExpiration (1.0);
 		
 		// set up modules
 		configureModules ();
@@ -55,7 +56,7 @@ public class Entry extends RobotBase
 		System.out.println ("Entering main code.");
 		
 		try {
-			getWatchdog ().setEnabled (true);
+			getWatchdog ().setEnabled (false);
 			while (true)
 			{
 				if (isDisabled())

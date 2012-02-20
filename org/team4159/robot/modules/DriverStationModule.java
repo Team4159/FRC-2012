@@ -1,15 +1,31 @@
 package org.team4159.robot.modules;
 import edu.wpi.first.wpilibj.DriverStationLCD;
+import edu.wpi.first.wpilibj.DriverStationLCD.Line;
 
 public class DriverStationModule extends Module
 {
-	private DriverStationLCD ds;
-	private static DriverStationModule instance;
-	public void printToDriverStation(int startingColumn, String text )
+	private static final Line[] lines = {
+		Line.kMain6,
+		Line.kUser2,
+		Line.kUser3,
+		Line.kUser4,
+		Line.kUser5,
+		Line.kUser6
+	};
+	
+	private DriverStationLCD lcd = DriverStationLCD.getInstance ();
+	
+	public void printToDriverStation (int row, String text)
 	{
-		ds.println(DriverStationLCD.Line.kMain6, startingColumn, text);
-		ds.updateLCD();
+		StringBuffer sb = new StringBuffer (text);
+		while (sb.length () < DriverStationLCD.kLineLength)
+			sb.append (' ');
+		
+		lcd.println(lines[row], 1, sb.toString ());
+		lcd.updateLCD ();
 	}
+	
+	private static DriverStationModule instance;
 	public static synchronized DriverStationModule getInstance ()
 	{
 		if (instance == null)

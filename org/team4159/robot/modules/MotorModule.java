@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class MotorModule extends Module
 {
-	private static final boolean DISABLED = true;
+	private static final boolean DISABLED = false;
 	
 	private final Jaguar leftMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.LEFT_MOTOR_JAGUAR);
 	private final Jaguar rightMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.RIGHT_MOTOR_JAGUAR);
 	
-	private final SpeedController wrappedLeftMotor = Entry.DEBUG ? new PrintSpeedController (leftMotor, "LEFT") : null;
-	private final SpeedController wrappedRightMotor = Entry.DEBUG ? new PrintSpeedController (rightMotor, "RIGHT") : null;
+	private final SpeedController wrappedLeftMotor = new PrintSpeedController (leftMotor, 1, "LEFT");
+	private final SpeedController wrappedRightMotor = new PrintSpeedController (rightMotor, 2, "RIGHT");
 	
 	private final SpeedController nullMotor = new SpeedController () {
 		public void pidWrite (double output) {}
@@ -35,14 +35,14 @@ public class MotorModule extends Module
 	{
 		if (DISABLED)
 			return nullMotor;
-		return Entry.DEBUG ? wrappedLeftMotor : leftMotor;
+		return wrappedLeftMotor;
 	}
 	
 	public SpeedController getRightMotor ()
 	{
 		if (DISABLED)
 			return nullMotor;
-		return Entry.DEBUG ? wrappedRightMotor : rightMotor;
+		return wrappedRightMotor;
 	}
 	
 	private static MotorModule instance;

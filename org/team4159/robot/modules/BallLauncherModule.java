@@ -8,6 +8,7 @@ public class BallLauncherModule extends Module
 {
 	private final Victor upperMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_UPPER_MOTOR);
 	private final Victor lowerMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_LOWER_MOTOR);
+	private double speed = 0.0;
 	
 	public BallLauncherModule()
 	{
@@ -36,13 +37,11 @@ public class BallLauncherModule extends Module
 	{
 		CameraStickModule csm = CameraStickModule.getInstance();
 		
-		double speed = 0;
-		if (csm.isBallLauncherTriggerPressed ())
-			speed = Math.max (csm.getVertical (), 0.0);
+		speed = Math.max (csm.getRoller (), 0.0);
 		
-		DriverStationModule.getInstance ().printToDriverStation (0, "BALL LAUNCHER SPEED: " + speed);
+		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed * 1000.) / 10.));
 		
-		lowerMotor.set (-speed);
+		lowerMotor.set (-speed * 0.5);
 		upperMotor.set (speed);
 	}
 	

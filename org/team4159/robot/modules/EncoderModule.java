@@ -33,6 +33,13 @@ public class EncoderModule extends Module
 		return rightEncoder;
 	}
 	
+	public void runOperator ()
+	{
+		DriverStationModule dsm = DriverStationModule.getInstance ();
+		dsm.printToDriverStation (3, "LENC: " + leftEncoder.getRate ());
+		dsm.printToDriverStation (4, "RENC: " + rightEncoder.getRate ());
+	}
+	
 	private static EncoderModule instance;
 	public static synchronized EncoderModule getInstance ()
 	{
