@@ -32,7 +32,8 @@ public class AutonomousModule extends Module
 		}
 		else
 		{
-			DriveModule.getInstance ().stop ();
+			if (UltrasonicModule.getInstance ().getBackDistance () < 0.60)
+				DriveModule.getInstance ().stop ();
 		}
 	}
 	
