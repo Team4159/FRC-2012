@@ -17,11 +17,18 @@ public class BallPickUpModule extends Module
 	
 	public void runOperator()
 	{
-		DriveStickModule dsm = DriveStickModule.getInstance();
-		CameraStickModule csm = CameraStickModule.getInstance();
-		lowerPickup.set (dsm.isLowerPickupPressed () ? Relay.Value.kOn : Relay.Value.kOff);
-		upperPickup.set (csm.isUpperPickupPressed () ? Relay.Value.kOn : Relay.Value.kOff);
-
+		setLowerPickup (DriveStickModule.getInstance().isLowerPickupPressed ());
+		setUpperPickup (CameraStickModule.getInstance().isUpperPickupPressed ());
+	}
+	
+	public void setLowerPickup (boolean on)
+	{
+		lowerPickup.set (on ? Relay.Value.kOn : Relay.Value.kOff);
+	}
+	
+	public void setUpperPickup (boolean on)
+	{
+		upperPickup.set (on ? Relay.Value.kOn : Relay.Value.kOff);
 	}
 	
 	private static BallPickUpModule instance;

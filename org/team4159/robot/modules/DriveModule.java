@@ -12,6 +12,16 @@ public class DriveModule extends Module
 		drive.setExpiration (0.20);
 	}
 	
+	public void drive (double move, double rotate)
+	{
+		drive.arcadeDrive (move, rotate);
+	}
+	
+	public void stop ()
+	{
+		drive.stopMotor ();
+	}
+	
 	public void runDisabled ()
 	{
 		drive.stopMotor ();

@@ -18,13 +18,22 @@ public class AutonomousModule extends Module
 		long elapsed = System.currentTimeMillis () - startTime;
 		if (elapsed < 3000)
 		{
-			BallLauncherModule.getInstance ().setAngle (calculateAngle ());
+			BallLauncherModule.getInstance ().set (0.8);
 		}
-	}
-	
-	private double calculateAngle ()
-	{
-		return 45.0;
+		else if (elapsed < 13000)
+		{
+			BallPickUpModule.getInstance ().setUpperPickup (true);
+		}
+		else if (elapsed < 16000)
+		{
+			BallLauncherModule.getInstance ().set (0.0);
+			BallPickUpModule.getInstance ().setUpperPickup (false);
+			DriveModule.getInstance ().drive (0.2, 0.0);
+		}
+		else
+		{
+			DriveModule.getInstance ().stop ();
+		}
 	}
 	
 	private static AutonomousModule instance;

@@ -36,18 +36,15 @@ public class BallLauncherModule extends Module
 	public void runOperator()
 	{
 		CameraStickModule csm = CameraStickModule.getInstance();
-		
 		speed = Math.max (csm.getRoller (), 0.0);
-		
 		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed * 1000.) / 10.));
-		
-		lowerMotor.set (-speed * 0.5);
-		upperMotor.set (speed);
+		set (speed);
 	}
 	
-	public void setAngle (double angle)
+	public void set (double calculateAngle)
 	{
-		/* TO BE IMPLEMENTED / CALIBRATED */
+		lowerMotor.set (-speed);
+		upperMotor.set (speed);
 	}
 	
 	private static BallLauncherModule instance;
