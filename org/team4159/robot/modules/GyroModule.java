@@ -5,12 +5,12 @@ import org.team4159.robot.HWPorts;
 
 public class GyroModule extends Module
 {
-	private final Gyro sensor = new Gyro (HWPorts.AnalogInput.GYRO);
+	//private final Gyro sensor = new Gyro (HWPorts.AnalogInput.GYRO);
 	
 	private GyroModule ()
 	{
-		sensor.reset ();
-		sensor.setSensitivity(.0125);//frc default value, once set, angle will be more stable.
+		//sensor.reset ();
+		//sensor.setSensitivity(.0125);//frc default value, once set, angle will be more stable.
 	}
 	
 	public void runOperator()

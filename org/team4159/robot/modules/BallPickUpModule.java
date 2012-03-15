@@ -11,17 +11,33 @@ public class BallPickUpModule extends Module
 	
 	private BallPickUpModule ()
 	{
-		upperPickup.setDirection (Direction.kForward);
-		lowerPickup.setDirection (Direction.kForward);
+		/*upperPickup.setDirection (Direction.kForward);
+		lowerPickup.setDirection (Direction.kForward);*/
 	}
 	
 	public void runOperator()
 	{
-		setLowerPickup (DriveStickModule.getInstance().isLowerPickupPressed ());
-		setUpperPickup (CameraStickModule.getInstance().isUpperPickupPressed ());
+		if(DriveStickModule.getInstance().isLowerPickupPressed())
+		{
+			lowerPickup.set(Relay.Value.kForward);
+		}
+		else
+		{
+			lowerPickup.set(Relay.Value.kOff);
+		}
+		if(CameraStickModule.getInstance().isUpperPickupPressed())
+		{
+			upperPickup.set(Relay.Value.kForward);
+		}
+		else
+		{
+			upperPickup.set(Relay.Value.kOff);
+		}
+		/*setLowerPickup (DriveStickModule.getInstance().isLowerPickupPressed ());
+		setUpperPickup (CameraStickModule.getInstance().isUpperPickupPressed ());*/
 	}
 	
-	public void setLowerPickup (boolean on)
+	/*public void setLowerPickup (boolean on)
 	{
 		lowerPickup.set (on ? Relay.Value.kOn : Relay.Value.kOff);
 	}
@@ -29,7 +45,7 @@ public class BallPickUpModule extends Module
 	public void setUpperPickup (boolean on)
 	{
 		upperPickup.set (on ? Relay.Value.kOn : Relay.Value.kOff);
-	}
+	}*/
 	
 	private static BallPickUpModule instance;
 	public static synchronized BallPickUpModule getInstance ()

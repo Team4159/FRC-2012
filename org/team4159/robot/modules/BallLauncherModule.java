@@ -39,6 +39,13 @@ public class BallLauncherModule extends Module
 		speed = Math.max (csm.getRoller (), 0.0);
 		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed * 1000.) / 10.));
 		set (speed);
+		if(csm.isGetSensor())
+		{
+			System.out.println( " dist is : " + UltrasonicModule.getInstance().getBackDistance());
+			/*double minVelocity = Math.sqrt((9.8*UltrasonicModule.getInstance().getBackDistance()*UltrasonicModule.getInstance().getBackDistance())/2*(Math.cos(45)*Math.cos(45))*(72-UltrasonicModule.getInstance().getBackDistance()*Math.tan(45)));
+			double minPower = 3600*minVelocity / (1.85*7300*Math.PI);
+			System.out.println("minPower is : " + minPower);*/
+		}
 	}
 	
 	public void set (double calculateAngle)

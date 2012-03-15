@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.Joystick;
 public class CameraStickModule extends Module
 {
 	private final AdjustedJoystick stick = new AdjustedJoystick (HWPorts.USBController.CAMERA_STICK);
-
 	private CameraStickModule ()
 	{
 		stick.setMapping (null, 1.0, 0.04, 1.0, 1.0);
@@ -38,7 +37,10 @@ public class CameraStickModule extends Module
 		return stick.getTrigger();
 	}
 	
-	
+	public boolean isGetSensor()
+	{
+		return stick.getRawButton(getBackSensor);
+	}
 	public boolean isBridgeUpPressed () { return stick.getRawButton (BRIDGE_UP); }
 	public boolean isBridgeDownPressed () { return stick.getRawButton (BRIDGE_DOWN); }
 	
@@ -57,7 +59,7 @@ public class CameraStickModule extends Module
 	private static final int UNLOCK_LAUNCHER         = 5;
 	private static final int UNUSED_6                = 6;
 	private static final int UNUSED_7                = 7;
-	private static final int BUTTON_UNUSED8          = 8;
+	private static final int getBackSensor           = 8;
 	private static final int BUTTON_UNUSED9          = 9;
 	private static final int BUTTON_UNUSED10         = 10;
 }

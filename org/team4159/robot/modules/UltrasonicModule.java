@@ -16,7 +16,7 @@ public class UltrasonicModule extends Module
 	}
 	public double getBackDistance()
 	{
-		return backSensor.getDistanceInInches();
+		return backSensor.getDistanceInInches(); 
 	}
 	public double getLeftDistance()
 	{
@@ -25,6 +25,13 @@ public class UltrasonicModule extends Module
 	public double getRightDistance()
 	{
 		return rightSensor.getDistanceInInches();
+	}
+	public void runOperator()
+	{
+		if(CameraStickModule.getInstance().isGetSensor())
+		{
+			DriverStationModule.getInstance().printToDriverStation(5, "back distance is : " + getBackDistance() + " inches");
+		}
 	}
 	private static UltrasonicModule instance;
 	public static synchronized UltrasonicModule getInstance ()

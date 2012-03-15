@@ -12,17 +12,17 @@ public interface HWPorts {
     interface USBController
     {
         int DRIVE_STICK          =  1; //standard joystick
-        int CAMERA_STICK         =  3; // standard joystick
-        int UNUSED_2             =  2;
+        int CAMERA_STICK         =  2; // standard joystick
+        int UNUSED_3             =  3;
         int UNUSED_4             =  4;
     }
     
     //on NI-92**  need model number.
     interface AnalogInput
     {
-        int GYRO                 =  1;//ultrasonic sensor for front
+        int ULTRASONIC_BACK      =  1;//ultrasonic sensor for front
         int ULTRASONIC_FRONT     =  2;
-        int ULTRASONIC_BACK      =  3;
+        int UNUSED_3             =  3;
         int ULTRASONIC_LEFT      =  4;
         int ULTRASONIC_RIGHT     =  5;
         int UNUSED_6             =  6;

@@ -32,7 +32,7 @@ public class Entry extends RobotBase
 //		
 		// initialize sensors
 		ModuleController.addModule (AccelerometerModule.getInstance ());
-		//ModuleController.addModule (CameraModule.getInstance ());
+		ModuleController.addModule (CameraModule.getInstance ());
 		ModuleController.addModule (EncoderModule.getInstance ());
 		ModuleController.addModule (GyroModule.getInstance ());
 		ModuleController.addModule (UltrasonicModule.getInstance ());
@@ -60,15 +60,25 @@ public class Entry extends RobotBase
 			while (true)
 			{
 				if (isDisabled())
+				{
 					runMode (ModuleController.MODE_DISABLED, disabledTimer);
+					DriverStationModule.getInstance().printToDriverStation(2, "ROBOT IS DISABLED");
+				}
 				else if (isAutonomous())
+				{
 					runMode (ModuleController.MODE_AUTONOMOUS, autonomousTimer);
+					DriverStationModule.getInstance().printToDriverStation(2, "ROBOT IS IN AUTONOMOUS");
+				}
 				else
+				{
 					runMode (ModuleController.MODE_OPERATOR, operatorTimer);
+					DriverStationModule.getInstance().printToDriverStation(2, "ROBOT IS IN OPERATOR MODE!!");
+				}
 				getWatchdog ().feed ();
 			}
 		} catch (Throwable t) {
 			System.err.println ("SEVERE ERROR: " + t);
+			DriverStationModule.getInstance().printToDriverStation(2, ""+t);
 			t.printStackTrace ();
 			getWatchdog ().kill ();
 		}

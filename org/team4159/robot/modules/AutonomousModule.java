@@ -15,10 +15,14 @@ public class AutonomousModule extends Module
 	
 	public void runAutonomous ()
 	{
-		long elapsed = System.currentTimeMillis () - startTime;
+		/*long elapsed = System.currentTimeMillis () - startTime;
+		DriverStationModule.getInstance().printToDriverStation(5," back dist :  " +UltrasonicModule.getInstance().getBackDistance() + " inches");
 		if (elapsed < 3000)
 		{
-			BallLauncherModule.getInstance ().set (0.8);
+			double minVelocity = Math.sqrt((9.8*UltrasonicModule.getInstance().getBackDistance()*UltrasonicModule.getInstance().getBackDistance())/2*(Math.cos(45)*Math.cos(45))*(72-UltrasonicModule.getInstance().getBackDistance()*Math.tan(45)));
+			double minPower = 3600*minVelocity / (1.85*7300*Math.PI);
+			System.out.println("power is" + minPower);
+			BallLauncherModule.getInstance ().set (.2);
 		}
 		else if (elapsed < 13000)
 		{
@@ -34,7 +38,7 @@ public class AutonomousModule extends Module
 		{
 			if (UltrasonicModule.getInstance ().getBackDistance () < 0.60)
 				DriveModule.getInstance ().stop ();
-		}
+		}*/
 	}
 	
 	private static AutonomousModule instance;
