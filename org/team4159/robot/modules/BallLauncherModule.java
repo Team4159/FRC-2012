@@ -11,7 +11,6 @@ public class BallLauncherModule extends Module
 	private final Victor upperMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_UPPER_MOTOR);
 	private final Victor lowerMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_LOWER_MOTOR);
 	private double speed = 0.0;
-	private long autonomousStart = 0;
 	
 	public BallLauncherModule()
 	{
@@ -19,17 +18,12 @@ public class BallLauncherModule extends Module
 		//lowerMotor.enableDeadbandElimination(true);
 	}
 	
-	public void enterAutonomous ()
-	{
-		autonomousStart = System.currentTimeMillis ();
-	}
-	
 	public void runAutonomous()
 	{
-		if (System.currentTimeMillis () - autonomousStart < 15000)
+		if (ModuleController.getModeElapsedTime () < 15000)
 		{
 			double distanceInches = UltrasonicModule.getInstance ().getBackDistance ();
-			double power = distanceInches / 200.0;
+			double power = distanceInches / 600.0;
 			BallLauncherModule.getInstance ().set (power);
 			System.out.println ("DISTANCE = " + distanceInches);
 			System.out.println ("POWER = " + power);

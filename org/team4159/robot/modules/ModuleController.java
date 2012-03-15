@@ -11,6 +11,7 @@ public abstract class ModuleController
 	
 	private static final SquawkVector modules = new SquawkVector ();
 	private static int lastMode = -1;
+	private static long modeEnterTime = 0;
 	
 	public static synchronized void addModule (Module module)
 	{
@@ -30,6 +31,7 @@ public abstract class ModuleController
 		{
 			lastMode = mode;
 			modeChanged = true;
+			modeEnterTime = System.currentTimeMillis ();
 		}
 		
 		for (int i = 0; i < sz; i++)
@@ -77,5 +79,15 @@ public abstract class ModuleController
 				}
 			}
 		}
+	}
+	
+	public static long getModeEnterTime ()
+	{
+		return modeEnterTime;
+	}
+	
+	public static long getModeElapsedTime ()
+	{
+		return System.currentTimeMillis () - modeEnterTime;
 	}
 }

@@ -8,7 +8,6 @@ public class BallPickUpModule extends Module
 {
 	private final Relay upperPickup = new Relay(HWPorts.Digital_Sidecar.Relay.UPPER_PICKUP);
 	private final Relay lowerPickup = new Relay(HWPorts.Digital_Sidecar.Relay.LOWER_PICKUP);
-	private long startAutonomous;
 	
 	private BallPickUpModule ()
 	{
@@ -16,14 +15,9 @@ public class BallPickUpModule extends Module
 		lowerPickup.setDirection (Direction.kForward);*/
 	}
 	
-	public void enterAutonomous ()
-	{
-		startAutonomous = System.currentTimeMillis ();
-	}
-	
 	public void runAutonomous ()
 	{
-		if (System.currentTimeMillis () - startAutonomous > 5000)
+		if (ModuleController.getModeElapsedTime () > 5000)
 		{
 			lowerPickup.set(Relay.Value.kForward);
 			upperPickup.set(Relay.Value.kForward);
