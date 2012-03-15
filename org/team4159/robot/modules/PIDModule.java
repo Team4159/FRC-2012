@@ -18,11 +18,11 @@ public class PIDModule extends Module
 	 *														*/
 	// MAKE SURE THESE ARE POSITIVE OR YOU DIE!!!
 	// IF YOU THINK I'M JOKING... DO IT AT YOUR OWN RISK.
-	private static final double PID_KP = 0.40;
-	private static final double PID_KI = 0.12;
-	private static final double PID_KD = 0.012;
+	private static final double PID_KP = 0.200;
+	private static final double PID_KI = 0.160;
+	private static final double PID_KD = 0.005;
 	
-	private static final double SPEED_COEFFICIENT = 6.0;
+	private static final double SPEED_COEFFICIENT = 4.2;
 	
 	private final PIDController leftPIDController;
 	private final PIDController rightPIDController;
