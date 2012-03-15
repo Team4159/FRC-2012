@@ -29,8 +29,9 @@ public class BallLauncherModule extends Module
 		if (System.currentTimeMillis () - autonomousStart < 15000)
 		{
 			double distanceInches = UltrasonicModule.getInstance ().getBackDistance ();
-			double power = distanceInches / 1000.0;
+			double power = distanceInches / 200.0;
 			BallLauncherModule.getInstance ().set (power);
+			System.out.println ("DISTANCE = " + distanceInches);
 			System.out.println ("POWER = " + power);
 		}
 		/*
