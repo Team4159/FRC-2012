@@ -27,15 +27,6 @@ public class DriveModule extends Module
 		drive.stopMotor ();
 	}
 	
-	public void runAutonomous ()
-	{
-		UltrasonicModule um = UltrasonicModule.getInstance();
-		if(um.getBackDistance()> 50)
-		{
-			drive.arcadeDrive(-.2, 0);
-		}
-	}
-	
 	public void runOperator ()
 	{
 		DriveStickModule dsm = DriveStickModule.getInstance ();

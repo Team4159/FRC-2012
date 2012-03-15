@@ -6,18 +6,33 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class BallLauncherModule extends Module
 {
+	private static final double OPERATOR_COEFFICIENT = 0.8;
+
 	private final Victor upperMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_UPPER_MOTOR);
 	private final Victor lowerMotor = new Victor (HWPorts.Digital_Sidecar.PWM.BALL_LAUNCHER_LOWER_MOTOR);
 	private double speed = 0.0;
+	private long autonomousStart = 0;
 	
 	public BallLauncherModule()
 	{
-		upperMotor.enableDeadbandElimination(true);
-		lowerMotor.enableDeadbandElimination(true);
+		//upperMotor.enableDeadbandElimination(true);
+		//lowerMotor.enableDeadbandElimination(true);
+	}
+	
+	public void enterAutonomous ()
+	{
+		autonomousStart = System.currentTimeMillis ();
 	}
 	
 	public void runAutonomous()
 	{
+		if (System.currentTimeMillis () - autonomousStart < 15000)
+		{
+			double distanceInches = UltrasonicModule.getInstance ().getBackDistance ();
+			double power = distanceInches / 1000.0;
+			BallLauncherModule.getInstance ().set (power);
+			System.out.println ("POWER = " + power);
+		}
 		/*
 		 * minimum velocity equation:  = sqrt of (-9.8 * horizontal distance^2)/(2*cos^2 theta(vertical distance - horizontal distance*tan theta))
 		 * 
@@ -38,7 +53,7 @@ public class BallLauncherModule extends Module
 		CameraStickModule csm = CameraStickModule.getInstance();
 		speed = Math.max (csm.getRoller (), 0.0);
 		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed * 1000.) / 10.));
-		set (speed);
+		set (speed * OPERATOR_COEFFICIENT);
 		if(csm.isGetSensor())
 		{
 			System.out.println( " dist is : " + UltrasonicModule.getInstance().getBackDistance());
@@ -48,10 +63,11 @@ public class BallLauncherModule extends Module
 		}
 	}
 	
-	public void set (double calculateAngle)
+	public void set (double speed)
 	{
+		this.speed = speed;
 		lowerMotor.set (-speed);
-		upperMotor.set (speed);
+		upperMotor.set (-speed);
 	}
 	
 	private static BallLauncherModule instance;

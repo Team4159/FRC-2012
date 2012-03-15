@@ -21,10 +21,10 @@ public interface HWPorts {
     interface AnalogInput
     {
         int ULTRASONIC_BACK      =  1;//ultrasonic sensor for front
-        int ULTRASONIC_FRONT     =  2;
+        int UNUSED_2             =  2;
         int UNUSED_3             =  3;
-        int ULTRASONIC_LEFT      =  4;
-        int ULTRASONIC_RIGHT     =  5;
+        int UNUSED_4             =  4;
+        int UNUSED_5             =  5;
         int UNUSED_6             =  6;
         int UNUSED_7             =  7;
         int BATTERY_VOLTAGE      =  8;

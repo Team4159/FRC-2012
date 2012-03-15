@@ -54,7 +54,7 @@ public class OLDEntry extends RobotBase {
 	private DriverStation ds;
 	private AxisCamera camera = AxisCamera.getInstance ("10.41.59.11");//
 	
-	private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(HWPorts.AnalogInput.ULTRASONIC_FRONT);//
+	private AnalogUltrasonic UltrasonicSensorFront = new AnalogUltrasonic(HWPorts.AnalogInput.UNUSED_2);//
         
 	private AbsoluteTimer autonomousTimer = new AbsoluteTimer (10);
 	private AbsoluteTimer operatorTimer = new AbsoluteTimer (1);
