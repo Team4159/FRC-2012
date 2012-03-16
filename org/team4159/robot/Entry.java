@@ -62,23 +62,23 @@ public class Entry extends RobotBase
 				if (isDisabled())
 				{
 					runMode (ModuleController.MODE_DISABLED, disabledTimer);
-					DriverStationModule.getInstance().printToDriverStation(2, "ROBOT IS DISABLED");
+					DriverStationModule.getInstance().printToDriverStation(5, "DISABLED");
 				}
 				else if (isAutonomous())
 				{
 					runMode (ModuleController.MODE_AUTONOMOUS, autonomousTimer);
-					DriverStationModule.getInstance().printToDriverStation(2, "ROBOT IS IN AUTONOMOUS");
+					DriverStationModule.getInstance().printToDriverStation(5, "AUTONOMOUS");
 				}
 				else
 				{
 					runMode (ModuleController.MODE_OPERATOR, operatorTimer);
-					DriverStationModule.getInstance().printToDriverStation(2, "ROBOT IS IN OPERATOR MODE!!");
+					DriverStationModule.getInstance().printToDriverStation(5, "OPERATOR");
 				}
 				getWatchdog ().feed ();
 			}
 		} catch (Throwable t) {
 			System.err.println ("SEVERE ERROR: " + t);
-			DriverStationModule.getInstance().printToDriverStation(2, ""+t);
+			DriverStationModule.getInstance().printToDriverStation(5, t.toString ());
 			t.printStackTrace ();
 			getWatchdog ().kill ();
 		}
