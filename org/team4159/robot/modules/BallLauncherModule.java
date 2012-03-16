@@ -29,8 +29,14 @@ public class BallLauncherModule extends Module
 			power = 0.40;
 		}
 		*/
-		double power = 0.252;
-		BallLauncherModule.getInstance ().set (power);
+		if (ModuleController.getModeElapsedTime () < 12500)
+		{
+			set (0.202*.9725);
+		}
+		else
+		{
+			set (0.0);
+		}
 		
 		/*
 		 * minimum velocity equation:  = sqrt of (-9.8 * horizontal distance^2)/(2*cos^2 theta(vertical distance - horizontal distance*tan theta))
@@ -51,7 +57,7 @@ public class BallLauncherModule extends Module
 	{
 		CameraStickModule csm = CameraStickModule.getInstance();
 		speed = csm.getLauncherSpeed ();
-		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed * 1000.) / 10.));
+		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed *OPERATOR_COEFFICIENT* 1000.) / 10.));
 		set (speed * OPERATOR_COEFFICIENT);
 		if(csm.isGetSensor())
 		{
