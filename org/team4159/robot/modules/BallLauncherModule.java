@@ -20,14 +20,18 @@ public class BallLauncherModule extends Module
 	
 	public void runAutonomous()
 	{
-		if (ModuleController.getModeElapsedTime () < 15000)
+		double distanceInches = UltrasonicModule.getInstance ().getBackDistance ();
+		/*
+		double power = distanceInches * 0.2519 / 144;
+		if (power > 0.40)
 		{
-			double distanceInches = UltrasonicModule.getInstance ().getBackDistance ();
-			double power = distanceInches / 600.0;
-			BallLauncherModule.getInstance ().set (power);
-			System.out.println ("DISTANCE = " + distanceInches);
-			System.out.println ("POWER = " + power);
+			System.out.println ("CAPPED FROM " + power);
+			power = 0.40;
 		}
+		*/
+		double power = 0.252;
+		BallLauncherModule.getInstance ().set (power);
+		
 		/*
 		 * minimum velocity equation:  = sqrt of (-9.8 * horizontal distance^2)/(2*cos^2 theta(vertical distance - horizontal distance*tan theta))
 		 * 
@@ -46,7 +50,7 @@ public class BallLauncherModule extends Module
 	public void runOperator()
 	{
 		CameraStickModule csm = CameraStickModule.getInstance();
-		speed = Math.max (csm.getRoller (), 0.0);
+		speed = csm.getLauncherSpeed ();
 		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed * 1000.) / 10.));
 		set (speed * OPERATOR_COEFFICIENT);
 		if(csm.isGetSensor())
@@ -61,8 +65,8 @@ public class BallLauncherModule extends Module
 	public void set (double speed)
 	{
 		this.speed = speed;
-		lowerMotor.set (-speed);
-		upperMotor.set (-speed);
+		lowerMotor.set (-(speed * 1.00));
+		upperMotor.set (-(speed * 0.50));
 	}
 	
 	private static BallLauncherModule instance;
