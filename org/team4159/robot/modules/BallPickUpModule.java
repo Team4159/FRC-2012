@@ -17,7 +17,7 @@ public class BallPickUpModule extends Module
 	
 	public void runAutonomous ()
 	{
-		if (ModuleController.getModeElapsedTime () > 00)
+		if (ModuleController.getModeElapsedTime () > 2800)
 		{
 			lowerPickup.set(Relay.Value.kForward);
 			upperPickup.set(Relay.Value.kForward);
