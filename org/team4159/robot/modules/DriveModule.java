@@ -28,6 +28,7 @@ public class DriveModule extends Module
 		drive.stopMotor ();
 	}
 	
+	/*
 	public void enterAutonomous ()
 	{
 		EncoderModule em = EncoderModule.getInstance();
@@ -38,17 +39,19 @@ public class DriveModule extends Module
 	public void runAutonomous ()
 	{
 		long elapsed = ModuleController.getModeElapsedTime ();
-		if (elapsed > 12500)
+		if (elapsed > 12000)
 		{
 			EncoderModule em = EncoderModule.getInstance();
 			double displacement = (em.getLeftEncoder().getDistance() + em.getRightEncoder().getDistance()) / 2.0;
 			System.out.println(displacement);
-			if (displacement < 2.6)
-				drive.arcadeDrive (-0.4, -.01);
+			if (displacement < 2.5){
+				drive.arcadeDrive (-0.3, .01);
+				DriverStationModule.getInstance ().printToDriverStation (0, "Driving Toward Bridge!");
+			}
 			else
 				drive.arcadeDrive (0, 0);
 		}
-	}
+	}*/
 	
 	public void runOperator ()
 	{
@@ -56,7 +59,14 @@ public class DriveModule extends Module
 		//if (dsm.isBridgeManipButtonPressed ())
 		//	drive.stopMotor ();
 		//else
-			drive.arcadeDrive (dsm.getMoveValue (), dsm.getRotateValue ());
+		if(dsm.fullPower())
+		{
+			drive.arcadeDrive(dsm.getMoveValue(),dsm.getRotateValue());
+		}
+		else
+		{
+			drive.arcadeDrive (dsm.getMoveValue ()*.75, dsm.getRotateValue ()*.75);
+		}
 	}
 	
 	private static DriveModule instance;

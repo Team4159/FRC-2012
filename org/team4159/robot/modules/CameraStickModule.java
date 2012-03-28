@@ -53,10 +53,11 @@ public class CameraStickModule extends Module
 		return stick.getTrigger();
 	}
 	
-	public boolean isGetSensor()
+	public boolean isUpperPickupReversePressed ()
 	{
-		return stick.getRawButton(getBackSensor);
+		return stick.getRawButton (UPPER_PICKUP_REVERSE_1) || stick.getRawButton (UPPER_PICKUP_REVERSE_2);
 	}
+	
 	public boolean isBridgeUpPressed () { return stick.getRawButton (BRIDGE_UP); }
 	public boolean isBridgeDownPressed () { return stick.getRawButton (BRIDGE_DOWN); }
 	
@@ -92,7 +93,7 @@ public class CameraStickModule extends Module
 	private static final int INCREASE_FINE_TUNE      = 5;
 	private static final int UNUSED_6                = 6;
 	private static final int UNUSED_7                = 7;
-	private static final int getBackSensor           = 8;
-	private static final int BUTTON_UNUSED9          = 9;
+	private static final int UPPER_PICKUP_REVERSE_1  = 8;
+	private static final int UPPER_PICKUP_REVERSE_2  = 9;
 	private static final int BUTTON_UNUSED10         = 10;
 }

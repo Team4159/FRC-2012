@@ -14,10 +14,12 @@ public class UltrasonicModule extends Module
 
 	public void runOperator()
 	{
+		/*
 		if(CameraStickModule.getInstance().isGetSensor())
 		{
 			DriverStationModule.getInstance().printToDriverStation(5, "back distance is : " + getBackDistance() + " inches");
 		}
+		*/
 	}
 	private static UltrasonicModule instance;
 	public static synchronized UltrasonicModule getInstance ()

@@ -21,17 +21,10 @@ public class BallLauncherModule extends Module
 	public void runAutonomous()
 	{
 		double distanceInches = UltrasonicModule.getInstance ().getBackDistance ();
-		/*
-		double power = distanceInches * 0.2519 / 144;
-		if (power > 0.40)
+		if (ModuleController.getModeElapsedTime () < 12000)
 		{
-			System.out.println ("CAPPED FROM " + power);
-			power = 0.40;
-		}
-		*/
-		if (ModuleController.getModeElapsedTime () < 12500)
-		{
-			set (0.202*.9725);
+			set (0.202*.975);
+			DriverStationModule.getInstance ().printToDriverStation (0, "BALL LAUNCHING IN PROGRESS!");
 		}
 		else
 		{
@@ -59,13 +52,13 @@ public class BallLauncherModule extends Module
 		speed = csm.getLauncherSpeed ();
 		DriverStationModule.getInstance ().printToDriverStation (0, "BLS: " + (Math.floor (speed *OPERATOR_COEFFICIENT* 1000.) / 10.));
 		set (speed * OPERATOR_COEFFICIENT);
-		if(csm.isGetSensor())
-		{
-			System.out.println( " dist is : " + UltrasonicModule.getInstance().getBackDistance());
+		//if(csm.isGetSensor())
+		//{
+		//	System.out.println( " dist is : " + UltrasonicModule.getInstance().getBackDistance());
 			/*double minVelocity = Math.sqrt((9.8*UltrasonicModule.getInstance().getBackDistance()*UltrasonicModule.getInstance().getBackDistance())/2*(Math.cos(45)*Math.cos(45))*(72-UltrasonicModule.getInstance().getBackDistance()*Math.tan(45)));
 			double minPower = 3600*minVelocity / (1.85*7300*Math.PI);
 			System.out.println("minPower is : " + minPower);*/
-		}
+		//}
 	}
 	
 	public void set (double speed)

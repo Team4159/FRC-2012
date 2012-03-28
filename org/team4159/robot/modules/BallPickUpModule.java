@@ -11,8 +11,6 @@ public class BallPickUpModule extends Module
 	
 	private BallPickUpModule ()
 	{
-		/*upperPickup.setDirection (Direction.kForward);
-		lowerPickup.setDirection (Direction.kForward);*/
 	}
 	
 	public void runAutonomous ()
@@ -30,13 +28,22 @@ public class BallPickUpModule extends Module
 		{
 			lowerPickup.set(Relay.Value.kForward);
 		}
+		else if (DriveStickModule.getInstance().isLowerPickupReversePressed())
+		{
+			lowerPickup.set (Relay.Value.kReverse);
+		}
 		else
 		{
 			lowerPickup.set(Relay.Value.kOff);
 		}
+		
 		if(CameraStickModule.getInstance().isUpperPickupPressed())
 		{
 			upperPickup.set(Relay.Value.kForward);
+		}
+		else if (CameraStickModule.getInstance().isUpperPickupReversePressed())
+		{
+			upperPickup.set (Relay.Value.kReverse);
 		}
 		else
 		{

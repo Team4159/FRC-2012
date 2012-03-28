@@ -18,11 +18,11 @@ public class PIDModule extends Module
 	 *														*/
 	// MAKE SURE THESE ARE POSITIVE OR YOU DIE!!!
 	// IF YOU THINK I'M JOKING... DO IT AT YOUR OWN RISK.
-	private static final double PID_KP = 0.260;
-	private static final double PID_KI = 0.160;
-	private static final double PID_KD = 0.005;
+	private static final double PID_KP = 0.300;
+	private static final double PID_KI = 0.140;
+	private static final double PID_KD = 0.006;
 	
-	private static final double SPEED_COEFFICIENT = 5.6;
+	private static final double SPEED_COEFFICIENT = 6.0;
 	
 	private final PIDController leftPIDController;
 	private final PIDController rightPIDController;
@@ -46,12 +46,21 @@ public class PIDModule extends Module
 		leftPIDBridge = new PIDSetpointController (leftPIDController, mm.getLeftMotor (), SPEED_COEFFICIENT, true);
 		rightPIDBridge = new PIDSetpointController (rightPIDController, mm.getRightMotor (), SPEED_COEFFICIENT, false);
 		
-		enablePID ();
+		//enablePID ();
 	}
 	
 	public void enterAutonomous ()
 	{
+		disablePID ();
+		MotorModule.getInstance().getLeftMotor().set (0.0);
+		MotorModule.getInstance().getRightMotor().set (0.0);
+	}
+
+	public void enterOperator ()
+	{
 		enablePID ();
+		leftPIDController.reset ();
+		rightPIDController.reset ();
 	}
 	
 	public void runOperator ()
@@ -70,6 +79,7 @@ public class PIDModule extends Module
 		
 		leftPIDController.enable ();
 		rightPIDController.enable ();
+		resetPID ();
 	}
 	
 	private void disablePID ()
@@ -80,6 +90,13 @@ public class PIDModule extends Module
 		
 		leftPIDController.disable ();
 		rightPIDController.disable ();
+		resetPID ();
+	}
+	
+	private void resetPID ()
+	{
+		leftPIDController.reset ();
+		rightPIDController.reset ();
 	}
 	
 	public RobotDrive createDrive ()

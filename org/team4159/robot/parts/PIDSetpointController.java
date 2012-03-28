@@ -36,7 +36,10 @@ public class PIDSetpointController implements SpeedController {
 
 	public void set(double speed) {
 		if (pidController.isEnable ())
+		{
 			pidController.setSetpoint (speed * speedCoefficient);
+			System.out.println ("motor " + speedController +" to " + (speed * speedCoefficient));
+		}
 		else
 			speedController.set (speed * (reversed ? -1 : 1));
 	}
