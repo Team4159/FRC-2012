@@ -1,7 +1,6 @@
 package org.team4159.robot;
 
 import org.team4159.robot.parts.AbsoluteTimer;
-import org.team4159.robot.www.RobotServer;
 import org.team4159.robot.modules.*;
 import edu.wpi.first.wpilibj.RobotBase;
 
@@ -28,7 +27,6 @@ public class Entry extends RobotBase
 		ModuleController.addModule (DriveStickModule.getInstance ());
 		ModuleController.addModule (CameraStickModule.getInstance ());
 		ModuleController.addModule (DriverStationModule.getInstance());
-		ModuleController.addModule (RobotServerModule.getInstance ());
 //		
 		// initialize sensors
 		ModuleController.addModule (AccelerometerModule.getInstance ());
