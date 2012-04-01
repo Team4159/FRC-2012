@@ -33,6 +33,10 @@ public class DriveStickModule extends Module
 	{
 		return stick.getRawButton(FULL);
 	}
+	public boolean isFrozen ()
+	{
+		return stick.getRawButton (FREEZE);
+	}
 	public boolean isLowerPickupReversePressed ()
 	{
 		return stick.getRawButton (LOWER_PICKUP_REVERSE_1) || stick.getRawButton (LOWER_PICKUP_REVERSE_2);
@@ -49,7 +53,7 @@ public class DriveStickModule extends Module
 	private static final int DISABLE_PID             = 2;
 	private static final int FULL                    = 3;
 	private static final int BUTTON_UNUSED_4         = 4;
-	private static final int BUTTON_UNUSED5          = 5;
+	private static final int FREEZE                  = 5;
 	private static final int GET_CURRENT_VELOCITY    = 6;
 	private static final int BUTTON_UNUSED_7         = 7;
 	private static final int LOWER_PICKUP_REVERSE_1  = 8;

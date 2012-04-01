@@ -4,8 +4,12 @@ import edu.wpi.first.wpilibj.RobotDrive;
 
 public class DriveModule extends Module
 {
+	private final static double FROZEN_COEFF = -1.8;
+	
 	private final RobotDrive drive = PIDModule.getInstance ().createDrive ();
-	private double startLocation;
+	
+	private boolean lastFrozen = false;
+	private double leftFrozenPos, rightFrozenPos;
 	
 	private DriveModule ()
 	{
@@ -56,16 +60,41 @@ public class DriveModule extends Module
 	public void runOperator ()
 	{
 		DriveStickModule dsm = DriveStickModule.getInstance ();
-		//if (dsm.isBridgeManipButtonPressed ())
-		//	drive.stopMotor ();
-		//else
-		if(dsm.fullPower())
+		
+		boolean frozen = dsm.isFrozen ();
+		boolean lastFrozen = this.lastFrozen;
+		this.lastFrozen = frozen;
+		
+		if (frozen)
 		{
-			drive.arcadeDrive(dsm.getMoveValue(),dsm.getRotateValue());
+			EncoderModule em = EncoderModule.getInstance ();
+			double leftCurrentPos = em.getLeftEncoder ().getDistance ();
+			double rightCurrentPos = em.getRightEncoder ().getDistance ();
+			
+			if (!lastFrozen)
+			{
+				leftFrozenPos = leftCurrentPos;
+				rightFrozenPos = rightCurrentPos;
+			}
+			
+			drive.setLeftRightMotorOutputs (
+				(leftCurrentPos - leftFrozenPos) * FROZEN_COEFF,
+				(rightCurrentPos - rightFrozenPos) * FROZEN_COEFF
+			);
 		}
 		else
 		{
-			drive.arcadeDrive (dsm.getMoveValue ()*.75, dsm.getRotateValue ()*.75);
+			//if (dsm.isBridgeManipButtonPressed ())
+			//	drive.stopMotor ();
+			//else
+			if(dsm.fullPower())
+			{
+				drive.arcadeDrive(dsm.getMoveValue(),dsm.getRotateValue());
+			}
+			else
+			{
+				drive.arcadeDrive (dsm.getMoveValue ()*.75, dsm.getRotateValue ()*.75);
+			}
 		}
 	}
 	
