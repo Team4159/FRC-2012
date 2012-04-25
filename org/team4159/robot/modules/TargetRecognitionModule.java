@@ -22,6 +22,11 @@ public class TargetRecognitionModule extends Module
 		}
 	}
 	
+	public void runOperator(){
+		
+		//print sqrt (y^2 + z^2)
+		
+	}
 	private class Task extends Thread
 	{
 		public void run ()
