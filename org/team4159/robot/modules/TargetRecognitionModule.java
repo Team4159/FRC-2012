@@ -8,13 +8,13 @@ import com.sun.squawk.util.SquawkVector;
 
 public class TargetRecognitionModule extends Module
 {
-	public static class Point
+	public static class Target
 	{
 		public final double x;
 		public final double y;
 		public final double z;
 		
-		private Point (double x, double y, double z)
+		private Target (double x, double y, double z)
 		{
 			this.x = x;
 			this.y = y;
@@ -67,7 +67,7 @@ public class TargetRecognitionModule extends Module
 						continue outer;
 					}
 					
-					tmp.addElement (new Point (x / 1000., y / 1000., z / 1000.));
+					tmp.addElement (new Target (x / 1000., y / 1000., z / 1000.));
 				}
 				
 				synchronized (task)
@@ -97,20 +97,15 @@ public class TargetRecognitionModule extends Module
 		task.start ();
 	}
 	
-	public SquawkVector getTargets ()
-	{
-		SquawkVector ret = new SquawkVector ();
-		getTargets (ret);
-		return ret;
-	}
-	
-	public void getTargets (SquawkVector vec)
+	public Target[] getTargets ()
 	{
 		synchronized (task)
 		{
-			vec.removeAllElements ();
-			for (int i = 0; i < points.size (); i++)
-				vec.addElement (points.elementAt (i));
+			int sz = points.size ();
+			Target[] ret = new Target[sz];
+			for (int i = 0; i < sz; i++)
+				ret[i] = (Target) points.elementAt (i);
+			return ret;
 		}
 	}
 	
