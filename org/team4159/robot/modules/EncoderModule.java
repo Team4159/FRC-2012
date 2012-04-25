@@ -36,8 +36,7 @@ public class EncoderModule extends Module
 	public void runOperator ()
 	{
 		DriverStationModule dsm = DriverStationModule.getInstance ();
-		dsm.printToDriverStation (3, "LENC: " + leftEncoder.getRate ());
-		dsm.printToDriverStation (4, "RENC: " + rightEncoder.getRate ());
+		dsm.printToDriverStation (6, "LENC: " + leftEncoder.getRate () + " RENC: " + rightEncoder.getRate());
 	}
 	
 	private static EncoderModule instance;

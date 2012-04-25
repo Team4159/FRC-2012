@@ -23,9 +23,13 @@ public class TargetRecognitionModule extends Module
 	}
 	
 	public void runOperator(){
-		
-		//print sqrt (y^2 + z^2)
-		
+		Target[] hoops = getTargets();
+		if(hoops.length > 0){
+			for(int i = 0; i < hoops.length; i++){
+				DriverStationModule.getInstance().printToDriverStation(i+1, "Distance to hoop is: " +Math.sqrt((hoops[i].y)*(hoops[i].y) + (hoops[i].z)*(hoops[i].z)));
+				DriverStationModule.getInstance().printToDriverStation(i+2, "Height of hoop is: " + hoops[i].y);
+			}
+		}
 	}
 	private class Task extends Thread
 	{
