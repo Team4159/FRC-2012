@@ -91,7 +91,7 @@ public class TargetRecognitionModule extends Module
 	private TargetRecognitionModule ()
 	{
 		try {
-			connection = (DatagramConnection) Connector.open ("datagram://:1234");
+			connection = (DatagramConnection) Connector.open ("datagram://:2228");
 		} catch (IOException e) {
 			System.err.println ("Unable to initialize target recognition client!");
 			e.printStackTrace ();
