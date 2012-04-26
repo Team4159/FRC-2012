@@ -23,12 +23,20 @@ public class TargetRecognitionModule extends Module
 	}
 	
 	public void runOperator(){
+		// don't print the height. if the camera is angled, it's useless.
+		// make sure that i < 6. the driver station only has 6 lines to print to.
 		Target[] hoops = getTargets();
+		/*
 		if(hoops.length > 0){
 			for(int i = 0; i < hoops.length; i++){
 				DriverStationModule.getInstance().printToDriverStation(i+1, "Distance to hoop is: " +Math.sqrt((hoops[i].y)*(hoops[i].y) + (hoops[i].z)*(hoops[i].z)));
 				DriverStationModule.getInstance().printToDriverStation(i+2, "Height of hoop is: " + hoops[i].y);
 			}
+		}
+		*/
+		for(int i = 0; i < hoops.length; i++){
+			DriverStationModule.getInstance().printToDriverStation(i, "Distance to hoop is: " +
+				Math.sqrt((hoops[i].y)*(hoops[i].y) + (hoops[i].z)*(hoops[i].z)));
 		}
 	}
 	private class Task extends Thread
