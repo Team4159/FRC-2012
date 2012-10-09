@@ -1,9 +1,8 @@
-package org.team4159.robot.modules;
+package org.usfirst.frc4159.robotModule;
 import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.DriverStationLCD.Line;
 
-public class DriverStationModule extends Module
-{
+public class DriverStationModule extends Module {
 	private static final Line[] lines = {
 		Line.kMain6,
 		Line.kUser2,

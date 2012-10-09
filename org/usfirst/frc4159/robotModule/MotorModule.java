@@ -1,17 +1,16 @@
-package org.team4159.robot.modules;
+package org.usfirst.frc4159.robotModule;
 
-import org.team4159.robot.Entry;
-import org.team4159.robot.HWPorts;
-import org.team4159.robot.parts.PrintSpeedController;
+import org.usfirst.frc4159.HWPorts;
+import org.usfirst.frc4159.robotPartsTemplates.PrintSpeedController;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class MotorModule extends Module
-{
-	private static final boolean DISABLED = false;
+public class MotorModule extends Module {
 	
-	private final Jaguar leftMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.LEFT_MOTOR_JAGUAR);
-	private final Jaguar rightMotor = new Jaguar (HWPorts.Digital_Sidecar.PWM.RIGHT_MOTOR_JAGUAR);
+private static final boolean DISABLED = false;
+	
+	private final Jaguar leftMotor = new Jaguar (HWPorts.DigitalSideCar.PWM.LEFT_MOTOR_JAGUAR);
+	private final Jaguar rightMotor = new Jaguar (HWPorts.DigitalSideCar.PWM.RIGHT_MOTOR_JAGUAR);
 	
 	private final SpeedController wrappedLeftMotor = new PrintSpeedController (leftMotor, 1, "LEFT");
 	private final SpeedController wrappedRightMotor = new PrintSpeedController (rightMotor, 2, "RIGHT");
@@ -44,12 +43,11 @@ public class MotorModule extends Module
 			return nullMotor;
 		return wrappedRightMotor;
 	}
-	
+
 	private static MotorModule instance;
-	public static synchronized MotorModule getInstance ()
-	{
-		if (instance == null)
-			instance = new MotorModule ();
+	public static synchronized MotorModule getInstance(){
+		if(instance == null)
+			instance = new MotorModule();
 		return instance;
 	}
 }

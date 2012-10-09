@@ -1,4 +1,4 @@
-package org.team4159.robot.modules;
+package org.usfirst.frc4159.robotModule;
 
 import com.sun.squawk.util.SquawkVector;
 import edu.wpi.first.wpilibj.Watchdog;
@@ -8,11 +8,16 @@ public abstract class ModuleController
 	public static final int MODE_DISABLED = 0;
 	public static final int MODE_AUTONOMOUS = 1;
 	public static final int MODE_OPERATOR = 2;
-	
+
 	private static final SquawkVector modules = new SquawkVector ();
 	private static int lastMode = -1;
 	private static long modeEnterTime = 0;
-	
+
+
+	public static void resetTimer(){
+		modeEnterTime = 0;
+	}
+
 	public static synchronized void addModule (Module module)
 	{
 		if (modules.contains (module))
@@ -20,12 +25,12 @@ public abstract class ModuleController
 		else
 			modules.addElement (module);
 	}
-	
+
 	public static synchronized void runMode (int mode)
 	{
 		int sz = modules.size ();
 		boolean rawe = false;
-		
+
 		boolean modeChanged = false;
 		if (lastMode != mode)
 		{
@@ -33,39 +38,39 @@ public abstract class ModuleController
 			modeChanged = true;
 			modeEnterTime = System.currentTimeMillis ();
 		}
-		
+
 		for (int i = 0; i < sz; i++)
 		{
 			Module m = (Module) modules.elementAt (i);
 			try {
 				switch (mode)
 				{
-					case MODE_DISABLED:
-						if (modeChanged)
-							m.enterDisabled ();
-						m.runDisabled ();
-						break;
-					case MODE_AUTONOMOUS:
-						if (modeChanged)
-							m.enterAutonomous ();
-						m.runAutonomous ();
-						break;
-					case MODE_OPERATOR:
-						if (modeChanged)
-							m.enterOperator ();
-						m.runOperator ();
-						break;
-					default:
-						rawe = true;
-						throw new IllegalArgumentException ("invalid mode: " + mode);
+				case MODE_DISABLED:
+					if (modeChanged)
+						m.enterDisabled ();
+					m.runDisabled ();
+					break;
+				case MODE_AUTONOMOUS:
+					if (modeChanged)
+						m.enterAutonomous ();
+					m.runAutonomous ();
+					break;
+				case MODE_OPERATOR:
+					if (modeChanged)
+						m.enterOperator ();
+					m.runOperator ();
+					break;
+				default:
+					rawe = true;
+					throw new IllegalArgumentException ("invalid mode: " + mode);
 				}
 			} catch (Throwable t) {
 				if (rawe)
 					throw (RuntimeException) t;
-				
+
 				System.err.println ("MODULE FAILURE: " + m.getClass ());
 				t.printStackTrace ();
-				
+
 				if (m.essential)
 				{
 					System.err.println ("ESSENTIAL MODULE FAILED, SHUTTING DOWN");
@@ -80,14 +85,14 @@ public abstract class ModuleController
 			}
 		}
 	}
-	
+
 	public static long getModeEnterTime ()
 	{
 		return modeEnterTime;
 	}
-	
 	public static long getModeElapsedTime ()
 	{
 		return System.currentTimeMillis () - modeEnterTime;
 	}
 }
+

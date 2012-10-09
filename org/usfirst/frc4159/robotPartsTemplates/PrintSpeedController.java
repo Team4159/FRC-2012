@@ -1,6 +1,5 @@
-package org.team4159.robot.parts;
+package org.usfirst.frc4159.robotPartsTemplates;
 
-import org.team4159.robot.modules.DriverStationModule;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class PrintSpeedController implements SpeedController
@@ -33,7 +32,7 @@ public class PrintSpeedController implements SpeedController
 
 	public void set (double speed)
 	{
-		DriverStationModule.getInstance ().printToDriverStation (row, name + ": " + speed);
+		//DriverStationModule.getInstance ().printToDriverStation (row, name + ": " + speed);
 		sub.set (speed);
 	}
 

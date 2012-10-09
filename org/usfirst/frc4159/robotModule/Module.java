@@ -1,7 +1,6 @@
-package org.team4159.robot.modules;
+package org.usfirst.frc4159.robotModule;
 
-public abstract class Module
-{
+public abstract class Module {
 	protected boolean essential = false;
 	public void enterDisabled () {}
 	public void runDisabled () {}
@@ -9,4 +8,5 @@ public abstract class Module
 	public void runAutonomous () {}
 	public void enterOperator () {}
 	public void runOperator () {}
+
 }
