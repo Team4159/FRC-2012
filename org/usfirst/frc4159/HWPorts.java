@@ -62,8 +62,8 @@ public interface HWPorts {
 		interface DigitalIO{
 			int LEFT_ENCODER_A		= 1;
 			int LEFT_ENCODER_B		= 2;
-			int UNUSED_3			= 3;
-			int UNUSED_4			= 4;
+			int LOWER_LAUNCHER_ENCODER_A			= 3;
+			int LOWER_LAUNCHER_ENCODER_B			= 4;
 			int UNUSED_5			= 5;
 			int UNUSED_6			= 6;
 			int UNUSED_7			= 7;
@@ -72,8 +72,8 @@ public interface HWPorts {
 			int UNUSED_10			= 10;
 			int RIGHT_ENCODER_A		= 11;
 			int RIGHT_ENCODER_B		= 12;
-			int UNUSED_13			= 13;
-			int UNUSED_14			= 14;
+			int UPPER_LAUNCHER_ENCODER_A			= 13;
+			int UPPER_LAUNCHER_ENCODER_B			= 14;
 		}
 	}
 }
