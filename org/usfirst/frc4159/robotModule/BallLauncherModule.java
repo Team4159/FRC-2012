@@ -3,6 +3,7 @@ package org.usfirst.frc4159.robotModule;
 import org.usfirst.frc4159.HWPorts;
 import org.usfirst.frc4159.robotPartsTemplates.FixedEncoder;
 import org.usfirst.frc4159.robotPartsTemplates.PIDSetpointController;
+import edu.wpi.first.wpilibj.Encoder.PIDSourceParameter;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -21,13 +22,15 @@ public class BallLauncherModule extends Module {
 		
 		Victor lowerMotor = new Victor(HWPorts.DigitalSideCar.PWM.BALL_LAUNCH_LOWER);
 		Victor upperMotor = new Victor(HWPorts.DigitalSideCar.PWM.BALL_LAUNCH_UPPER);
+
+		FixedEncoder lowerEncoder = new FixedEncoder (HWPorts.DigitalSideCar.DigitalIO.LOWER_LAUNCHER_ENCODER_A,HWPorts.DigitalSideCar.DigitalIO.LOWER_LAUNCHER_ENCODER_B);
+		FixedEncoder upperEncoder = new FixedEncoder (HWPorts.DigitalSideCar.DigitalIO.UPPER_LAUNCHER_ENCODER_A,HWPorts.DigitalSideCar.DigitalIO.UPPER_LAUNCHER_ENCODER_B);
 		
-		lowerController = new PIDController (PID_KP, PID_KI, PID_KD,
-			new FixedEncoder (HWPorts.DigitalSideCar.DigitalIO.LOWER_LAUNCHER_ENCODER_A,HWPorts.DigitalSideCar.DigitalIO.LOWER_LAUNCHER_ENCODER_B),
-			lowerMotor);
-		upperController = new PIDController (PID_KP, PID_KI, PID_KD,
-			new FixedEncoder (HWPorts.DigitalSideCar.DigitalIO.UPPER_LAUNCHER_ENCODER_A,HWPorts.DigitalSideCar.DigitalIO.UPPER_LAUNCHER_ENCODER_B),
-			upperMotor);
+		lowerEncoder.setPIDSourceParameter (PIDSourceParameter.kRate);
+		upperEncoder.setPIDSourceParameter (PIDSourceParameter.kRate);
+
+		lowerController = new PIDController (PID_KP, PID_KI, PID_KD, lowerEncoder, lowerMotor);
+		upperController = new PIDController (PID_KP, PID_KI, PID_KD, upperEncoder, upperMotor);
 
 		speed = 0.0;
 	}
