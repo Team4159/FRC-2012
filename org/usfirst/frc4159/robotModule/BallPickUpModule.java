@@ -14,10 +14,10 @@ public class BallPickUpModule extends Module {
 	}
 
 	public void runAutonomous(){
-		/*if(ModuleController.getModeElapsedTime() > 2000)
+		if(ModuleController.getModeElapsedTime() > 3500)
 			upperPickup.set(Relay.Value.kForward);
-		if(ModuleController.getModeElapsedTime() > 8500)
-			lowerPickup.set(Relay.Value.kForward);*/
+		if(ModuleController.getModeElapsedTime() > 7500)
+			lowerPickup.set(Relay.Value.kForward);
 	}
 	public void runOperator(){
 		if(DriveStickModule.getInstance().isLowerPickupPressed())

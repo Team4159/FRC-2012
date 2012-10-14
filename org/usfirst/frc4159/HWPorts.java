@@ -44,7 +44,7 @@ public interface HWPorts {
 			int UNUSED_6			= 6;
 			int BALL_LAUNCH_UPPER	= 7;
 			int BALL_LAUNCH_LOWER	= 8;
-			int UNUSED_9			= 9;
+			int BRIDGE_LOCK_SERVO	= 9;
 			int UNUSED_10			= 10;
 		}
 		

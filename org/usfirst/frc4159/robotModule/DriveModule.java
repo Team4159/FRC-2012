@@ -24,7 +24,7 @@ public class DriveModule extends Module {
 		}
 		else if(dsm.bridgeDrive())
 		{
-			drive.arcadeDrive (dsm.getMoveValue ()*.6, dsm.getRotateValue ());
+			drive.arcadeDrive (dsm.getMoveValue ()*.4, dsm.getRotateValue ());
 		}
 		else{
 			drive.arcadeDrive(dsm.getMoveValue()*.8, dsm.getRotateValue());

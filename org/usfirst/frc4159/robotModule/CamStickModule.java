@@ -25,6 +25,7 @@ public class CamStickModule extends Module {
 	public boolean isBridgeDownPressed(){ return stick.getRawButton(BRIDGE_DOWN);}
 	public boolean isIncreaseTunePressed(){ return stick.getRawButton(INCREASE_FINE_TUNE);}
 	public boolean isDecreaseTunePressed(){ return stick.getRawButton(DECREASE_FINE_TUNE);}
+	public boolean isBridgeLocked(){ return stick.getRawButton(BRIDGE_LOCK);}
 
 	public void runDisabled(){
 		fineTuneAdj = 0;
@@ -50,7 +51,7 @@ public class CamStickModule extends Module {
 	private static final int BRIDGE_UP               = 3;
 	private static final int DECREASE_FINE_TUNE      = 4;
 	private static final int INCREASE_FINE_TUNE      = 5;
-	private static final int UNUSED_6                = 6;
+	private static final int BRIDGE_LOCK             = 6;
 	private static final int UNUSED_7                = 7;
 	private static final int UPPER_PICKUP_REVERSE_1  = 8;
 	private static final int UPPER_PICKUP_REVERSE_2  = 9;
